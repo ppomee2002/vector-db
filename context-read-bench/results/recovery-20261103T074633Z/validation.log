@@ -1,0 +1,17 @@
+direct 1 none reads 20480 joins 0
+direct 1 shared reads 20480 joins 0
+direct 1 lru reads 0 joins 0
+direct 1 lru_shared reads 0 joins 0
+direct 32 none reads 20480 joins 0
+direct 32 shared reads 1584 joins 18896
+direct 32 lru reads 0 joins 0
+direct 32 lru_shared reads 0 joins 0
+buffered 1 none reads 20480 joins 0
+buffered 1 shared reads 20480 joins 0
+buffered 1 lru reads 0 joins 0
+buffered 1 lru_shared reads 0 joins 0
+buffered 32 none reads 20480 joins 0
+buffered 32 shared reads 10530 joins 9950
+buffered 32 lru reads 0 joins 0
+buffered 32 lru_shared reads 0 joins 0
+PASS: 16 configurations, identical digests, no completed-page retention in shared-only mode, cache hits, overlapping joins, invalid trace rejection
