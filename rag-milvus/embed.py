@@ -40,6 +40,7 @@ def init(threads, model, max_len):
     so.intra_op_num_threads = threads
     so.inter_op_num_threads = 1
     so.graph_optimization_level = ort.GraphOptimizationLevel.ORT_ENABLE_ALL
+    so.enable_cpu_mem_arena = False  # arena grew to GBs per worker → host OOM with 128 workers
     _sess = ort.InferenceSession(str(ROOT / mdir / mfile), so, providers=["CPUExecutionProvider"])
     _tok = Tokenizer.from_file(str(ROOT / mdir / "tokenizer.json"))
     _tok.enable_truncation(max_len)
@@ -85,7 +86,7 @@ def main():
     p.add_argument("--raw", type=Path, default=Path(__file__).resolve().parent / "datasets/raw/hf")
     p.add_argument("--out", type=Path, default=Path(__file__).resolve().parent / "datasets/emb")
     p.add_argument("--datasets", default="scifact,fiqa,nq,hotpotqa")
-    p.add_argument("--workers", type=int, default=32)
+    p.add_argument("--workers", type=int, default=96)
     p.add_argument("--threads", type=int, default=4)
     p.add_argument("--batch", type=int, default=128)
     p.add_argument("--max-len", type=int, default=128)
