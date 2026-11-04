@@ -78,13 +78,15 @@ def main():
     ds = next(iter(by.values()))["dataset"]
     L = text_lengths(ds).tolist()
     for case, s in sorted(by.items()):
-        m = re.match(r".*-([CQ])-b([0-9.]+)-(natural|zipf)-c(\d+)(-notext)?$", case)
+        m = re.match(r".*-([BCQ])-b([0-9.]+)-(natural|zipf)-c(\d+)(-notext)?$", case)
         if not m:
             continue
         eng, b, tr, cc, notext = m.group(1), float(m.group(2)), m.group(3), int(m.group(4)), bool(m.group(5))
         md = s.get("metrics_delta", {})
         if eng == "Q":  # Qdrant: bytes read from disk by the container (payload pages via page cache)
             tmiss, vmiss = s["storage_read_bytes"], None
+        elif eng == "B":  # Milvus mmap: bytes read from disk by the container (mmap'd text via page cache)
+            tmiss, vmiss = s["proc_delta"]["io_rbytes"], None
         else:
             tmiss = md.get("internal_cache_cell_access_miss_bytes_total:scalar_field", s["cache_miss_bytes"])
             vmiss = md.get("internal_cache_cell_access_miss_bytes_total:vector_index")
@@ -102,8 +104,11 @@ def main():
     (a.dir / "analysis.json").write_text(json.dumps(rows, indent=2) + "\n")
 
     mb = lambda x: "-" if x is None else f"{x/1e6:.1f}"
-    eng_name = "Qdrant (on_disk_payload, page-cache budget via memory limit)" if "payload_disk_bytes" in sizes else "Milvus v2.6.23 tiered storage (config C)"
+    eng_name = ("Qdrant (on_disk_payload, page-cache budget via memory limit)" if "payload_disk_bytes" in sizes
+                else "Milvus v2.6.23 mmap (config B, page-cache budget via memory limit)" if sizes.get("mmap")
+                else "Milvus v2.6.23 tiered storage (config C)")
     extra = (f"payload on disk {sizes['payload_disk_bytes']/1e6:.1f} MB" if "payload_disk_bytes" in sizes
+             else f"container memory after vector-only probe {sizes['m0_bytes']/1e6:.1f} MB" if sizes.get("mmap")
              else f"vector index {sizes['vector_index_bytes']/1e6:.1f} MB")
     out = [f"# Trend: {ds}, {eng_name}", "",
            f"text {sizes['text_bytes']/1e6:.1f} MB, {extra}. "

@@ -20,7 +20,10 @@ with k3s containerd (`k3s ctr`), host network.
 | Milvus: text-cache budget sweep with S3 GET capture | `run_trend.sh <dataset> <out>` |
 | Qdrant: start / load / bench / budget sweep | `qdrant_ctl.sh`, `qdrant_load.py`, `qdrant_bench.py`, `qdrant_trend.sh` |
 | metrics table (TREND.md, analysis.json) | `analyze.py <out>` |
-| run order used | `chain.sh`, then `chain2.sh`, then `chain3.sh`; `watchdog.sh` restarts a hung S3 |
+| Milvus config B (mmap) budget sweep, page cache capped by cgroup `memory.max` | `milvus_b_trend.sh <dataset> <out>` |
+| what-if replay: cache granularity, neighbour-chunk expansion, cross-query overlap | `context_sim.py`, `overlap_distinct.py` |
+| ANN search access vs context access on the same queries (faiss HNSW replay) | `ann_vs_context.py --datasets fiqa,nq` |
+| run order used | `chain.sh`, `chain2.sh`, `chain3.sh` (main sweeps); `chain4.sh`–`chain6.sh` (extra runs); `watchdog.sh` restarts a hung S3 |
 
 Milvus config C cache budget is set through
 `queryNode.segcore.tieredStorage.memory{High,Low}WatermarkRatio`; eviction needs both
@@ -47,6 +50,23 @@ Read amplification (storage bytes read / text bytes returned):
 - **Qdrant.** Amplification stays low. With text included, QPS and p99 are within 1–5% of
   the runs without text. Our explanation, not tested separately: the OS page cache works
   in 4 KB pages, which is close to chunk size.
+
+### Extra runs
+
+- **Same engine, cache type only (NQ, `trend-nq-mmap` vs `trend-nq`, `trend-nq-low`).** At a 5% budget, Milvus
+  tiered (C) reads 695–1,322x the returned text, p99 is 1.0–1.2 s at C=32, and QPS with text is 139 vs 282
+  without text. Milvus mmap (B) reads 17–99x the returned text, p99 is 120–150 ms, and QPS is 400 vs 408.
+  The cache-drop between B cases is incomplete (up to 434 MB stayed resident), so B amplification varies
+  between runs. `trend-nq-mmap-invalid` is a first run whose memory limit covered all of the text.
+- **Qdrant NQ at 1–5% (`qdrant-nq-low`).** Amplification is 1.6–19x. QPS with and without text is about equal.
+- **What-if replay (`context-sim`).** At the same budget, LRU at 4 KB / 64 KB / 2 MB blocks reads about 5x /
+  40–130x / 600–7,000x more than at chunk granularity. Expanding ±1–2 neighbour chunks and merging within a
+  query saves 20–29%. Different queries rarely need the same chunk at the same time (0–2.5%). The overlap seen
+  under zipf comes from the same query repeating.
+- **ANN vs context access (`ann-vs-context`, NQ).** A query reads 1,734 KB in HNSW but 5.1 KB of context.
+  43% of the HNSW nodes a query reads were already read by an earlier query, against 1.3% for context chunks.
+  LRU hit ratio with 10% of items cached is 22% vs 1.3%. With 2 MB blocks, the bytes touched are 635x what HNSW
+  needs and 1,607x what context needs.
 
 Caveats:
 

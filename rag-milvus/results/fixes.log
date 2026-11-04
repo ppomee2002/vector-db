@@ -1,3 +1,4 @@
 [17:49] rm-s3 hung: fd limit 1024 exhausted -> restarted with --rlimit-nofile 1048576 (data kept); load.py left running
 [18:10] NQ load stalled again (SeaweedFS CreateMultipartUpload/UploadPart timeouts, CLOSE-WAIT leak). Wiped milvus/etcd/seaweed volumes; rerunning Milvus NQ with COMMON_STORAGETYPE=local via chain3.sh (appends to chain2.log). FiQA results untouched.
 [18:29] CHAIN_DONE confirmed; stopped leftover rm-s3/rm-etcd
+[06:57] trend-nq-mmap invalid (mapped text pages not droppable by fadvise and covered by M0*1.15 margin) -> moved to trend-nq-mmap-invalid; rerun with memory.max = anon*1.05 + B*mapped + 256MiB and memory.reclaim between cases

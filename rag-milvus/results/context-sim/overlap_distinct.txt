@@ -1,0 +1,16 @@
+fiqa natural chunk N=32: overlap all 0.9%, from different queries 0.9%, from repeated identical queries 0.0%
+fiqa natural chunk N=128: overlap all 3.3%, from different queries 3.3%, from repeated identical queries 0.0%
+fiqa natural 4KB N=32: overlap all 2.5%, from different queries 2.5%, from repeated identical queries 0.0%
+fiqa natural 4KB N=128: overlap all 9.3%, from different queries 9.3%, from repeated identical queries 0.0%
+fiqa zipf chunk N=32: overlap all 33.3%, from different queries 0.3%, from repeated identical queries 32.9%
+fiqa zipf chunk N=128: overlap all 51.1%, from different queries 1.0%, from repeated identical queries 50.1%
+fiqa zipf 4KB N=32: overlap all 34.5%, from different queries 1.0%, from repeated identical queries 33.5%
+fiqa zipf 4KB N=128: overlap all 52.7%, from different queries 2.5%, from repeated identical queries 50.2%
+nq natural chunk N=32: overlap all 0.0%, from different queries 0.0%, from repeated identical queries 0.0%
+nq natural chunk N=128: overlap all 0.0%, from different queries 0.0%, from repeated identical queries 0.0%
+nq natural 4KB N=32: overlap all 0.1%, from different queries 0.1%, from repeated identical queries 0.0%
+nq natural 4KB N=128: overlap all 0.4%, from different queries 0.4%, from repeated identical queries 0.0%
+nq zipf chunk N=32: overlap all 35.4%, from different queries 0.0%, from repeated identical queries 35.4%
+nq zipf chunk N=128: overlap all 51.7%, from different queries 0.0%, from repeated identical queries 51.7%
+nq zipf 4KB N=32: overlap all 31.7%, from different queries 0.0%, from repeated identical queries 31.7%
+nq zipf 4KB N=128: overlap all 49.8%, from different queries 0.1%, from repeated identical queries 49.7%

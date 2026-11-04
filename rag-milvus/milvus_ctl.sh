@@ -26,13 +26,13 @@ kill_task() {
 
 deps() {
   mkdir -p "$V/etcd" "$V/seaweed" "$V/milvus"
-  $C task ls -q | grep -qx rm-etcd || { $C container delete rm-etcd 2>/dev/null || true
+  $C task ls | awk '$1=="rm-etcd"&&$3=="RUNNING"{f=1} END{exit !f}' || { $C task delete -f rm-etcd 2>/dev/null || true; $C container delete rm-etcd 2>/dev/null || true
     $C run -d --net-host --mount "type=bind,src=$V/etcd,dst=/etcd,options=rbind:rw" \
       --env ETCD_AUTO_COMPACTION_MODE=revision --env ETCD_AUTO_COMPACTION_RETENTION=1000 \
       --env ETCD_QUOTA_BACKEND_BYTES=4294967296 quay.io/coreos/etcd:v3.5.5 rm-etcd \
       etcd -advertise-client-urls=http://127.0.0.1:2379 -listen-client-urls=http://127.0.0.1:2379 \
       -listen-peer-urls=http://127.0.0.1:2380 --data-dir /etcd; }
-  $C task ls -q | grep -qx rm-s3 || { $C container delete rm-s3 2>/dev/null || true
+  $C task ls | awk '$1=="rm-s3"&&$3=="RUNNING"{f=1} END{exit !f}' || { $C task delete -f rm-s3 2>/dev/null || true; $C container delete rm-s3 2>/dev/null || true
     $C run -d --net-host --rlimit-nofile 1048576 --mount "type=bind,src=$V/seaweed,dst=/data,options=rbind:rw" \
       docker.io/chrislusf/seaweedfs:latest rm-s3 weed server -dir=/data -ip=127.0.0.1 \
       -ip.bind=127.0.0.1 -s3 -s3.port=8333 -master.volumeSizeLimitMB=1024 -volume.max=0; }

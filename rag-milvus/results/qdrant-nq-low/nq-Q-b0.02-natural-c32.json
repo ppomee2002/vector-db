@@ -1,0 +1,31 @@
+{
+  "engine": "qdrant",
+  "case": "nq-Q-b0.02-natural-c32",
+  "dataset": "nq",
+  "trace": "natural",
+  "alpha": null,
+  "requests": 2000,
+  "concurrency": 32,
+  "topk": 10,
+  "ef": 64,
+  "text": 1,
+  "seconds": 1.6260168552398682,
+  "qps": 1229.9995498539665,
+  "p50_ms": 15.757517889142036,
+  "p95_ms": 21.85392128303647,
+  "p99_ms": 29.32617463171482,
+  "returned_text_bytes": 10152434,
+  "storage_read_bytes": 77549568,
+  "proc_delta": {
+    "majflt": 0,
+    "minflt": 0,
+    "io_rbytes": 77549568,
+    "io_rios": 37866
+  },
+  "proc_after": {
+    "mem_file": 32460800,
+    "mem_anon": 882925568,
+    "mem_current": 954667008,
+    "cgroup": "/sys/fs/cgroup/k8s.io/rm-qdrant"
+  }
+}

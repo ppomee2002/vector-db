@@ -1,0 +1,52 @@
+[06:42:01] Milvus B (mmap): NQ trend
+milvus B up (mem=0)
+loaded with config B
+dropped page cache of 2430 files
+{"mmap":true,"m0_bytes":7410683904,"text_bytes":1326217638,"cgroup":"/sys/fs/cgroup/k8s.io/rm-milvus"}
+budget 0.5 memory.max=9284861631
+dropped page cache of 2430 files
+{"case": "nq-B-b0.5-natural-c32", "qps": 304.1047761508071, "p50_ms": 97.40262571722269, "p95_ms": 146.8800591304898, "p99_ms": 176.2677187472582, "cache_byte_hit_ratio": null, "io_rbytes": 0, "majflt": 0}
+dropped page cache of 2430 files
+{"case": "nq-B-b0.5-natural-c128", "qps": 290.2933768109708, "p50_ms": 347.72282745689154, "p95_ms": 483.2924916408956, "p99_ms": 557.6815219596028, "cache_byte_hit_ratio": null, "io_rbytes": 0, "majflt": 0}
+dropped page cache of 2430 files
+{"case": "nq-B-b0.5-zipf-c32", "qps": 400.3490439376524, "p50_ms": 73.33850301802158, "p95_ms": 100.14844052493571, "p99_ms": 123.37703552097082, "cache_byte_hit_ratio": null, "io_rbytes": 0, "majflt": 0}
+dropped page cache of 2430 files
+{"case": "nq-B-b0.5-zipf-c128", "qps": 345.32704851822706, "p50_ms": 277.7883829548955, "p95_ms": 394.33807600289583, "p99_ms": 439.66656560078263, "cache_byte_hit_ratio": null, "io_rbytes": 0, "majflt": 0}
+dropped page cache of 2430 files
+{"case": "nq-B-b0.5-zipf-c32-notext", "qps": 421.6397925127669, "p50_ms": 68.89915000647306, "p95_ms": 93.80500400438905, "p99_ms": 113.14528793096542, "cache_byte_hit_ratio": null, "io_rbytes": 0, "majflt": 0}
+budget 0.2 memory.max=8827316546
+dropped page cache of 2430 files
+{"case": "nq-B-b0.2-natural-c32", "qps": 363.45256295640036, "p50_ms": 81.77607133984566, "p95_ms": 108.60138023272157, "p99_ms": 129.11409482359886, "cache_byte_hit_ratio": null, "io_rbytes": 0, "majflt": 0}
+dropped page cache of 2430 files
+{"case": "nq-B-b0.2-natural-c128", "qps": 335.8378691646795, "p50_ms": 279.7323064878583, "p95_ms": 401.817443408072, "p99_ms": 438.7253731302917, "cache_byte_hit_ratio": null, "io_rbytes": 0, "majflt": 0}
+dropped page cache of 2430 files
+{"case": "nq-B-b0.2-zipf-c32", "qps": 437.42875611328606, "p50_ms": 66.87301490455866, "p95_ms": 91.27453975379467, "p99_ms": 106.62183525040746, "cache_byte_hit_ratio": null, "io_rbytes": 0, "majflt": 0}
+dropped page cache of 2430 files
+{"case": "nq-B-b0.2-zipf-c128", "qps": 387.53909123495663, "p50_ms": 237.6039894297719, "p95_ms": 345.8629906177521, "p99_ms": 382.43157621473074, "cache_byte_hit_ratio": null, "io_rbytes": 0, "majflt": 0}
+dropped page cache of 2430 files
+{"case": "nq-B-b0.2-zipf-c32-notext", "qps": 448.52152878293776, "p50_ms": 64.57025464624166, "p95_ms": 87.3380838893354, "p99_ms": 112.53589784726499, "cache_byte_hit_ratio": null, "io_rbytes": 0, "majflt": 0}
+budget 0.05 memory.max=8598544003
+dropped page cache of 2430 files
+{"case": "nq-B-b0.05-natural-c32", "qps": 388.58723987375816, "p50_ms": 75.29669534415007, "p95_ms": 103.77183528617023, "p99_ms": 120.49524612724781, "cache_byte_hit_ratio": null, "io_rbytes": 0, "majflt": 0}
+dropped page cache of 2430 files
+{"case": "nq-B-b0.05-natural-c128", "qps": 351.5861555842907, "p50_ms": 265.22075198590755, "p95_ms": 390.42897736653686, "p99_ms": 439.2898476496338, "cache_byte_hit_ratio": null, "io_rbytes": 0, "majflt": 0}
+dropped page cache of 2430 files
+{"case": "nq-B-b0.05-zipf-c32", "qps": 403.64522771990994, "p50_ms": 70.55178191512823, "p95_ms": 100.28411112725735, "p99_ms": 123.92199369147417, "cache_byte_hit_ratio": null, "io_rbytes": 0, "majflt": 0}
+dropped page cache of 2430 files
+{"case": "nq-B-b0.05-zipf-c128", "qps": 278.425089845161, "p50_ms": 278.0851535499096, "p95_ms": 428.9461659267545, "p99_ms": 479.0000787936151, "cache_byte_hit_ratio": null, "io_rbytes": 0, "majflt": 0}
+dropped page cache of 2430 files
+{"case": "nq-B-b0.05-zipf-c32-notext", "qps": 329.3355543943362, "p50_ms": 73.37574195116758, "p95_ms": 105.52638312801719, "p99_ms": 133.83287429809567, "cache_byte_hit_ratio": null, "io_rbytes": 0, "majflt": 0}
+TREND_DONE
+[06:44:00] nq milvus B TREND.md written
+[06:44:00] Milvus C: NQ 5%
+milvus C up (mem=0)
+{"vector_index_bytes":4505651248,"other_bytes":81134104,"text_bytes":1326217638,"memory_capacity":121156665753}
+milvus C up (mem=0)
+{"case": "nq-C-b0.05-natural-c32", "qps": 86.99597018407461, "p50_ms": 294.5807659998536, "p95_ms": 874.8865883797405, "p99_ms": 1235.8144519850612, "cache_byte_hit_ratio": 0.9980424551704213, "io_rbytes": 48037888, "majflt": 1}
+{"case": "nq-C-b0.05-natural-c128", "qps": 86.66678375683816, "p50_ms": 1278.934171423316, "p95_ms": 2474.425734113902, "p99_ms": 3272.1426328271627, "cache_byte_hit_ratio": 0.9979759755369254, "io_rbytes": 0, "majflt": 0}
+{"case": "nq-C-b0.05-zipf-c32", "qps": 139.12699889968604, "p50_ms": 95.97548935562372, "p95_ms": 711.2210135906934, "p99_ms": 981.7268964648241, "cache_byte_hit_ratio": 0.9989722783693861, "io_rbytes": 0, "majflt": 0}
+{"case": "nq-C-b0.05-zipf-c128", "qps": 129.7090336876395, "p50_ms": 717.3205725848675, "p95_ms": 2054.6861014328897, "p99_ms": 2939.654446542263, "cache_byte_hit_ratio": 0.9989017806731636, "io_rbytes": 0, "majflt": 0}
+{"case": "nq-C-b0.05-zipf-c32-notext", "qps": 281.9082244191114, "p50_ms": 88.25267013162374, "p95_ms": 129.82451440766454, "p99_ms": 151.3470845669508, "cache_byte_hit_ratio": 1.0, "io_rbytes": 0, "majflt": 0}
+TREND_DONE
+[06:46:20] nq milvus C low TREND.md written
+[06:46:24] CHAIN_DONE

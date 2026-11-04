@@ -1,0 +1,40 @@
+[06:57:52] Milvus B rerun
+milvus B up (mem=0)
+loaded with config B
+{"mmap":true,"m0_bytes":7438278656,"anon_bytes":5907972096,"mapped_bytes":1419501568,"text_bytes":1326217638,"cgroup":"/sys/fs/cgroup/k8s.io/rm-milvus"}
+budget 0.5 memory.max=7181556940
+reclaimed: file now 147107840 (mapped 146567168)
+{"case": "nq-B-b0.5-natural-c32", "qps": 245.698695296242, "p50_ms": 121.21187523007393, "p95_ms": 197.8555140085518, "p99_ms": 245.5971523746848, "cache_byte_hit_ratio": null, "io_rbytes": 893353984, "majflt": 3077}
+reclaimed: file now 700743680 (mapped 437096448)
+{"case": "nq-B-b0.5-natural-c128", "qps": 264.1554446527389, "p50_ms": 391.6453951969743, "p95_ms": 531.2844585627317, "p99_ms": 566.039140317589, "cache_byte_hit_ratio": null, "io_rbytes": 29237248, "majflt": 2745}
+reclaimed: file now 243228672 (mapped 242921472)
+{"case": "nq-B-b0.5-zipf-c32", "qps": 360.0133162655557, "p50_ms": 83.15002452582121, "p95_ms": 115.02068871632217, "p99_ms": 134.58707969635725, "cache_byte_hit_ratio": null, "io_rbytes": 70127616, "majflt": 3756}
+reclaimed: file now 58523648 (mapped 54870016)
+{"case": "nq-B-b0.5-zipf-c128", "qps": 290.42564977509915, "p50_ms": 372.88812175393105, "p95_ms": 478.6907620728016, "p99_ms": 506.44706331193447, "cache_byte_hit_ratio": null, "io_rbytes": 109490176, "majflt": 1847}
+reclaimed: file now 95899648 (mapped 71307264)
+{"case": "nq-B-b0.5-zipf-c32-notext", "qps": 335.8990831756868, "p50_ms": 87.57429476827383, "p95_ms": 129.80169747024772, "p99_ms": 157.16658169403672, "cache_byte_hit_ratio": null, "io_rbytes": 5955584, "majflt": 872}
+budget 0.2 memory.max=6755706470
+reclaimed: file now 34660352 (mapped 32534528)
+{"case": "nq-B-b0.2-natural-c32", "qps": 282.88533867516674, "p50_ms": 105.99670186638832, "p95_ms": 149.8844752088189, "p99_ms": 176.91239453852177, "cache_byte_hit_ratio": null, "io_rbytes": 1001811968, "majflt": 5225}
+reclaimed: file now 455577600 (mapped 455098368)
+{"case": "nq-B-b0.2-natural-c128", "qps": 271.5025749770835, "p50_ms": 375.62163081020117, "p95_ms": 539.9312716908753, "p99_ms": 582.4910800345242, "cache_byte_hit_ratio": null, "io_rbytes": 53325824, "majflt": 6227}
+reclaimed: file now 77275136 (mapped 74665984)
+{"case": "nq-B-b0.2-zipf-c32", "qps": 352.2428280445591, "p50_ms": 84.58450343459845, "p95_ms": 112.76444280520082, "p99_ms": 127.09301428869365, "cache_byte_hit_ratio": null, "io_rbytes": 104820736, "majflt": 1317}
+reclaimed: file now 91803648 (mapped 70991872)
+{"case": "nq-B-b0.2-zipf-c128", "qps": 316.52310458738083, "p50_ms": 325.73116663843393, "p95_ms": 445.1278556138277, "p99_ms": 489.73390040919185, "cache_byte_hit_ratio": null, "io_rbytes": 27140096, "majflt": 2301}
+reclaimed: file now 40022016 (mapped 36663296)
+{"case": "nq-B-b0.2-zipf-c32-notext", "qps": 391.88247292992855, "p50_ms": 76.43194682896137, "p95_ms": 101.07985092326999, "p99_ms": 116.52303313836455, "cache_byte_hit_ratio": null, "io_rbytes": 9564160, "majflt": 1037}
+budget 0.05 memory.max=6542781235
+reclaimed: file now 33497088 (mapped 29765632)
+{"case": "nq-B-b0.05-natural-c32", "qps": 345.55157659043743, "p50_ms": 84.9018869921565, "p95_ms": 121.603109780699, "p99_ms": 150.39413327351213, "cache_byte_hit_ratio": null, "io_rbytes": 1006804992, "majflt": 4988}
+reclaimed: file now 434454528 (mapped 434061312)
+{"case": "nq-B-b0.05-natural-c128", "qps": 309.5364713658189, "p50_ms": 323.3081270009279, "p95_ms": 466.1707657389342, "p99_ms": 511.03010019287467, "cache_byte_hit_ratio": null, "io_rbytes": 70578176, "majflt": 4275}
+reclaimed: file now 84578304 (mapped 70795264)
+{"case": "nq-B-b0.05-zipf-c32", "qps": 399.8214565305515, "p50_ms": 74.41172003746033, "p95_ms": 104.90030497312546, "p99_ms": 120.1458403840661, "cache_byte_hit_ratio": null, "io_rbytes": 216748032, "majflt": 2355}
+reclaimed: file now 91758592 (mapped 70418432)
+{"case": "nq-B-b0.05-zipf-c128", "qps": 355.6805180788827, "p50_ms": 264.55550733953714, "p95_ms": 387.4840940348804, "p99_ms": 418.7470457702875, "cache_byte_hit_ratio": null, "io_rbytes": 171282432, "majflt": 4050}
+reclaimed: file now 126230528 (mapped 103309312)
+{"case": "nq-B-b0.05-zipf-c32-notext", "qps": 408.3525308719983, "p50_ms": 70.77754382044077, "p95_ms": 104.30021407082677, "p99_ms": 129.72067337483168, "cache_byte_hit_ratio": null, "io_rbytes": 17428480, "majflt": 2606}
+TREND_DONE
+[07:00:06] TREND.md written
+CHAIN_DONE
