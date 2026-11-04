@@ -23,6 +23,7 @@ with k3s containerd (`k3s ctr`), host network.
 | Milvus config B (mmap) budget sweep, page cache capped by cgroup `memory.max` | `milvus_b_trend.sh <dataset> <out>` |
 | what-if replay: cache granularity, neighbour-chunk expansion, cross-query overlap | `context_sim.py`, `overlap_distinct.py` |
 | ANN search access vs context access on the same queries (faiss HNSW replay) | `ann_vs_context.py --datasets fiqa,nq` |
+| same-budget context-layer comparison (text store prep, bench, 192-run matrix, report) | `ctx_prep.py`, `ctx_bench.py`, `ctx_run.sh`, `ctx_report.py` |
 | run order used | `chain.sh`, `chain2.sh`, `chain3.sh` (main sweeps); `chain4.sh`–`chain6.sh` (extra runs); `watchdog.sh` restarts a hung S3 |
 
 Milvus config C cache budget is set through
@@ -67,6 +68,41 @@ Read amplification (storage bytes read / text bytes returned):
   43% of the HNSW nodes a query reads were already read by an earlier query, against 1.3% for context chunks.
   LRU hit ratio with 10% of items cached is 22% vs 1.3%. With 2 MB blocks, the bytes touched are 635x what HNSW
   needs and 1,607x what context needs.
+
+### Same-budget context-layer comparison (`ctx-bench`)
+
+Does a cache with a different structure beat simple existing techniques at the same memory budget?
+Text is kept outside the VectorDB. Each request waits for the Milvus search time measured without text,
+then fetches the text of its top-10 chunks through one of four layers with the same cache budget:
+
+- `cell2m`: 2 MB cell LRU, the way Milvus tiered storage caches text.
+- `chunk`: simple chunk LRU, one read per missing chunk.
+- `block`: 4 KB blocks in article order, with missing ranges of one request merged into one read.
+- `group`: `block`, plus fetching ranges less than 64 KB apart as one read, plus sharing reads already in flight.
+
+Conditions: local NVMe (O_DIRECT) and S3 (SeaweedFS, about 33 ms per GET), budget 5% / 20%, natural / zipf
+traces, w=0 or ±1 neighbour chunk of the same article. Each case ran 3 times; tables show the median.
+`cell2m` on local reads 1,454x the returned text, close to the 695–1,322x Milvus showed, so the setup
+reproduces the problem.
+
+`block`/`group` compared with `chunk`:
+
+| storage | QPS | p99 | storage reads per request |
+|---|---|---|---|
+| local NVMe | 1.00–1.04x | 1.00–1.02x | 2.2–6.0x fewer |
+| S3, no neighbour chunks | 1.01–1.28x | 1.03–1.28x | 2.2–2.7x fewer |
+| S3, ±1 neighbour, natural | 2.4–2.5x | 2.5–2.6x | 5.2–6.1x fewer |
+| S3, ±1 neighbour, zipf | 1.06x | 1.21–1.22x | 5.2x fewer |
+
+- On local disk, a simple chunk cache already removes the problem.
+- On S3, the number of reads drives latency, and block layout plus range merge pays off, mostly when
+  neighbour chunks are also fetched.
+- `group` adds almost nothing over `block` (shared reads are rare, as the replay predicted).
+- Budget 5% vs 20% barely changes the results for chunk/block: the natural trace has no reuse to cache.
+
+Limitations: search is not re-run (a sleep stands in for it); SeaweedFS queues small GETs under load
+(about 1,900 GET/s), which inflates `chunk` tail latency compared with a real S3, so on S3 the read count
+is the safer metric; one dataset (NQ).
 
 Caveats:
 
