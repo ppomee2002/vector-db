@@ -71,20 +71,23 @@ def main():
     sizes = json.loads((a.dir / "sizes.json").read_text())
     rows, by = [], {}
     for f in sorted(a.dir.glob("*.json")):
-        if f.name == "sizes.json":
+        if f.name in ("sizes.json", "analysis.json"):
             continue
         s = json.loads(f.read_text())
         by[s["case"]] = s
     ds = next(iter(by.values()))["dataset"]
     L = text_lengths(ds).tolist()
     for case, s in sorted(by.items()):
-        m = re.match(r".*-C-b([0-9.]+)-(natural|zipf)-c(\d+)(-notext)?$", case)
+        m = re.match(r".*-([CQ])-b([0-9.]+)-(natural|zipf)-c(\d+)(-notext)?$", case)
         if not m:
             continue
-        b, tr, cc, notext = float(m.group(1)), m.group(2), int(m.group(3)), bool(m.group(4))
-        md = s["metrics_delta"]
-        tmiss = md.get("internal_cache_cell_access_miss_bytes_total:scalar_field", s["cache_miss_bytes"])
-        vmiss = md.get("internal_cache_cell_access_miss_bytes_total:vector_index")
+        eng, b, tr, cc, notext = m.group(1), float(m.group(2)), m.group(3), int(m.group(4)), bool(m.group(5))
+        md = s.get("metrics_delta", {})
+        if eng == "Q":  # Qdrant: bytes read from disk by the container (payload pages via page cache)
+            tmiss, vmiss = s["storage_read_bytes"], None
+        else:
+            tmiss = md.get("internal_cache_cell_access_miss_bytes_total:scalar_field", s["cache_miss_bytes"])
+            vmiss = md.get("internal_cache_cell_access_miss_bytes_total:vector_index")
         r = dict(case=case, budget=b, trace=tr, c=cc, text=not notext, qps=s["qps"], p95=s["p95_ms"], p99=s["p99_ms"],
                  returned=s["returned_text_bytes"], milvus_text_miss=tmiss, vec_index_miss=vmiss,
                  evicted=md.get("internal_cache_evicted_bytes_total", 0))
@@ -99,10 +102,13 @@ def main():
     (a.dir / "analysis.json").write_text(json.dumps(rows, indent=2) + "\n")
 
     mb = lambda x: "-" if x is None else f"{x/1e6:.1f}"
-    out = [f"# Trend: {ds}, Milvus v2.6.23 tiered storage (config C)", "",
-           f"text {sizes['text_bytes']/1e6:.1f} MB, vector index {sizes['vector_index_bytes']/1e6:.1f} MB. "
-           "Budget = text cache share. Chunk LRU/Belady = same byte budget, chunk-granular, cold replay of the same results.", "",
-           "| budget | trace | C | QPS | p95 ms | p99 ms | returned MB | Milvus text fetched MB | amplification | chunk LRU MB | chunk Belady MB | Milvus/Belady | S3 GETs | dup GET % |",
+    eng_name = "Qdrant (on_disk_payload, page-cache budget via memory limit)" if "payload_disk_bytes" in sizes else "Milvus v2.6.23 tiered storage (config C)"
+    extra = (f"payload on disk {sizes['payload_disk_bytes']/1e6:.1f} MB" if "payload_disk_bytes" in sizes
+             else f"vector index {sizes['vector_index_bytes']/1e6:.1f} MB")
+    out = [f"# Trend: {ds}, {eng_name}", "",
+           f"text {sizes['text_bytes']/1e6:.1f} MB, {extra}. "
+           "Budget = text cache share (Qdrant: of payload disk size). Chunk LRU/Belady = same byte budget, chunk-granular, cold replay of the same results.", "",
+           "| budget | trace | C | QPS | p95 ms | p99 ms | returned MB | storage text read MB | amplification | chunk LRU MB | chunk Belady MB | Milvus/Belady | S3 GETs | dup GET % |",
            "|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|"]
     for r in sorted((r for r in rows if r["text"]), key=lambda r: (r["trace"], -r["budget"], r["c"])):
         amp = r["milvus_text_miss"] / r["returned"] if r["returned"] else 0

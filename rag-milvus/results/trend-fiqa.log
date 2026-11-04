@@ -1,0 +1,209 @@
+milvus C up (mem=0)
+{"vector_index_bytes":96847354,"other_bytes":1886968,"text_bytes":44276480,"memory_capacity":121156665753}
+milvus C up (mem=0)
+{"case": "fiqa-C-b1.0-natural-c1", "qps": 62.38220461373346, "p50_ms": 14.267513528466225, "p95_ms": 19.81203546747565, "p99_ms": 28.95465606823555, "cache_byte_hit_ratio": 1.0, "io_rbytes": 0, "majflt": 0}
+{"case": "fiqa-C-b1.0-natural-c32", "qps": 547.4512318826551, "p50_ms": 19.33711115270853, "p95_ms": 43.99457154795527, "p99_ms": 66.88291080296028, "cache_byte_hit_ratio": 1.0, "io_rbytes": 0, "majflt": 0}
+{"case": "fiqa-C-b1.0-natural-c128", "qps": 309.36193083909114, "p50_ms": 25.14557633548975, "p95_ms": 53.296178113669114, "p99_ms": 79.75290594622486, "cache_byte_hit_ratio": 1.0, "io_rbytes": 786432, "majflt": 2}
+{"case": "fiqa-C-b1.0-zipf-c1", "qps": 69.256322684697, "p50_ms": 13.245615176856518, "p95_ms": 17.344042472541332, "p99_ms": 21.846591569483174, "cache_byte_hit_ratio": 1.0, "io_rbytes": 0, "majflt": 0}
+{"case": "fiqa-C-b1.0-zipf-c32", "qps": 529.5629322377762, "p50_ms": 18.176600337028503, "p95_ms": 41.684131231158865, "p99_ms": 146.14056704565832, "cache_byte_hit_ratio": 1.0, "io_rbytes": 0, "majflt": 0}
+{"case": "fiqa-C-b1.0-zipf-c128", "qps": 321.85221194051155, "p50_ms": 24.690826423466206, "p95_ms": 54.01619840413329, "p99_ms": 82.40457929670809, "cache_byte_hit_ratio": 1.0, "io_rbytes": 0, "majflt": 0}
+{"case": "fiqa-C-b1.0-zipf-c32-notext", "qps": 598.9165166033071, "p50_ms": 16.049706377089024, "p95_ms": 29.73949164152144, "p99_ms": 51.292752623557995, "cache_byte_hit_ratio": 1.0, "io_rbytes": 278528, "majflt": 1}
+milvus C up (mem=0)
+{"case": "fiqa-C-b0.5-natural-c1", "qps": 28.769281781117755, "p50_ms": 15.17252717167139, "p95_ms": 179.6231900341808, "p99_ms": 369.2406818643207, "cache_byte_hit_ratio": 0.9952652784428988, "io_rbytes": 0, "majflt": 0}
+{"case": "fiqa-C-b0.5-natural-c32", "qps": 386.7830247326466, "p50_ms": 21.72380778938532, "p95_ms": 76.9557726569473, "p99_ms": 857.7607281878426, "cache_byte_hit_ratio": 0.9995010599138263, "io_rbytes": 0, "majflt": 0}
+{"case": "fiqa-C-b0.5-natural-c128", "qps": 284.1065682316962, "p50_ms": 32.18189999461174, "p95_ms": 187.91520763188583, "p99_ms": 257.9245186969636, "cache_byte_hit_ratio": 0.9994060710156039, "io_rbytes": 0, "majflt": 0}
+{"case": "fiqa-C-b0.5-zipf-c1", "qps": 22.137459829742973, "p50_ms": 15.9580297768116, "p95_ms": 199.2084658704688, "p99_ms": 499.7648779302829, "cache_byte_hit_ratio": 0.9905168461754046, "io_rbytes": 294912, "majflt": 0}
+{"case": "fiqa-C-b0.5-zipf-c32", "qps": 315.3170112098575, "p50_ms": 21.787784062325954, "p95_ms": 218.3025977574288, "p99_ms": 1472.7236834540963, "cache_byte_hit_ratio": 0.9990157173107085, "io_rbytes": 28672, "majflt": 0}
+{"case": "fiqa-C-b0.5-zipf-c128", "qps": 286.91953142609447, "p50_ms": 27.39907894283533, "p95_ms": 140.11203758418534, "p99_ms": 262.5562326796351, "cache_byte_hit_ratio": 0.9996018797572997, "io_rbytes": 0, "majflt": 0}
+{"case": "fiqa-C-b0.5-zipf-c32-notext", "qps": 562.0692153569659, "p50_ms": 16.55093114823103, "p95_ms": 31.41311723738905, "p99_ms": 59.029294624924596, "cache_byte_hit_ratio": 1.0, "io_rbytes": 520192, "majflt": 2}
+milvus C up (mem=0)
+2026-11-03 10:41:10,323 [WARNING][_recover]: Connection recovery failed (connection_manager.py:676)
+Traceback (most recent call last):
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 419, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 1331, in search
+    return self._execute_search(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 1220, in _execute_search
+    response = self._stub.Search(request, timeout=timeout, metadata=_api_level_md(context))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/grpc/_interceptor.py", line 276, in __call__
+    response, ignored_call = self._with_call(
+                             ^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/grpc/_interceptor.py", line 331, in _with_call
+    return call.result(), call
+           ^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/grpc/_channel.py", line 447, in result
+    raise self
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/grpc/_interceptor.py", line 314, in continuation
+    response, call = self._thunk(new_method).with_call(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/grpc/_channel.py", line 1182, in with_call
+    return _end_unary_response_blocking(state, call, True, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/grpc/_channel.py", line 999, in _end_unary_response_blocking
+    raise _InactiveRpcError(state)  # pytype: disable=not-instantiable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+grpc._channel._InactiveRpcError: <_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.UNAVAILABLE
+	details = "Stream removed (Socket closed (GOAWAY received; Error code: 0; Debug Text: ))"
+	debug_error_string = "UNAVAILABLE:Stream removed (Socket closed (GOAWAY received; Error code: 0; Debug Text: ))"
+>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 250, in _wait_for_channel_ready
+    target_final_channel, target_stub = self._setup_identifier_interceptor(
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 443, in _setup_identifier_interceptor
+    else self._internal_register(user, host, stub=target_stub, timeout=timeout)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 3113, in _internal_register
+    response = target_stub.Connect(request=req, timeout=kwargs.get("timeout"))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/grpc/_channel.py", line 1168, in __call__
+    return _end_unary_response_blocking(state, call, False, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/grpc/_channel.py", line 999, in _end_unary_response_blocking
+    raise _InactiveRpcError(state)  # pytype: disable=not-instantiable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+grpc._channel._InactiveRpcError: <_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.UNAVAILABLE
+	details = "failed to connect to all addresses; last error: UNKNOWN: ipv4:127.0.0.1:19530: Failed to connect to remote host: Connection refused"
+	debug_error_string = "UNAVAILABLE:failed to connect to all addresses; last error: UNKNOWN: ipv4:127.0.0.1:19530: Failed to connect to remote host: Connection refused"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/connection_manager.py", line 672, in _recover
+    managed.handler.reconnect(address=new_address, timeout=managed.connect_timeout)
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 311, in reconnect
+    new_final_channel, new_stub = self._wait_for_channel_ready(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 257, in _wait_for_channel_ready
+    raise MilvusException(
+pymilvus.exceptions.MilvusException: <MilvusException: (code=2, message=Fail connecting to server on 127.0.0.1:19530, illegal connection params or server unavailable)>
+2026-11-03 10:41:10,356 [ERROR][_log_rpc_error]: RPC error: [search], <MilvusException: (code=2, message=Fail connecting to server on 127.0.0.1:19530, illegal connection params or server unavailable)>, <elapsed:32754.6ms>
+Traceback:
+Traceback (most recent call last):
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 419, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 1331, in search
+    return self._execute_search(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 1220, in _execute_search
+    response = self._stub.Search(request, timeout=timeout, metadata=_api_level_md(context))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/grpc/_interceptor.py", line 276, in __call__
+    response, ignored_call = self._with_call(
+                             ^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/grpc/_interceptor.py", line 331, in _with_call
+    return call.result(), call
+           ^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/grpc/_channel.py", line 447, in result
+    raise self
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/grpc/_interceptor.py", line 314, in continuation
+    response, call = self._thunk(new_method).with_call(
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/grpc/_channel.py", line 1182, in with_call
+    return _end_unary_response_blocking(state, call, True, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/grpc/_channel.py", line 999, in _end_unary_response_blocking
+    raise _InactiveRpcError(state)  # pytype: disable=not-instantiable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+grpc._channel._InactiveRpcError: <_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.UNAVAILABLE
+	details = "Stream removed (Socket closed (GOAWAY received; Error code: 0; Debug Text: ))"
+	debug_error_string = "UNAVAILABLE:Stream removed (Socket closed (GOAWAY received; Error code: 0; Debug Text: ))"
+>
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 250, in _wait_for_channel_ready
+    target_final_channel, target_stub = self._setup_identifier_interceptor(
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 443, in _setup_identifier_interceptor
+    else self._internal_register(user, host, stub=target_stub, timeout=timeout)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 3113, in _internal_register
+    response = target_stub.Connect(request=req, timeout=kwargs.get("timeout"))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/grpc/_channel.py", line 1168, in __call__
+    return _end_unary_response_blocking(state, call, False, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/grpc/_channel.py", line 999, in _end_unary_response_blocking
+    raise _InactiveRpcError(state)  # pytype: disable=not-instantiable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+grpc._channel._InactiveRpcError: <_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.UNAVAILABLE
+	details = "failed to connect to all addresses; last error: UNKNOWN: ipv4:127.0.0.1:19530: Failed to connect to remote host: Connection refused"
+	debug_error_string = "UNAVAILABLE:failed to connect to all addresses; last error: UNKNOWN: ipv4:127.0.0.1:19530: Failed to connect to remote host: Connection refused"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 518, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 565, in handler
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 425, in handler
+    args[0]._on_rpc_error(e)
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/connection_manager.py", line 512, in <lambda>
+    handler._on_rpc_error = lambda error: self.handle_error(handler, error)
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/connection_manager.py", line 726, in handle_error
+    self._recover(managed)
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/connection_manager.py", line 672, in _recover
+    managed.handler.reconnect(address=new_address, timeout=managed.connect_timeout)
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 311, in reconnect
+    new_final_channel, new_stub = self._wait_for_channel_ready(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 257, in _wait_for_channel_ready
+    raise MilvusException(
+pymilvus.exceptions.MilvusException: <MilvusException: (code=2, message=Fail connecting to server on 127.0.0.1:19530, illegal connection params or server unavailable)>
+ (decorators.py:472)
+Process Process-2:
+Traceback (most recent call last):
+  File "/usr/lib/python3.12/multiprocessing/process.py", line 314, in _bootstrap
+    self.run()
+  File "/usr/lib/python3.12/multiprocessing/process.py", line 108, in run
+    self._target(*self._args, **self._kwargs)
+  File "/home/ubuntu/rag-milvus/bench.py", line 68, in worker
+    loop(c, a, trace, counter, qv, params, of, rows)
+  File "/home/ubuntu/rag-milvus/bench.py", line 84, in loop
+    r = c.search(a.dataset, data=[qv[qi].tolist()], limit=a.topk, search_params=params, output_fields=of,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/milvus_client/milvus_client.py", line 453, in search
+    return conn.search(
+           ^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 521, in handler
+    raise e from e
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 518, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 565, in handler
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 425, in handler
+    args[0]._on_rpc_error(e)
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/connection_manager.py", line 512, in <lambda>
+    handler._on_rpc_error = lambda error: self.handle_error(handler, error)
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/connection_manager.py", line 726, in handle_error
+    self._recover(managed)
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/connection_manager.py", line 672, in _recover
+    managed.handler.reconnect(address=new_address, timeout=managed.connect_timeout)
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 311, in reconnect
+    new_final_channel, new_stub = self._wait_for_channel_ready(
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 257, in _wait_for_channel_ready
+    raise MilvusException(
+pymilvus.exceptions.MilvusException: <MilvusException: (code=2, message=Fail connecting to server on 127.0.0.1:19530, illegal connection params or server unavailable)>

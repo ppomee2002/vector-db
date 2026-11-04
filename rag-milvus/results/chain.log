@@ -1,0 +1,74 @@
+[10:45:50] wait for Milvus FiQA low-budget runs
+[10:45:51] fiqa milvus TREND.md written
+[10:45:51] wait for Qdrant NQ load
+{"dataset": "nq", "rows": 2681468, "text_bytes": 1326217638, "insert_s": 185.25188827514648, "index_s": 52.49848198890686, "index": "HNSW m16 ef_construct128 DOT", "on_disk_payload": true, "points": 2681468, "segments": 8}
+[10:49:24] Qdrant: FiQA trend
+qdrant up (mem=0) {"title":"qdrant - vector search engine","version":"1.20.0","commit":"222b2e44ab
+dropped page cache of 48 payload files
+{"payload_disk_bytes":277088824,"m0_bytes":831352832,"text_bytes":44276480}
+qdrant up (mem=1191576939) {"title":"qdrant - vector search engine","version":"1.20.0","commit":"222b2e44ab
+dropped page cache of 48 payload files
+{"case": "fiqa-Q-b1.0-natural-c1", "qps": 634.9388295007773, "p50_ms": 1.255551353096962, "p95_ms": 1.7633836716413498, "p99_ms": 1.9766490533947945, "storage_read_bytes": 23367680, "majflt": 0, "mem_file": 35364864}
+dropped page cache of 48 payload files
+{"case": "fiqa-Q-b1.0-natural-c32", "qps": 1971.4003166044363, "p50_ms": 5.816889926791191, "p95_ms": 9.284958522766829, "p99_ms": 15.86491499096155, "storage_read_bytes": 0, "majflt": 0, "mem_file": 35364864}
+dropped page cache of 48 payload files
+{"case": "fiqa-Q-b1.0-natural-c128", "qps": 1079.5372636640427, "p50_ms": 27.660353109240532, "p95_ms": 62.52352595329285, "p99_ms": 88.42377059161662, "storage_read_bytes": 0, "majflt": 0, "mem_file": 35364864}
+dropped page cache of 48 payload files
+{"case": "fiqa-Q-b1.0-zipf-c1", "qps": 683.1510656929836, "p50_ms": 1.1654011905193329, "p95_ms": 1.4691361226141453, "p99_ms": 1.6499499790370464, "storage_read_bytes": 278528, "majflt": 0, "mem_file": 35704832}
+dropped page cache of 48 payload files
+{"case": "fiqa-Q-b1.0-zipf-c32", "qps": 2072.752592853228, "p50_ms": 5.324132740497589, "p95_ms": 8.058248739689587, "p99_ms": 14.11104606464505, "storage_read_bytes": 0, "majflt": 0, "mem_file": 35704832}
+dropped page cache of 48 payload files
+{"case": "fiqa-Q-b1.0-zipf-c128", "qps": 1110.1014290262808, "p50_ms": 24.394015781581402, "p95_ms": 49.718594178557396, "p99_ms": 68.22751820087433, "storage_read_bytes": 0, "majflt": 0, "mem_file": 35704832}
+dropped page cache of 48 payload files
+{"case": "fiqa-Q-b1.0-zipf-c32-notext", "qps": 2143.7112649637475, "p50_ms": 4.751268774271011, "p95_ms": 7.558417413383722, "p99_ms": 14.36650590971112, "storage_read_bytes": 0, "majflt": 0, "mem_file": 35704832}
+qdrant up (mem=1053032527) {"title":"qdrant - vector search engine","version":"1.20.0","commit":"222b2e44ab
+dropped page cache of 48 payload files
+{"case": "fiqa-Q-b0.5-natural-c1", "qps": 623.0780349418346, "p50_ms": 1.2790905311703682, "p95_ms": 1.7916868440806863, "p99_ms": 2.0426912046968937, "storage_read_bytes": 23367680, "majflt": 0, "mem_file": 35364864}
+dropped page cache of 48 payload files
+{"case": "fiqa-Q-b0.5-natural-c32", "qps": 1991.7708879192464, "p50_ms": 5.7307882234454155, "p95_ms": 9.246972762048243, "p99_ms": 14.86504539847374, "storage_read_bytes": 0, "majflt": 0, "mem_file": 35364864}
+dropped page cache of 48 payload files
+{"case": "fiqa-Q-b0.5-natural-c128", "qps": 1089.4440419860107, "p50_ms": 30.542858876287937, "p95_ms": 62.35824497416615, "p99_ms": 87.55958406254649, "storage_read_bytes": 37113856, "majflt": 0, "mem_file": 17408000}
+dropped page cache of 48 payload files
+{"case": "fiqa-Q-b0.5-zipf-c1", "qps": 659.9841687662077, "p50_ms": 1.1775651946663857, "p95_ms": 1.6898123547434807, "p99_ms": 2.028303910046816, "storage_read_bytes": 6098944, "majflt": 0, "mem_file": 25870336}
+dropped page cache of 48 payload files
+{"case": "fiqa-Q-b0.5-zipf-c32", "qps": 2057.7118372160794, "p50_ms": 5.3973328322172165, "p95_ms": 8.23050094768405, "p99_ms": 13.796359486877906, "storage_read_bytes": 69632, "majflt": 0, "mem_file": 25870336}
+dropped page cache of 48 payload files
+{"case": "fiqa-Q-b0.5-zipf-c128", "qps": 1131.5495588315237, "p50_ms": 25.40935855358839, "p95_ms": 52.73025194182991, "p99_ms": 79.31590333580971, "storage_read_bytes": 90112, "majflt": 0, "mem_file": 25870336}
+dropped page cache of 48 payload files
+{"case": "fiqa-Q-b0.5-zipf-c32-notext", "qps": 2115.749971184202, "p50_ms": 4.869249649345875, "p95_ms": 8.111774642020464, "p99_ms": 13.62427696585655, "storage_read_bytes": 0, "majflt": 0, "mem_file": 25870336}
+qdrant up (mem=969905880) {"title":"qdrant - vector search engine","version":"1.20.0","commit":"222b2e44ab
+dropped page cache of 48 payload files
+{"case": "fiqa-Q-b0.2-natural-c1", "qps": 606.596950675629, "p50_ms": 1.320529729127884, "p95_ms": 1.8291554413735867, "p99_ms": 2.0798850804567337, "storage_read_bytes": 23367680, "majflt": 0, "mem_file": 35364864}
+dropped page cache of 48 payload files
+{"case": "fiqa-Q-b0.2-natural-c32", "qps": 1913.209356256731, "p50_ms": 6.51367474347353, "p95_ms": 10.399413574486971, "p99_ms": 16.582741215825077, "storage_read_bytes": 0, "majflt": 0, "mem_file": 35364864}
+dropped page cache of 48 payload files
+{"case": "fiqa-Q-b0.2-natural-c128", "qps": 1045.434208843872, "p50_ms": 33.42701308429241, "p95_ms": 82.64391710981725, "p99_ms": 122.54101758822796, "storage_read_bytes": 66494464, "majflt": 0, "mem_file": 9940992}
+dropped page cache of 48 payload files
+{"case": "fiqa-Q-b0.2-zipf-c1", "qps": 650.741716541225, "p50_ms": 1.1626668274402618, "p95_ms": 1.8884046003222466, "p99_ms": 2.2717337869107723, "storage_read_bytes": 13684736, "majflt": 0, "mem_file": 19783680}
+dropped page cache of 48 payload files
+{"case": "fiqa-Q-b0.2-zipf-c32", "qps": 1985.7090441686453, "p50_ms": 5.894595757126808, "p95_ms": 8.818440418690441, "p99_ms": 15.45702515169978, "storage_read_bytes": 2707456, "majflt": 0, "mem_file": 20209664}
+dropped page cache of 48 payload files
+{"case": "fiqa-Q-b0.2-zipf-c128", "qps": 1106.594909425545, "p50_ms": 28.089786879718304, "p95_ms": 57.135402131825686, "p99_ms": 83.46099950373171, "storage_read_bytes": 3375104, "majflt": 0, "mem_file": 20209664}
+dropped page cache of 48 payload files
+{"case": "fiqa-Q-b0.2-zipf-c32-notext", "qps": 2074.429220921333, "p50_ms": 5.3602466359734535, "p95_ms": 8.731961529701948, "p99_ms": 13.293969426304102, "storage_read_bytes": 323584, "majflt": 0, "mem_file": 16539648}
+qdrant up (mem=942196997) {"title":"qdrant - vector search engine","version":"1.20.0","commit":"222b2e44ab
+dropped page cache of 48 payload files
+{"case": "fiqa-Q-b0.1-natural-c1", "qps": 615.8420868632667, "p50_ms": 1.3021370396018028, "p95_ms": 1.789078302681446, "p99_ms": 2.050888519734144, "storage_read_bytes": 23367680, "majflt": 0, "mem_file": 35364864}
+dropped page cache of 48 payload files
+{"case": "fiqa-Q-b0.1-natural-c32", "qps": 1924.9127335175804, "p50_ms": 6.296450272202492, "p95_ms": 10.492572747170923, "p99_ms": 14.950982835143805, "storage_read_bytes": 0, "majflt": 0, "mem_file": 35364864}
+dropped page cache of 48 payload files
+{"case": "fiqa-Q-b0.1-natural-c128", "qps": 1042.2613294528437, "p50_ms": 33.314966596663, "p95_ms": 75.98987594246864, "p99_ms": 100.7371692918241, "storage_read_bytes": 67665920, "majflt": 0, "mem_file": 28241920}
+dropped page cache of 48 payload files
+{"case": "fiqa-Q-b0.1-zipf-c1", "qps": 683.9457253229102, "p50_ms": 1.1431584134697914, "p95_ms": 1.5571764670312402, "p99_ms": 1.8196155317127705, "storage_read_bytes": 3784704, "majflt": 0, "mem_file": 31883264}
+dropped page cache of 48 payload files
+{"case": "fiqa-Q-b0.1-zipf-c32", "qps": 1978.486345943029, "p50_ms": 5.937457084655762, "p95_ms": 9.189080353826283, "p99_ms": 15.226514190435408, "storage_read_bytes": 1040384, "majflt": 0, "mem_file": 31883264}
+dropped page cache of 48 payload files
+{"case": "fiqa-Q-b0.1-zipf-c128", "qps": 1090.1152504100955, "p50_ms": 27.011769823729992, "p95_ms": 54.85321879386901, "p99_ms": 71.57482942566276, "storage_read_bytes": 2531328, "majflt": 0, "mem_file": 31883264}
+dropped page cache of 48 payload files
+{"case": "fiqa-Q-b0.1-zipf-c32-notext", "qps": 2048.9724615393634, "p50_ms": 5.3604524582624435, "p95_ms": 9.057447127997875, "p99_ms": 13.804413899779309, "storage_read_bytes": 208896, "majflt": 0, "mem_file": 31883264}
+TREND_DONE
+[10:50:58] fiqa qdrant TREND.md written
+[10:51:00] Milvus: load NQ
+milvus C up (mem=0)
+insert 2500000/2681468 16289 rows/s
+insert 2681468/2681468 16507 rows/s

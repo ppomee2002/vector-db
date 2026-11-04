@@ -33,9 +33,9 @@ deps() {
       etcd -advertise-client-urls=http://127.0.0.1:2379 -listen-client-urls=http://127.0.0.1:2379 \
       -listen-peer-urls=http://127.0.0.1:2380 --data-dir /etcd; }
   $C task ls -q | grep -qx rm-s3 || { $C container delete rm-s3 2>/dev/null || true
-    $C run -d --net-host --mount "type=bind,src=$V/seaweed,dst=/data,options=rbind:rw" \
+    $C run -d --net-host --rlimit-nofile 1048576 --mount "type=bind,src=$V/seaweed,dst=/data,options=rbind:rw" \
       docker.io/chrislusf/seaweedfs:latest rm-s3 weed server -dir=/data -ip=127.0.0.1 \
-      -ip.bind=127.0.0.1 -s3 -s3.port=8333 -master.volumeSizeLimitMB=1024; }
+      -ip.bind=127.0.0.1 -s3 -s3.port=8333 -master.volumeSizeLimitMB=1024 -volume.max=0; }
 }
 
 start() {
@@ -52,6 +52,8 @@ start() {
              --env QUERYNODE_SEGCORE_TIEREDSTORAGE_BACKGROUNDEVICTIONENABLED=true) ;;
     *) echo "unknown config $cfg" >&2; exit 2 ;;
   esac
+  # MILVUS_STORAGE=local: keep segment files on local disk instead of the S3 endpoint
+  [ "${MILVUS_STORAGE:-remote}" = local ] && env+=(--env COMMON_STORAGETYPE=local --env LOCALSTORAGE_PATH=/var/lib/milvus/data)
   # Extra overrides, e.g. EXTRA_ENV="QUERYNODE_SEGCORE_TIEREDSTORAGE_MEMORYHIGHWATERMARKRATIO=0.05 ..."
   for kv in ${EXTRA_ENV:-}; do env+=(--env "$kv"); done
   local lim=(); [ "$mem" != 0 ] && lim=(--memory-limit "$mem")
