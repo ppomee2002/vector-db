@@ -1,0 +1,72 @@
+[17:29:00] Milvus: load NQ
+milvus C up (mem=0)
+insert 2500000/2681468 15560 rows/s
+insert 2681468/2681468 15805 rows/s
+[18:10:50] --- chain3 (Milvus local storage) ---
+[18:10:50] Milvus: load NQ
+milvus C up (mem=0)
+insert 2681468/2681468 15578 rows/s
+{"dataset": "nq", "rows": 2681468, "text_bytes": 1326217638, "vec_bytes": 4118734848, "insert_s": 173.13579940795898, "index_s": 98.18432593345642, "load_s": 3.2314443588256836, "index": "HNSW M16 efC128 IP"}
+[18:15:35] Milvus: NQ trend
+milvus C up (mem=0)
+{"vector_index_bytes":4505651248,"other_bytes":81134104,"text_bytes":1326217638,"memory_capacity":121156665753}
+milvus C up (mem=0)
+{"case": "nq-C-b1.0-natural-c32", "qps": 251.60996359628479, "p50_ms": 115.04018120467663, "p95_ms": 199.81685699895016, "p99_ms": 302.52236697822804, "cache_byte_hit_ratio": 0.9999748433602537, "io_rbytes": 294912, "majflt": 1}
+{"case": "nq-C-b1.0-natural-c128", "qps": 264.5356502807098, "p50_ms": 385.1073971018195, "p95_ms": 562.5555251725018, "p99_ms": 635.2477884478867, "cache_byte_hit_ratio": 1.0, "io_rbytes": 0, "majflt": 0}
+{"case": "nq-C-b1.0-zipf-c32", "qps": 335.60977733097064, "p50_ms": 85.39408259093761, "p95_ms": 142.77091762050986, "p99_ms": 189.55414261668918, "cache_byte_hit_ratio": 1.0, "io_rbytes": 0, "majflt": 0}
+{"case": "nq-C-b1.0-zipf-c128", "qps": 337.5981863421409, "p50_ms": 290.946114808321, "p95_ms": 411.50799077004194, "p99_ms": 457.73147597908974, "cache_byte_hit_ratio": 1.0, "io_rbytes": 339968, "majflt": 1}
+{"case": "nq-C-b1.0-zipf-c32-notext", "qps": 389.90186461188216, "p50_ms": 77.20742654055357, "p95_ms": 101.64442379027605, "p99_ms": 117.59026682004331, "cache_byte_hit_ratio": 1.0, "io_rbytes": 0, "majflt": 0}
+milvus C up (mem=0)
+{"case": "nq-C-b0.5-natural-c32", "qps": 255.17789078514718, "p50_ms": 90.96318762749434, "p95_ms": 307.3520633392036, "p99_ms": 483.29339237883687, "cache_byte_hit_ratio": 0.9998372816743283, "io_rbytes": 0, "majflt": 0}
+{"case": "nq-C-b0.5-natural-c128", "qps": 259.7232655362733, "p50_ms": 363.184860907495, "p95_ms": 955.6536889635026, "p99_ms": 1471.2526364810765, "cache_byte_hit_ratio": 0.9996697551942246, "io_rbytes": 0, "majflt": 0}
+{"case": "nq-C-b0.5-zipf-c32", "qps": 370.76102643505124, "p50_ms": 74.25132486969233, "p95_ms": 135.21529529243708, "p99_ms": 296.3007943704723, "cache_byte_hit_ratio": 0.9999758686853176, "io_rbytes": 0, "majflt": 0}
+{"case": "nq-C-b0.5-zipf-c128", "qps": 340.41528141188894, "p50_ms": 285.346457734704, "p95_ms": 380.6982206180692, "p99_ms": 423.36836902424693, "cache_byte_hit_ratio": 0.999993586511974, "io_rbytes": 0, "majflt": 0}
+{"case": "nq-C-b0.5-zipf-c32-notext", "qps": 370.99330946936016, "p50_ms": 79.2422741651535, "p95_ms": 111.99143389239907, "p99_ms": 137.52425385639071, "cache_byte_hit_ratio": 1.0, "io_rbytes": 0, "majflt": 0}
+milvus C up (mem=0)
+{"case": "nq-C-b0.2-natural-c32", "qps": 198.0406726416725, "p50_ms": 106.74281883984804, "p95_ms": 439.7353700362146, "p99_ms": 588.8533219136298, "cache_byte_hit_ratio": 0.9991380188541034, "io_rbytes": 0, "majflt": 0}
+{"case": "nq-C-b0.2-natural-c128", "qps": 169.20400489841154, "p50_ms": 609.5878733322024, "p95_ms": 1493.6566307209432, "p99_ms": 3072.6833341643214, "cache_byte_hit_ratio": 0.9989559697763726, "io_rbytes": 0, "majflt": 0}
+{"case": "nq-C-b0.2-zipf-c32", "qps": 280.14179731266375, "p50_ms": 62.77202256023884, "p95_ms": 338.3744995109737, "p99_ms": 493.31624368205667, "cache_byte_hit_ratio": 0.9995819095418917, "io_rbytes": 0, "majflt": 0}
+{"case": "nq-C-b0.2-zipf-c128", "qps": 270.99630605308823, "p50_ms": 242.51162447035313, "p95_ms": 1173.4404601156712, "p99_ms": 2109.4397080689655, "cache_byte_hit_ratio": 0.9994746888524557, "io_rbytes": 0, "majflt": 0}
+{"case": "nq-C-b0.2-zipf-c32-notext", "qps": 383.02005403898886, "p50_ms": 77.08156947046518, "p95_ms": 108.16068453714252, "p99_ms": 132.144970241934, "cache_byte_hit_ratio": 1.0, "io_rbytes": 0, "majflt": 0}
+TREND_DONE
+[18:19:04] nq milvus TREND.md written
+[18:19:07] Qdrant: NQ trend
+qdrant up (mem=0) {"title":"qdrant - vector search engine","version":"1.20.0","commit":"222b2e44ab
+dropped page cache of 84 payload files
+{"payload_disk_bytes":1542858040,"m0_bytes":856875008,"text_bytes":1326217638}
+qdrant up (mem=2485420548) {"title":"qdrant - vector search engine","version":"1.20.0","commit":"222b2e44ab
+dropped page cache of 84 payload files
+{"case": "nq-Q-b1.0-natural-c32", "qps": 1157.8226451376215, "p50_ms": 17.126835882663727, "p95_ms": 24.717507231980562, "p99_ms": 30.383655447512865, "storage_read_bytes": 70209536, "majflt": 0, "mem_file": 83832832}
+dropped page cache of 84 payload files
+{"case": "nq-Q-b1.0-natural-c128", "qps": 820.807066491806, "p50_ms": 64.92163427174091, "p95_ms": 120.83594668656588, "p99_ms": 149.11949703469872, "storage_read_bytes": 0, "majflt": 0, "mem_file": 83841024}
+dropped page cache of 84 payload files
+{"case": "nq-Q-b1.0-zipf-c32", "qps": 1347.2530829350194, "p50_ms": 13.283495791256428, "p95_ms": 20.600916631519794, "p99_ms": 28.325385265052308, "storage_read_bytes": 1003520, "majflt": 0, "mem_file": 84963328}
+dropped page cache of 84 payload files
+{"case": "nq-Q-b1.0-zipf-c128", "qps": 889.5591794464369, "p50_ms": 54.31117303669453, "p95_ms": 107.16950800269842, "p99_ms": 132.61593556031582, "storage_read_bytes": 0, "majflt": 0, "mem_file": 84963328}
+dropped page cache of 84 payload files
+{"case": "nq-Q-b1.0-zipf-c32-notext", "qps": 1376.1839976231868, "p50_ms": 12.790975160896778, "p95_ms": 19.570945762097836, "p99_ms": 27.83249238505959, "storage_read_bytes": 0, "majflt": 0, "mem_file": 84963328}
+qdrant up (mem=1713991528) {"title":"qdrant - vector search engine","version":"1.20.0","commit":"222b2e44ab
+dropped page cache of 84 payload files
+{"case": "nq-Q-b0.5-natural-c32", "qps": 1211.6073041857073, "p50_ms": 16.183008439838886, "p95_ms": 22.574990056455132, "p99_ms": 27.1905787475407, "storage_read_bytes": 70209536, "majflt": 0, "mem_file": 83832832}
+dropped page cache of 84 payload files
+{"case": "nq-Q-b0.5-natural-c128", "qps": 824.5070394017587, "p50_ms": 65.99915493279696, "p95_ms": 125.73958644643426, "p99_ms": 160.26530422270298, "storage_read_bytes": 0, "majflt": 0, "mem_file": 83841024}
+dropped page cache of 84 payload files
+{"case": "nq-Q-b0.5-zipf-c32", "qps": 1359.7282167082406, "p50_ms": 13.136872090399265, "p95_ms": 20.141365751624107, "p99_ms": 26.890861690044403, "storage_read_bytes": 1003520, "majflt": 0, "mem_file": 84963328}
+dropped page cache of 84 payload files
+{"case": "nq-Q-b0.5-zipf-c128", "qps": 877.6479233852574, "p50_ms": 55.49210589379072, "p95_ms": 107.08073237910867, "p99_ms": 136.06820356100798, "storage_read_bytes": 0, "majflt": 0, "mem_file": 84963328}
+dropped page cache of 84 payload files
+{"case": "nq-Q-b0.5-zipf-c32-notext", "qps": 1377.4191551489132, "p50_ms": 12.711605988442898, "p95_ms": 19.677398912608624, "p99_ms": 31.573513858020295, "storage_read_bytes": 0, "majflt": 0, "mem_file": 84963328}
+qdrant up (mem=1251134116) {"title":"qdrant - vector search engine","version":"1.20.0","commit":"222b2e44ab
+dropped page cache of 84 payload files
+{"case": "nq-Q-b0.2-natural-c32", "qps": 1241.1135064581902, "p50_ms": 15.461264178156853, "p95_ms": 22.012313827872276, "p99_ms": 28.71751111000776, "storage_read_bytes": 70209536, "majflt": 0, "mem_file": 83832832}
+dropped page cache of 84 payload files
+{"case": "nq-Q-b0.2-natural-c128", "qps": 848.5096272260005, "p50_ms": 61.13341078162193, "p95_ms": 115.81127503886819, "p99_ms": 151.4920895732939, "storage_read_bytes": 0, "majflt": 0, "mem_file": 83841024}
+dropped page cache of 84 payload files
+{"case": "nq-Q-b0.2-zipf-c32", "qps": 1408.8447135036074, "p50_ms": 12.37301342189312, "p95_ms": 18.80337977781892, "p99_ms": 27.4215168133378, "storage_read_bytes": 1003520, "majflt": 0, "mem_file": 84963328}
+dropped page cache of 84 payload files
+{"case": "nq-Q-b0.2-zipf-c128", "qps": 913.1018219785138, "p50_ms": 50.67074857652187, "p95_ms": 98.11887126415968, "p99_ms": 125.29998090118168, "storage_read_bytes": 0, "majflt": 0, "mem_file": 84963328}
+dropped page cache of 84 payload files
+{"case": "nq-Q-b0.2-zipf-c32-notext", "qps": 1412.7989159221574, "p50_ms": 12.275408022105694, "p95_ms": 19.203649368137118, "p99_ms": 27.513036075979464, "storage_read_bytes": 0, "majflt": 0, "mem_file": 84963328}
+TREND_DONE
+[18:20:00] nq qdrant TREND.md written
+[18:20:02] CHAIN_DONE

@@ -1,0 +1,132 @@
+[06:40:41] Milvus B (mmap): NQ trend
+milvus B up (mem=0)
+Traceback (most recent call last):
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 250, in _wait_for_channel_ready
+    target_final_channel, target_stub = self._setup_identifier_interceptor(
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 441, in _setup_identifier_interceptor
+    self.__internal_register(user, host, timeout=timeout)
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 606, in handler
+    raise e from e
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 595, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 3119, in __internal_register
+    return self._internal_register(user, host, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 3113, in _internal_register
+    response = target_stub.Connect(request=req, timeout=kwargs.get("timeout"))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/grpc/_channel.py", line 1168, in __call__
+    return _end_unary_response_blocking(state, call, False, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/grpc/_channel.py", line 999, in _end_unary_response_blocking
+    raise _InactiveRpcError(state)  # pytype: disable=not-instantiable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+grpc._channel._InactiveRpcError: <_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.UNAVAILABLE
+	details = "failed to connect to all addresses; last error: UNKNOWN: ipv4:127.0.0.1:19530: Failed to connect to remote host: Connection refused"
+	debug_error_string = "UNAVAILABLE:failed to connect to all addresses; last error: UNKNOWN: ipv4:127.0.0.1:19530: Failed to connect to remote host: Connection refused"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "<stdin>", line 3, in <module>
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/milvus_client/milvus_client.py", line 89, in __init__
+    self._handler = self._manager.get_or_create(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/connection_manager.py", line 502, in get_or_create
+    return self._create_shared(config, client, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/connection_manager.py", line 526, in _create_shared
+    handler._wait_for_channel_ready(timeout=timeout)
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 257, in _wait_for_channel_ready
+    raise MilvusException(
+pymilvus.exceptions.MilvusException: <MilvusException: (code=2, message=Fail connecting to server on 127.0.0.1:19530, illegal connection params or server unavailable)>
+[06:40:48] Milvus C: NQ 5%
+milvus C up (mem=0)
+Traceback (most recent call last):
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 250, in _wait_for_channel_ready
+    target_final_channel, target_stub = self._setup_identifier_interceptor(
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 441, in _setup_identifier_interceptor
+    self.__internal_register(user, host, timeout=timeout)
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 606, in handler
+    raise e from e
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 595, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 3119, in __internal_register
+    return self._internal_register(user, host, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 3113, in _internal_register
+    response = target_stub.Connect(request=req, timeout=kwargs.get("timeout"))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/grpc/_channel.py", line 1168, in __call__
+    return _end_unary_response_blocking(state, call, False, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/grpc/_channel.py", line 999, in _end_unary_response_blocking
+    raise _InactiveRpcError(state)  # pytype: disable=not-instantiable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+grpc._channel._InactiveRpcError: <_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.UNAVAILABLE
+	details = "failed to connect to all addresses; last error: UNKNOWN: ipv4:127.0.0.1:19530: Failed to connect to remote host: Connection refused"
+	debug_error_string = "UNAVAILABLE:failed to connect to all addresses; last error: UNKNOWN: ipv4:127.0.0.1:19530: Failed to connect to remote host: Connection refused"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/milvus_client/milvus_client.py", line 89, in __init__
+    self._handler = self._manager.get_or_create(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/connection_manager.py", line 502, in get_or_create
+    return self._create_shared(config, client, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/connection_manager.py", line 526, in _create_shared
+    handler._wait_for_channel_ready(timeout=timeout)
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 257, in _wait_for_channel_ready
+    raise MilvusException(
+pymilvus.exceptions.MilvusException: <MilvusException: (code=2, message=Fail connecting to server on 127.0.0.1:19530, illegal connection params or server unavailable)>
+[06:41:02] Qdrant: NQ 1-5%
+qdrant up (mem=0) {"title":"qdrant - vector search engine","version":"1.20.0","commit":"222b2e44ab
+dropped page cache of 84 payload files
+{"payload_disk_bytes":1542858040,"m0_bytes":852172800,"text_bytes":1326217638}
+qdrant up (mem=1014532982) {"title":"qdrant - vector search engine","version":"1.20.0","commit":"222b2e44ab
+dropped page cache of 84 payload files
+{"case": "nq-Q-b0.05-natural-c32", "qps": 1233.2999792112569, "p50_ms": 15.791715122759342, "p95_ms": 22.13851623237133, "p99_ms": 29.687035121023648, "storage_read_bytes": 71372800, "majflt": 0, "mem_file": 69791744}
+dropped page cache of 84 payload files
+{"case": "nq-Q-b0.05-natural-c128", "qps": 802.80229277804, "p50_ms": 70.62252424657345, "p95_ms": 139.3304005265236, "p99_ms": 182.96209702268243, "storage_read_bytes": 140148736, "majflt": 0, "mem_file": 10850304}
+dropped page cache of 84 payload files
+{"case": "nq-Q-b0.05-zipf-c32", "qps": 1358.3859761509455, "p50_ms": 13.407006859779358, "p95_ms": 20.315799117088318, "p99_ms": 24.73168114200234, "storage_read_bytes": 31006720, "majflt": 0, "mem_file": 13053952}
+dropped page cache of 84 payload files
+{"case": "nq-Q-b0.05-zipf-c128", "qps": 868.7559070187863, "p50_ms": 57.552083395421505, "p95_ms": 109.62008573114869, "p99_ms": 138.42567699030042, "storage_read_bytes": 33148928, "majflt": 0, "mem_file": 12894208}
+dropped page cache of 84 payload files
+{"case": "nq-Q-b0.05-zipf-c32-notext", "qps": 1373.9864963361379, "p50_ms": 12.816891074180603, "p95_ms": 19.922843854874372, "p99_ms": 30.922475233674042, "storage_read_bytes": 1007616, "majflt": 0, "mem_file": 11845632}
+qdrant up (mem=968247240) {"title":"qdrant - vector search engine","version":"1.20.0","commit":"222b2e44ab
+dropped page cache of 84 payload files
+{"case": "nq-Q-b0.02-natural-c32", "qps": 1229.9995498539665, "p50_ms": 15.757517889142036, "p95_ms": 21.85392128303647, "p99_ms": 29.32617463171482, "storage_read_bytes": 77549568, "majflt": 0, "mem_file": 32460800}
+dropped page cache of 84 payload files
+{"case": "nq-Q-b0.02-natural-c128", "qps": 787.951268539653, "p50_ms": 72.89378438144922, "p95_ms": 149.2003643885255, "p99_ms": 198.59261747449634, "storage_read_bytes": 193052672, "majflt": 0, "mem_file": 6582272}
+dropped page cache of 84 payload files
+{"case": "nq-Q-b0.02-zipf-c32", "qps": 1330.0038083423944, "p50_ms": 13.655383139848709, "p95_ms": 20.756797306239605, "p99_ms": 29.976991899311543, "storage_read_bytes": 29044736, "majflt": 0, "mem_file": 17588224}
+dropped page cache of 84 payload files
+{"case": "nq-Q-b0.02-zipf-c128", "qps": 874.6146990513391, "p50_ms": 57.8487915918231, "p95_ms": 109.93787245824933, "p99_ms": 137.65772093087432, "storage_read_bytes": 16384000, "majflt": 0, "mem_file": 19845120}
+dropped page cache of 84 payload files
+{"case": "nq-Q-b0.02-zipf-c32-notext", "qps": 1379.2676632693344, "p50_ms": 12.772049754858017, "p95_ms": 19.736615754663944, "p99_ms": 29.63863236829636, "storage_read_bytes": 1949696, "majflt": 0, "mem_file": 19320832}
+qdrant up (mem=952818660) {"title":"qdrant - vector search engine","version":"1.20.0","commit":"222b2e44ab
+dropped page cache of 84 payload files
+{"case": "nq-Q-b0.01-natural-c32", "qps": 1257.8019150550435, "p50_ms": 15.190260484814644, "p95_ms": 21.005073469132185, "p99_ms": 28.370464406907555, "storage_read_bytes": 83873792, "majflt": 0, "mem_file": 10080256}
+dropped page cache of 84 payload files
+{"case": "nq-Q-b0.01-natural-c128", "qps": 828.2144347273537, "p50_ms": 65.11554587632418, "p95_ms": 129.56991465762258, "p99_ms": 182.17176945880055, "storage_read_bytes": 177516544, "majflt": 0, "mem_file": 24207360}
+dropped page cache of 84 payload files
+{"case": "nq-Q-b0.01-zipf-c32", "qps": 1404.974468432907, "p50_ms": 12.38143164664507, "p95_ms": 18.92377519980073, "p99_ms": 26.667716670781374, "storage_read_bytes": 20172800, "majflt": 0, "mem_file": 33644544}
+dropped page cache of 84 payload files
+{"case": "nq-Q-b0.01-zipf-c128", "qps": 915.5321297599609, "p50_ms": 50.877200439572334, "p95_ms": 97.46472295373678, "p99_ms": 122.09649402648209, "storage_read_bytes": 23076864, "majflt": 0, "mem_file": 31121408}
+dropped page cache of 84 payload files
+{"case": "nq-Q-b0.01-zipf-c32-notext", "qps": 1433.0104225673558, "p50_ms": 12.121852487325668, "p95_ms": 18.752002529799938, "p99_ms": 25.874613448977446, "storage_read_bytes": 1851392, "majflt": 0, "mem_file": 31121408}
+TREND_DONE
+[06:41:55] nq qdrant low TREND.md written
+[06:41:57] CHAIN_DONE

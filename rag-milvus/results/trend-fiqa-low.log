@@ -1,0 +1,15 @@
+milvus C up (mem=0)
+{"vector_index_bytes":96847354,"other_bytes":1886968,"text_bytes":44276480,"memory_capacity":121156665753}
+milvus C up (mem=0)
+{"case": "fiqa-C-b0.2-natural-c32", "qps": 130.16651696326335, "p50_ms": 25.62784217298031, "p95_ms": 1104.4942248612642, "p99_ms": 1406.1337479017675, "cache_byte_hit_ratio": 0.9968952851493861, "io_rbytes": 0, "majflt": 0}
+{"case": "fiqa-C-b0.2-natural-c128", "qps": 107.00303219613903, "p50_ms": 33.32159575074911, "p95_ms": 337.299105990678, "p99_ms": 844.2249866202471, "cache_byte_hit_ratio": 0.9975358983077482, "io_rbytes": 0, "majflt": 0}
+{"case": "fiqa-C-b0.2-zipf-c32", "qps": 135.83169101922573, "p50_ms": 21.328985691070557, "p95_ms": 1077.2354250773785, "p99_ms": 1439.3368624709547, "cache_byte_hit_ratio": 0.997218253670723, "io_rbytes": 0, "majflt": 0}
+{"case": "fiqa-C-b0.2-zipf-c128", "qps": 111.99070218794854, "p50_ms": 34.84387416392565, "p95_ms": 319.93547743186343, "p99_ms": 969.1051068343216, "cache_byte_hit_ratio": 0.9976064090534964, "io_rbytes": 0, "majflt": 0}
+{"case": "fiqa-C-b0.2-zipf-c32-notext", "qps": 247.8930763470112, "p50_ms": 16.291984356939793, "p95_ms": 30.081795156002045, "p99_ms": 52.86478975787759, "cache_byte_hit_ratio": 1.0, "io_rbytes": 0, "majflt": 0}
+milvus C up (mem=0)
+{"case": "fiqa-C-b0.1-natural-c32", "qps": 129.02858637402454, "p50_ms": 23.168536834418774, "p95_ms": 1403.4663851372873, "p99_ms": 1619.2786169238386, "cache_byte_hit_ratio": 0.9971378016117085, "io_rbytes": 0, "majflt": 0}
+{"case": "fiqa-C-b0.1-natural-c128", "qps": 106.03420859568199, "p50_ms": 38.66866044700146, "p95_ms": 428.7017439492046, "p99_ms": 1275.8097491972148, "cache_byte_hit_ratio": 0.9971891132490736, "io_rbytes": 0, "majflt": 0}
+{"case": "fiqa-C-b0.1-zipf-c32", "qps": 268.06131959949914, "p50_ms": 14.424072578549385, "p95_ms": 37.27917373180388, "p99_ms": 822.6936928182834, "cache_byte_hit_ratio": 0.998834268803072, "io_rbytes": 0, "majflt": 0}
+{"case": "fiqa-C-b0.1-zipf-c128", "qps": 280.9495513740378, "p50_ms": 19.719546660780907, "p95_ms": 355.0782921724021, "p99_ms": 844.9862033315002, "cache_byte_hit_ratio": 0.9985060470096657, "io_rbytes": 0, "majflt": 0}
+{"case": "fiqa-C-b0.1-zipf-c32-notext", "qps": 2032.906069486033, "p50_ms": 2.8650574386119843, "p95_ms": 6.045431643724441, "p99_ms": 7.261076904833317, "cache_byte_hit_ratio": 1.0, "io_rbytes": 0, "majflt": 0}
+TREND_DONE
