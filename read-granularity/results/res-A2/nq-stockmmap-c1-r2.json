@@ -1,0 +1,31 @@
+{
+  "engine": "qdrant",
+  "case": "nq-stockmmap-c1-r2",
+  "dataset": "nq",
+  "trace": "natural",
+  "alpha": null,
+  "requests": 10000,
+  "concurrency": 1,
+  "topk": 10,
+  "ef": 64,
+  "text": 1,
+  "seconds": 18.627870321273804,
+  "qps": 536.8300201542407,
+  "p50_ms": 1.7084479331970215,
+  "p95_ms": 2.4659435264766216,
+  "p99_ms": 2.7954186871647835,
+  "returned_text_bytes": 50990465,
+  "storage_read_bytes": 95551488,
+  "proc_delta": {
+    "majflt": 23328,
+    "minflt": 96888,
+    "io_rbytes": 95551488,
+    "io_rios": 46656
+  },
+  "proc_after": {
+    "mem_file": 4473257984,
+    "mem_anon": 667582464,
+    "mem_current": 5186588672,
+    "cgroup": "/sys/fs/cgroup/k8s.io/rm-qgran"
+  }
+}

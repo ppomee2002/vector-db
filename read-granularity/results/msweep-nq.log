@@ -1,0 +1,338 @@
+2026-11-09 07:53:27,527 [ERROR][_log_rpc_error]: RPC error: [search], <MilvusException: (code=503, message=failed to search: failed to search/query delegator 33 for channel by-dev-rootcoord-dml_1_470337630067229764v0: fail to search on QueryNode 33: channel distribution is not serviceable: channel not available[channel=by-dev-rootcoord-dml_1_470337630067229764v0])>, <elapsed:9010.9ms>
+Traceback:
+Traceback (most recent call last):
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 518, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 565, in handler
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 456, in handler
+    raise e from e
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 419, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 1331, in search
+    return self._execute_search(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 1223, in _execute_search
+    check_status(response.status)
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/utils.py", line 76, in check_status
+    raise MilvusException(status.code, status.reason, status.error_code)
+pymilvus.exceptions.MilvusException: <MilvusException: (code=503, message=failed to search: failed to search/query delegator 33 for channel by-dev-rootcoord-dml_1_470337630067229764v0: fail to search on QueryNode 33: channel distribution is not serviceable: channel not available[channel=by-dev-rootcoord-dml_1_470337630067229764v0])>
+ (decorators.py:472)
+searchable after 12s
+{"vector_index_bytes":4602497320,"other_bytes":83043280,"text_bytes":1326217638,"memory_capacity":121156665753}
+2026-11-09 07:53:55,100 [ERROR][_log_rpc_error]: RPC error: [search], <MilvusException: (code=503, message=failed to search: failed to search/query delegator 34 for channel by-dev-rootcoord-dml_1_470337630067229764v0: fail to search on QueryNode 34: channel distribution is not serviceable: channel not available[channel=by-dev-rootcoord-dml_1_470337630067229764v0])>, <elapsed:9009.3ms>
+Traceback:
+Traceback (most recent call last):
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 518, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 565, in handler
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 456, in handler
+    raise e from e
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 419, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 1331, in search
+    return self._execute_search(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 1223, in _execute_search
+    check_status(response.status)
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/utils.py", line 76, in check_status
+    raise MilvusException(status.code, status.reason, status.error_code)
+pymilvus.exceptions.MilvusException: <MilvusException: (code=503, message=failed to search: failed to search/query delegator 34 for channel by-dev-rootcoord-dml_1_470337630067229764v0: fail to search on QueryNode 34: channel distribution is not serviceable: channel not available[channel=by-dev-rootcoord-dml_1_470337630067229764v0])>
+ (decorators.py:472)
+searchable after 12s
+{"case": "nq-rstock-b0.05-natural-c32", "qps": 149.68132749792142, "p50_ms": 152.26090792566538, "p95_ms": 567.0932387001811, "p99_ms": 712.3749950900674, "cache_byte_hit_ratio": 0.998784405628663, "io_rbytes": 0, "majflt": 0}
+{"case": "nq-rstock-b0.05-zipf-c32", "qps": 205.87875744142667, "p50_ms": 98.74621126800776, "p95_ms": 393.95640539005376, "p99_ms": 509.94288418442, "cache_byte_hit_ratio": 0.9992900298471803, "io_rbytes": 0, "majflt": 0}
+2026-11-09 07:55:03,625 [ERROR][_log_rpc_error]: RPC error: [search], <MilvusException: (code=503, message=failed to search: failed to search/query delegator 35 for channel by-dev-rootcoord-dml_1_470337630067229764v0: fail to search on QueryNode 35: channel distribution is not serviceable: channel not available[channel=by-dev-rootcoord-dml_1_470337630067229764v0])>, <elapsed:9011.1ms>
+Traceback:
+Traceback (most recent call last):
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 518, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 565, in handler
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 456, in handler
+    raise e from e
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 419, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 1331, in search
+    return self._execute_search(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 1223, in _execute_search
+    check_status(response.status)
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/utils.py", line 76, in check_status
+    raise MilvusException(status.code, status.reason, status.error_code)
+pymilvus.exceptions.MilvusException: <MilvusException: (code=503, message=failed to search: failed to search/query delegator 35 for channel by-dev-rootcoord-dml_1_470337630067229764v0: fail to search on QueryNode 35: channel distribution is not serviceable: channel not available[channel=by-dev-rootcoord-dml_1_470337630067229764v0])>
+ (decorators.py:472)
+searchable after 12s
+{"case": "nq-r16-b0.05-natural-c32", "qps": 134.52493344280788, "p50_ms": 183.92007611691952, "p95_ms": 592.3106354661285, "p99_ms": 792.7882844768463, "cache_byte_hit_ratio": 0.9984101609352353, "io_rbytes": 0, "majflt": 0}
+{"case": "nq-r16-b0.05-zipf-c32", "qps": 172.77883448731947, "p50_ms": 115.36262463778257, "p95_ms": 499.67114599421615, "p99_ms": 711.4495332725346, "cache_byte_hit_ratio": 0.9990164606213253, "io_rbytes": 0, "majflt": 0}
+2026-11-09 07:56:16,646 [ERROR][_log_rpc_error]: RPC error: [search], <MilvusException: (code=503, message=failed to search: failed to search/query delegator 36 for channel by-dev-rootcoord-dml_1_470337630067229764v0: fail to search on QueryNode 36: channel distribution is not serviceable: channel not available[channel=by-dev-rootcoord-dml_1_470337630067229764v0])>, <elapsed:9010.7ms>
+Traceback:
+Traceback (most recent call last):
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 518, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 565, in handler
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 456, in handler
+    raise e from e
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 419, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 1331, in search
+    return self._execute_search(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 1223, in _execute_search
+    check_status(response.status)
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/utils.py", line 76, in check_status
+    raise MilvusException(status.code, status.reason, status.error_code)
+pymilvus.exceptions.MilvusException: <MilvusException: (code=503, message=failed to search: failed to search/query delegator 36 for channel by-dev-rootcoord-dml_1_470337630067229764v0: fail to search on QueryNode 36: channel distribution is not serviceable: channel not available[channel=by-dev-rootcoord-dml_1_470337630067229764v0])>
+ (decorators.py:472)
+searchable after 12s
+{"case": "nq-r4-b0.05-natural-c32", "qps": 142.56023187845028, "p50_ms": 171.0583819076419, "p95_ms": 555.3466595709323, "p99_ms": 692.7017201669514, "cache_byte_hit_ratio": 0.9987435871006777, "io_rbytes": 0, "majflt": 0}
+{"case": "nq-r4-b0.05-zipf-c32", "qps": 199.22751496413665, "p50_ms": 102.3728335276246, "p95_ms": 416.0690032877028, "p99_ms": 543.6546751856803, "cache_byte_hit_ratio": 0.9993408700512784, "io_rbytes": 0, "majflt": 0}
+2026-11-09 07:57:26,675 [ERROR][_log_rpc_error]: RPC error: [search], <MilvusException: (code=503, message=failed to search: failed to search/query delegator 37 for channel by-dev-rootcoord-dml_1_470337630067229764v0: fail to search on QueryNode 37: channel distribution is not serviceable: channel not available[channel=by-dev-rootcoord-dml_1_470337630067229764v0])>, <elapsed:9010.1ms>
+Traceback:
+Traceback (most recent call last):
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 518, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 565, in handler
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 456, in handler
+    raise e from e
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 419, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 1331, in search
+    return self._execute_search(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 1223, in _execute_search
+    check_status(response.status)
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/utils.py", line 76, in check_status
+    raise MilvusException(status.code, status.reason, status.error_code)
+pymilvus.exceptions.MilvusException: <MilvusException: (code=503, message=failed to search: failed to search/query delegator 37 for channel by-dev-rootcoord-dml_1_470337630067229764v0: fail to search on QueryNode 37: channel distribution is not serviceable: channel not available[channel=by-dev-rootcoord-dml_1_470337630067229764v0])>
+ (decorators.py:472)
+searchable after 12s
+{"case": "nq-r2-b0.05-natural-c32", "qps": 147.3631376221705, "p50_ms": 172.69417364150286, "p95_ms": 462.8398345783352, "p99_ms": 586.3713608309627, "cache_byte_hit_ratio": 0.9990612882378995, "io_rbytes": 0, "majflt": 0}
+{"case": "nq-r2-b0.05-zipf-c32", "qps": 238.00537578517924, "p50_ms": 103.18068880587816, "p95_ms": 286.62801440805197, "p99_ms": 363.26372200623155, "cache_byte_hit_ratio": 0.999670036132842, "io_rbytes": 0, "majflt": 0}
+2026-11-09 07:58:33,835 [ERROR][_log_rpc_error]: RPC error: [search], <MilvusException: (code=503, message=failed to search: failed to search/query delegator 38 for channel by-dev-rootcoord-dml_1_470337630067229764v0: fail to search on QueryNode 38: channel distribution is not serviceable: channel not available[channel=by-dev-rootcoord-dml_1_470337630067229764v0])>, <elapsed:9010.5ms>
+Traceback:
+Traceback (most recent call last):
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 518, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 565, in handler
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 456, in handler
+    raise e from e
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 419, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 1331, in search
+    return self._execute_search(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 1223, in _execute_search
+    check_status(response.status)
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/utils.py", line 76, in check_status
+    raise MilvusException(status.code, status.reason, status.error_code)
+pymilvus.exceptions.MilvusException: <MilvusException: (code=503, message=failed to search: failed to search/query delegator 38 for channel by-dev-rootcoord-dml_1_470337630067229764v0: fail to search on QueryNode 38: channel distribution is not serviceable: channel not available[channel=by-dev-rootcoord-dml_1_470337630067229764v0])>
+ (decorators.py:472)
+searchable after 12s
+{"case": "nq-r1-b0.05-natural-c32", "qps": 179.32459469336862, "p50_ms": 146.6518435627222, "p95_ms": 366.8973768129944, "p99_ms": 477.53878466784954, "cache_byte_hit_ratio": 0.9993989016961451, "io_rbytes": 0, "majflt": 0}
+{"case": "nq-r1-b0.05-zipf-c32", "qps": 290.73043326369435, "p50_ms": 93.60632579773664, "p95_ms": 190.40126008912918, "p99_ms": 240.75013171881432, "cache_byte_hit_ratio": 0.9999083106471848, "io_rbytes": 0, "majflt": 0}
+2026-11-09 07:59:34,330 [ERROR][_log_rpc_error]: RPC error: [search], <MilvusException: (code=503, message=failed to search: failed to search/query delegator 39 for channel by-dev-rootcoord-dml_1_470337630067229764v0: fail to search on QueryNode 39: channel distribution is not serviceable: channel not available[channel=by-dev-rootcoord-dml_1_470337630067229764v0])>, <elapsed:9010.5ms>
+Traceback:
+Traceback (most recent call last):
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 518, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 565, in handler
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 456, in handler
+    raise e from e
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 419, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 1331, in search
+    return self._execute_search(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 1223, in _execute_search
+    check_status(response.status)
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/utils.py", line 76, in check_status
+    raise MilvusException(status.code, status.reason, status.error_code)
+pymilvus.exceptions.MilvusException: <MilvusException: (code=503, message=failed to search: failed to search/query delegator 39 for channel by-dev-rootcoord-dml_1_470337630067229764v0: fail to search on QueryNode 39: channel distribution is not serviceable: channel not available[channel=by-dev-rootcoord-dml_1_470337630067229764v0])>
+ (decorators.py:472)
+searchable after 12s
+{"case": "nq-r8-b0.05-natural-c32", "qps": 136.01831671372562, "p50_ms": 164.29745592176914, "p95_ms": 602.6862724684178, "p99_ms": 819.8558782041072, "cache_byte_hit_ratio": 0.9983819786595767, "io_rbytes": 0, "majflt": 0}
+{"case": "nq-r8-b0.05-zipf-c32", "qps": 188.99284769792283, "p50_ms": 103.27074956148863, "p95_ms": 446.0284727625549, "p99_ms": 571.8482596427201, "cache_byte_hit_ratio": 0.999113543591136, "io_rbytes": 0, "majflt": 0}
+2026-11-09 08:00:46,516 [ERROR][_log_rpc_error]: RPC error: [search], <MilvusException: (code=503, message=failed to search: failed to search/query delegator 40 for channel by-dev-rootcoord-dml_1_470337630067229764v0: fail to search on QueryNode 40: channel distribution is not serviceable: channel not available[channel=by-dev-rootcoord-dml_1_470337630067229764v0])>, <elapsed:9010.2ms>
+Traceback:
+Traceback (most recent call last):
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 518, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 565, in handler
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 456, in handler
+    raise e from e
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 419, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 1331, in search
+    return self._execute_search(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 1223, in _execute_search
+    check_status(response.status)
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/utils.py", line 76, in check_status
+    raise MilvusException(status.code, status.reason, status.error_code)
+pymilvus.exceptions.MilvusException: <MilvusException: (code=503, message=failed to search: failed to search/query delegator 40 for channel by-dev-rootcoord-dml_1_470337630067229764v0: fail to search on QueryNode 40: channel distribution is not serviceable: channel not available[channel=by-dev-rootcoord-dml_1_470337630067229764v0])>
+ (decorators.py:472)
+searchable after 12s
+{"case": "nq-rstock-b0.2-natural-c32", "qps": 177.03258212282432, "p50_ms": 133.31343978643417, "p95_ms": 403.3408270217478, "p99_ms": 577.4707864969969, "cache_byte_hit_ratio": 0.9992196735500958, "io_rbytes": 0, "majflt": 0}
+{"case": "nq-rstock-b0.2-zipf-c32", "qps": 250.08459270379507, "p50_ms": 92.7053326740861, "p95_ms": 312.8783477470279, "p99_ms": 444.20760206878185, "cache_byte_hit_ratio": 0.9996655844082488, "io_rbytes": 0, "majflt": 0}
+2026-11-09 08:01:49,769 [ERROR][_log_rpc_error]: RPC error: [search], <MilvusException: (code=503, message=failed to search: failed to search/query delegator 41 for channel by-dev-rootcoord-dml_1_470337630067229764v0: fail to search on QueryNode 41: channel distribution is not serviceable: channel not available[channel=by-dev-rootcoord-dml_1_470337630067229764v0])>, <elapsed:9009.3ms>
+Traceback:
+Traceback (most recent call last):
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 518, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 565, in handler
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 456, in handler
+    raise e from e
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 419, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 1331, in search
+    return self._execute_search(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 1223, in _execute_search
+    check_status(response.status)
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/utils.py", line 76, in check_status
+    raise MilvusException(status.code, status.reason, status.error_code)
+pymilvus.exceptions.MilvusException: <MilvusException: (code=503, message=failed to search: failed to search/query delegator 41 for channel by-dev-rootcoord-dml_1_470337630067229764v0: fail to search on QueryNode 41: channel distribution is not serviceable: channel not available[channel=by-dev-rootcoord-dml_1_470337630067229764v0])>
+ (decorators.py:472)
+searchable after 12s
+{"case": "nq-r16-b0.2-natural-c32", "qps": 167.60589160341158, "p50_ms": 126.8752496689558, "p95_ms": 492.5956938415766, "p99_ms": 631.4542108774184, "cache_byte_hit_ratio": 0.9990882422850095, "io_rbytes": 0, "majflt": 0}
+{"case": "nq-r16-b0.2-zipf-c32", "qps": 206.8567244954688, "p50_ms": 107.56354220211506, "p95_ms": 394.2655351944267, "p99_ms": 535.4350548610091, "cache_byte_hit_ratio": 0.9994623603241476, "io_rbytes": 0, "majflt": 0}
+2026-11-09 08:02:56,597 [ERROR][_log_rpc_error]: RPC error: [search], <MilvusException: (code=503, message=failed to search: failed to search/query delegator 42 for channel by-dev-rootcoord-dml_1_470337630067229764v0: fail to search on QueryNode 42: channel distribution is not serviceable: channel not available[channel=by-dev-rootcoord-dml_1_470337630067229764v0])>, <elapsed:9009.6ms>
+Traceback:
+Traceback (most recent call last):
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 518, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 565, in handler
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 456, in handler
+    raise e from e
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 419, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 1331, in search
+    return self._execute_search(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 1223, in _execute_search
+    check_status(response.status)
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/utils.py", line 76, in check_status
+    raise MilvusException(status.code, status.reason, status.error_code)
+pymilvus.exceptions.MilvusException: <MilvusException: (code=503, message=failed to search: failed to search/query delegator 42 for channel by-dev-rootcoord-dml_1_470337630067229764v0: fail to search on QueryNode 42: channel distribution is not serviceable: channel not available[channel=by-dev-rootcoord-dml_1_470337630067229764v0])>
+ (decorators.py:472)
+searchable after 12s
+{"case": "nq-r4-b0.2-natural-c32", "qps": 172.58633145374353, "p50_ms": 131.43694680184126, "p95_ms": 447.69634287804365, "p99_ms": 646.7905735038221, "cache_byte_hit_ratio": 0.9992232774341238, "io_rbytes": 0, "majflt": 0}
+{"case": "nq-r4-b0.2-zipf-c32", "qps": 254.92438991621626, "p50_ms": 90.71944281458855, "p95_ms": 292.18327356502414, "p99_ms": 418.0191633850336, "cache_byte_hit_ratio": 0.999651369245398, "io_rbytes": 0, "majflt": 0}
+2026-11-09 08:03:59,816 [ERROR][_log_rpc_error]: RPC error: [search], <MilvusException: (code=503, message=failed to search: failed to search/query delegator 43 for channel by-dev-rootcoord-dml_1_470337630067229764v0: fail to search on QueryNode 43: channel distribution is not serviceable: channel not available[channel=by-dev-rootcoord-dml_1_470337630067229764v0])>, <elapsed:9012.1ms>
+Traceback:
+Traceback (most recent call last):
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 518, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 565, in handler
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 456, in handler
+    raise e from e
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 419, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 1331, in search
+    return self._execute_search(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 1223, in _execute_search
+    check_status(response.status)
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/utils.py", line 76, in check_status
+    raise MilvusException(status.code, status.reason, status.error_code)
+pymilvus.exceptions.MilvusException: <MilvusException: (code=503, message=failed to search: failed to search/query delegator 43 for channel by-dev-rootcoord-dml_1_470337630067229764v0: fail to search on QueryNode 43: channel distribution is not serviceable: channel not available[channel=by-dev-rootcoord-dml_1_470337630067229764v0])>
+ (decorators.py:472)
+searchable after 12s
+{"case": "nq-r8-b0.2-natural-c32", "qps": 160.5878575127655, "p50_ms": 135.42919233441353, "p95_ms": 484.1131143271923, "p99_ms": 707.0185415446758, "cache_byte_hit_ratio": 0.9989693990094597, "io_rbytes": 0, "majflt": 0}
+{"case": "nq-r8-b0.2-zipf-c32", "qps": 217.08550245673393, "p50_ms": 98.2209350913763, "p95_ms": 357.18154096975917, "p99_ms": 502.3127309419215, "cache_byte_hit_ratio": 0.9993717698992246, "io_rbytes": 0, "majflt": 0}
+2026-11-09 08:05:05,903 [ERROR][_log_rpc_error]: RPC error: [search], <MilvusException: (code=503, message=failed to search: failed to search/query delegator 44 for channel by-dev-rootcoord-dml_1_470337630067229764v0: fail to search on QueryNode 44: channel distribution is not serviceable: channel not available[channel=by-dev-rootcoord-dml_1_470337630067229764v0])>, <elapsed:9010.0ms>
+Traceback:
+Traceback (most recent call last):
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 518, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 565, in handler
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 456, in handler
+    raise e from e
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 419, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 1331, in search
+    return self._execute_search(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 1223, in _execute_search
+    check_status(response.status)
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/utils.py", line 76, in check_status
+    raise MilvusException(status.code, status.reason, status.error_code)
+pymilvus.exceptions.MilvusException: <MilvusException: (code=503, message=failed to search: failed to search/query delegator 44 for channel by-dev-rootcoord-dml_1_470337630067229764v0: fail to search on QueryNode 44: channel distribution is not serviceable: channel not available[channel=by-dev-rootcoord-dml_1_470337630067229764v0])>
+ (decorators.py:472)
+searchable after 12s
+{"case": "nq-r1-b0.2-natural-c32", "qps": 204.51402986946425, "p50_ms": 135.61448082327843, "p95_ms": 274.6497642248869, "p99_ms": 353.8149100542068, "cache_byte_hit_ratio": 0.9996453320062779, "io_rbytes": 0, "majflt": 0}
+{"case": "nq-r1-b0.2-zipf-c32", "qps": 297.93998031351896, "p50_ms": 95.89289221912622, "p95_ms": 156.01977473124856, "p99_ms": 216.14277416840193, "cache_byte_hit_ratio": 0.9999575501282918, "io_rbytes": 0, "majflt": 0}
+2026-11-09 08:06:04,352 [ERROR][_log_rpc_error]: RPC error: [search], <MilvusException: (code=503, message=failed to search: failed to search/query delegator 45 for channel by-dev-rootcoord-dml_1_470337630067229764v0: fail to search on QueryNode 45: channel distribution is not serviceable: channel not available[channel=by-dev-rootcoord-dml_1_470337630067229764v0])>, <elapsed:9010.4ms>
+Traceback:
+Traceback (most recent call last):
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 518, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 565, in handler
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 456, in handler
+    raise e from e
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 419, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 1331, in search
+    return self._execute_search(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 1223, in _execute_search
+    check_status(response.status)
+  File "/home/ubuntu/rag-milvus/.venv/lib/python3.12/site-packages/pymilvus/client/utils.py", line 76, in check_status
+    raise MilvusException(status.code, status.reason, status.error_code)
+pymilvus.exceptions.MilvusException: <MilvusException: (code=503, message=failed to search: failed to search/query delegator 45 for channel by-dev-rootcoord-dml_1_470337630067229764v0: fail to search on QueryNode 45: channel distribution is not serviceable: channel not available[channel=by-dev-rootcoord-dml_1_470337630067229764v0])>
+ (decorators.py:472)
+searchable after 12s
+{"case": "nq-r2-b0.2-natural-c32", "qps": 195.17214294090167, "p50_ms": 132.33025185763836, "p95_ms": 338.9853162690997, "p99_ms": 486.791339404881, "cache_byte_hit_ratio": 0.9994320868561862, "io_rbytes": 0, "majflt": 0}
+{"case": "nq-r2-b0.2-zipf-c32", "qps": 298.7958381768079, "p50_ms": 91.54860582202673, "p95_ms": 178.3051305450499, "p99_ms": 287.93832374736667, "cache_byte_hit_ratio": 0.9998954776228622, "io_rbytes": 0, "majflt": 0}
+SWEEP_DONE

@@ -1,0 +1,2 @@
+insert 57638/57638 13864 rows/s
+{"dataset": "fiqa", "rows": 57638, "text_bytes": 44276480, "vec_bytes": 88531968, "insert_s": 5.670960426330566, "index_s": 4.02929425239563, "load_s": 1.8220181465148926, "index": "HNSW M16 efC128 IP"}

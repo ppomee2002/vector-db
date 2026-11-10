@@ -1,0 +1,248 @@
+<title>읽기 단위 트레이드오프 실험</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: single reading column, figures full column width, numbers in mono */
+:root{
+  --bg:#f6f7f8; --surface:#ffffff; --fg:#1c2226; --muted:#5d6870; --line:#d9dee2;
+  --a:#1f6f8b; --b:#c2571a; --c:#6b7f2a; --d:#7a4b9a; --band:#1f6f8b18;
+  --sans:"IBM Plex Sans KR",system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#13171a; --surface:#1a1f23; --fg:#e4e8eb; --muted:#9aa5ad; --line:#2e363c;
+  --a:#5bb3d1; --b:#f0905a; --c:#a9c25a; --d:#b98ee0; --band:#5bb3d122; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#13171a; --surface:#1a1f23; --fg:#e4e8eb; --muted:#9aa5ad; --line:#2e363c;
+  --a:#5bb3d1; --b:#f0905a; --c:#a9c25a; --d:#b98ee0; --band:#5bb3d122; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:15px;line-height:1.65}
+.wrap{max-width:880px;margin:0 auto;padding-block:40px 64px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  display:flex;flex-direction:column;gap:40px}
+h1{font-size:28px;line-height:1.3;margin:0 0 8px;text-wrap:balance;font-weight:700}
+h2{font-size:20px;margin:0 0 6px;text-wrap:balance}
+h3{font-size:15px;margin:0 0 4px}
+p{margin:0;max-width:68ch}
+.meta{color:var(--muted);font-size:13px;font-family:var(--mono)}
+.lede{color:var(--muted);max-width:68ch}
+section{display:flex;flex-direction:column;gap:14px}
+.claims{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:640px){.claims{grid-template-columns:1fr}}
+.claim{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:14px 16px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.claim .k{font-size:12px;letter-spacing:.06em;color:var(--muted);text-transform:uppercase;font-family:var(--mono)}
+.claim .v{font-weight:700}
+.claim p{color:var(--muted);font-size:14px}
+.fig{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:16px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.fig .cap{font-size:13.5px;color:var(--muted)}
+.fig .cap b{color:var(--fg)}
+.row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+@media (max-width:640px){.row{grid-template-columns:1fr}}
+.chart{min-width:0}
+.chart svg{width:100%;height:auto;display:block}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12.5px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:14px;height:3px;border-radius:2px;display:inline-block}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;font-size:13px;width:100%;font-variant-numeric:tabular-nums}
+th,td{padding:6px 10px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+th{font-weight:500;color:var(--muted);font-size:12px}
+td.best{color:var(--a);font-weight:700}
+ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;max-width:72ch}
+code,.path{font-family:var(--mono);font-size:12.5px}
+.paths td{white-space:normal}
+.chart text{font-family:var(--mono)}
+</style>
+
+<div class="wrap">
+<header>
+  <h1>읽기 단위 트레이드오프 실험 결과</h1>
+  <p class="lede">벡터 DB가 텍스트(payload)를 저장소에서 읽는 단위를 바꿔 가며, 크게 읽을 때와 작게 읽을 때 각각 어떤 비용이 생기는지 실제 시스템으로 측정했다. Qdrant v1.20.0은 Gridstore payload 읽기 경로에 read 단위 파라미터를 추가했고, Milvus v2.6.23은 Tiered storage의 cell 크기(<code>kRowGroupsPerCell</code>)를 환경 변수로 바꾸게 패치했다.</p>
+  <p class="meta" style="margin-top:10px">2026-11-09 · 109 서버 · 데이터셋 NQ (2.68M 문서), FiQA · top-10, 텍스트 반환</p>
+</header>
+
+<section>
+  <h2>요약</h2>
+  <div class="claims">
+    <div class="claim"><span class="k">양 끝의 기본값</span><span class="v">Milvus 2.6MB cell, Qdrant 4KB</span><p>Milvus는 질의당 S3에서 1.2MB를 읽어 증폭이 약 240배다. Qdrant는 증폭은 작지만 질의당 디스크 I/O가 18~23회다.</p></div>
+    <div class="claim"><span class="k">크게 읽으면</span><span class="v">QPS가 1/3 ~ 1/25로 떨어진다</span><p>Qdrant를 2MB 단위로 읽으면 로컬 NVMe에서 QPS가 1/3, 공유 디스크에서 1/25이 된다. Milvus는 cell을 1MB로 줄이면 15~46% 빨라진다.</p></div>
+    <div class="claim"><span class="k">작게 읽으면</span><span class="v">IOPS 한도에서 자신과 이웃이 느려진다</span><p>gp3 수준 디스크에서 4KB는 64KB보다 QPS가 17~21% 낮고, 같은 디스크를 쓰는 이웃의 4KB 읽기 p50을 1.8배로 늘린다.</p></div>
+    <div class="claim"><span class="k">최적점은 움직인다</span><span class="v">조건마다 다른 지점</span><p>로컬 NVMe에서는 4~64KB가 평평하고, 공유 디스크에서는 64KB가 최적이다. 캐시 예산이 작을수록 큰 단위가 일찍 무너진다.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>그림 1. 공유 디스크에서의 U자 곡선 (Qdrant)</h2>
+  <p>Qdrant 컨테이너에 읽기 3000 IOPS, 125MiB/s 상한을 걸었다(AWS gp3 기본 성능). 이웃은 같은 상한 안에서 4KB 랜덤 읽기를 초당 1000회 낸다. 이웃 지연은 원래 보내기로 한 시각부터 재므로, 남의 I/O 뒤에서 기다린 시간이 포함된다.</p>
+  <div class="fig">
+    <div class="row">
+      <div class="chart" id="f1a"></div>
+      <div class="chart" id="f1b"></div>
+    </div>
+    <div class="legend" id="f1l"></div>
+    <p class="cap"><b>NQ, 캐시 OFF(payload page 파일을 20ms마다 비움), C=32, 1회.</b> 음영은 최적 구간. 이웃 없이 혼자 읽으면 같은 4KB 읽기가 0.15ms다. 16KB 케이스의 이웃 기록은 프로세스 강제 종료로 빠졌다.</p>
+  </div>
+  <div class="tbl"><table>
+    <thead><tr><th>read 단위</th><th>4KB (기본)</th><th>16KB</th><th>64KB</th><th>256KB</th><th>1MB</th><th>2MB</th></tr></thead>
+    <tbody>
+      <tr><td>QPS, 이웃 없음</td><td>294</td><td>342</td><td class="best">355</td><td>106</td><td>28</td><td>14</td></tr>
+      <tr><td>p99 ms, 이웃 없음</td><td>166</td><td class="best">114</td><td class="best">114</td><td>398</td><td>1402</td><td>2799</td></tr>
+      <tr><td>질의당 디스크 I/O, 이웃 없음</td><td>18.0</td><td>15.2</td><td class="best">13.9</td><td>22.4</td><td>74.9</td><td>145</td></tr>
+      <tr><td>QPS, 이웃 있음</td><td>208</td><td>241</td><td class="best">262</td><td>104</td><td>27</td><td>14</td></tr>
+      <tr><td>이웃 p50 ms</td><td>19.5</td><td>–</td><td class="best">11.5</td><td>34.9</td><td>46.4</td><td>48.2</td></tr>
+      <tr><td>이웃 p99 ms</td><td>84.4</td><td>–</td><td class="best">81.7</td><td>95.6</td><td>99.6</td><td>99.1</td></tr>
+      <tr><td>앱 수준 증폭</td><td>1x</td><td>36x</td><td>142x</td><td>563x</td><td>2251x</td><td>4503x</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section>
+  <h2>그림 2. 로컬 NVMe, 캐시 OFF (Qdrant)</h2>
+  <p>I/O 한 번이 싼 로컬 NVMe에서는 64KB까지 QPS가 거의 같고, 그 위로는 전송량이 비용을 지배해 단조롭게 떨어진다. 작게 읽는 쪽의 손해는 여기서 보이지 않는다.</p>
+  <div class="fig">
+    <div class="chart" id="f2"></div>
+    <div class="legend" id="f2l"></div>
+    <p class="cap"><b>캐시 OFF(payload 파일 전체를 20ms마다 비움), natural trace, 2회 반복의 중앙값.</b> 반복 간 차이는 중앙값 2.7%, 90번째 백분위 8.4%다. 4KB 점은 패치 바이너리의 기본 io_uring 경로(G=0)다. G=4096 값(NQ C=32: 968)은 노이즈 범위다.</p>
+  </div>
+</section>
+
+<section>
+  <h2>그림 3. 캐시 예산에 따른 변화 (Qdrant)</h2>
+  <p>컨테이너 메모리를 기준 메모리 + payload의 5% 또는 20%로 묶었다. 큰 단위는 캐시를 낭비해 예산이 작을수록 일찍 무너진다. 1MB는 예산 5%에서 QPS 179(질의당 I/O 482회), 20%에서 424다.</p>
+  <div class="fig">
+    <div class="row">
+      <div class="chart" id="f3a"></div>
+      <div class="chart" id="f3b"></div>
+    </div>
+    <div class="legend" id="f3l"></div>
+    <p class="cap"><b>NQ, zipf trace, C=32, 1회.</b> 16~64KB는 질의당 디스크 I/O를 1.6회에서 0.9~1.2회로 줄이지만, 로컬 NVMe라 QPS 이득은 노이즈 범위다. FiQA는 payload가 예산 안에 다 들어가 디스크 I/O가 없어 제외했다.</p>
+  </div>
+</section>
+
+<section>
+  <h2>그림 4. Milvus Tiered storage cell 크기</h2>
+  <p>cell 하나는 Parquet row group(RG) 여러 개다. 기본값은 4 RG(텍스트 cell 평균 2.6MB)이고, 1 RG(평균 0.96MB)가 패치로 갈 수 있는 최소다. 텍스트는 SeaweedFS(S3)에 있고, 요청을 tcpdump로 잡아 Range 헤더로 읽은 바이트를 셌다.</p>
+  <div class="fig">
+    <div class="row">
+      <div class="chart" id="f4a"></div>
+      <div class="chart" id="f4b"></div>
+    </div>
+    <div class="legend" id="f4l"></div>
+    <p class="cap"><b>NQ, C=32, 요청 2000건(워밍업 1000건), 1회.</b> 증폭은 S3 읽기 바이트를 반환 텍스트 바이트로 나눈 값이고, 워밍업 요청까지 포함한 근사치다. 8 RG와 16 RG는 실제 cell 크기가 같게 나와서(평균 4.9MB) 8 RG만 표시했다.</p>
+  </div>
+  <div class="tbl"><table>
+    <thead><tr><th>캐시 / trace</th><th>1 RG (0.96MB)</th><th>2 RG (1.7MB)</th><th>4 RG 기본 (2.6MB)</th><th>8 RG (4.9MB)</th><th>요청당 GET (1→8 RG)</th></tr></thead>
+    <tbody>
+      <tr><td>5% natural</td><td class="best">179 / 141x</td><td>147 / 194x</td><td>143 / 248x</td><td>136 / 302x</td><td>3.9 → 3.8</td></tr>
+      <tr><td>5% zipf</td><td class="best">291 / 38x</td><td>238 / 77x</td><td>199 / 96x</td><td>189 / 157x</td><td>0.9 → 1.9</td></tr>
+      <tr><td>20% natural</td><td class="best">205 / 114x</td><td>195 / 165x</td><td>173 / 191x</td><td>161 / 228x</td><td>2.9 → 2.3</td></tr>
+      <tr><td>20% zipf</td><td>298 / 19x</td><td class="best">299 / 39x</td><td>255 / 70x</td><td>217 / 96x</td><td>0.5 → 1.3</td></tr>
+    </tbody>
+  </table></div>
+  <p class="meta">셀 값: QPS / 읽기 증폭. 패치 없는 stock 이미지는 4 RG와 같은 범위다(5% natural 150 QPS, 240x).</p>
+</section>
+
+<section>
+  <h2>해석과 주의점</h2>
+  <ul>
+    <li>Milvus는 cell을 1MB보다 작게 만들 수 없어서 곡선의 큰 쪽 절반만 보인다. 작은 쪽 손해는 Qdrant 공유 디스크 실험(그림 1)이 담당한다.</li>
+    <li>캐시 OFF에서 큰 단위로 읽어도 질의당 I/O가 줄지 않는다. top-10 결과가 서로 멀리 떨어져 있어 넓혀 읽어도 합쳐지지 않기 때문이다.</li>
+    <li>stock Qdrant(mmap)는 evictor로 캐시를 비울 수 없어 캐시 OFF 비교에서 제외했다. 비교 기준은 같은 바이너리의 io_uring 기본 경로다.</li>
+    <li>그림 1의 이웃 있음 조건은 이웃이 같은 cgroup에 들어가서, cgroup 디스크 수치에 이웃 I/O가 섞인다. 질의당 디스크 I/O는 이웃 없음 행만 유효하다.</li>
+    <li>커널 throttle은 큰 read를 쪼갠 조각 단위로 셀 가능성이 크다. gp3은 256KB까지를 1 IO로 치므로, 256KB 이상은 실제 gp3보다 약간 불리할 수 있다.</li>
+    <li>그림 1, 3, 4는 1회 측정이다. 그림 2의 반복 간 차이(중앙값 2.7%)를 노이즈 기준으로 보면 된다.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>결과 위치 (109 서버 <code>~/gran/</code>)</h2>
+  <div class="tbl"><table class="paths">
+    <thead><tr><th>실험</th><th>경로</th><th>요약 명령</th></tr></thead>
+    <tbody>
+      <tr><td>그림 1 (공유 디스크)</td><td class="path">res-C/</td><td class="path">summarize_q.py (n0 = 이웃 없음, n1000 = 이웃 있음)</td></tr>
+      <tr><td>그림 2 (캐시 OFF)</td><td class="path">res-A2/</td><td class="path">python3 summarize_q.py res-A2</td></tr>
+      <tr><td>그림 3 (캐시 예산)</td><td class="path">res-B2/</td><td class="path">python3 summarize_q.py res-B2</td></tr>
+      <tr><td>그림 4 (Milvus)</td><td class="path">res-M/</td><td class="path">python3 summarize_m.py res-M</td></tr>
+      <tr><td>폐기</td><td class="path">res-A/, res-B/, res-M-noS3/</td><td>노이즈 큼 또는 S3 캡처 실패</td></tr>
+    </tbody>
+  </table></div>
+</section>
+</div>
+
+<script>
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const SZ = ["4K","16K","64K","256K","1M","2M"];
+function legend(id, items){
+  document.getElementById(id).innerHTML = items.map(([n,c,dash]) =>
+    `<span><i style="background:var(${c})${dash?';opacity:.6':''}"></i>${n}</span>`).join("");
+}
+function chart(id, o){
+  const W=420,H=250,L=48,R=12,T=26,B=40, iw=W-L-R, ih=H-T-B;
+  const xs=o.x, n=xs.length, X=i=>L+(n===1?iw/2:i*iw/(n-1));
+  const vals=o.series.flatMap(s=>s.v.filter(v=>v!=null));
+  let ymin=o.log?Math.min(...vals)/1.3:0, ymax=Math.max(...vals)*1.08;
+  const Y=o.log? v=>T+ih-(Math.log10(v)-Math.log10(ymin))/(Math.log10(ymax)-Math.log10(ymin))*ih
+               : v=>T+ih-(v-ymin)/(ymax-ymin)*ih;
+  let ticks=[];
+  if(o.log){ for(let e=Math.floor(Math.log10(ymin));e<=Math.ceil(Math.log10(ymax));e++) for(const m of [1,3]){const t=m*10**e; if(t>=ymin&&t<=ymax) ticks.push(t);} }
+  else { const step=niceStep(ymax/4); for(let t=0;t<=ymax;t+=step) ticks.push(t); }
+  const fg=css("--fg"), mu=css("--muted"), ln=css("--line");
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${o.title}">`;
+  s+=`<text x="${L}" y="14" font-size="12" fill="${fg}" font-weight="500">${o.title}</text>`;
+  if(o.band){const [a,b]=o.band; s+=`<rect x="${X(a)-iw/(n-1)/4}" y="${T}" width="${X(b)-X(a)+iw/(n-1)/2}" height="${ih}" fill="${css("--band")}"/>`;}
+  for(const t of ticks){ s+=`<line x1="${L}" x2="${W-R}" y1="${Y(t)}" y2="${Y(t)}" stroke="${ln}" stroke-width="1"/>`;
+    s+=`<text x="${L-6}" y="${Y(t)+4}" font-size="10.5" fill="${mu}" text-anchor="end">${fmt(t)}</text>`; }
+  xs.forEach((x,i)=>{ s+=`<text x="${X(i)}" y="${H-B+16}" font-size="10.5" fill="${mu}" text-anchor="middle">${x}</text>`; });
+  s+=`<text x="${L+iw/2}" y="${H-6}" font-size="10.5" fill="${mu}" text-anchor="middle">${o.xl}</text>`;
+  s+=`<text x="12" y="${T+ih/2}" font-size="10.5" fill="${mu}" text-anchor="middle" transform="rotate(-90 12 ${T+ih/2})">${o.yl}</text>`;
+  for(const se of o.series){
+    const col=css(se.c); let d="", pen=false;
+    se.v.forEach((v,i)=>{ if(v==null){pen=false;return;} d+=(pen?"L":"M")+X(i)+" "+Y(v)+" "; pen=true; });
+    s+=`<path d="${d}" fill="none" stroke="${col}" stroke-width="2" ${se.dash?'stroke-dasharray="5 4"':''}/>`;
+    se.v.forEach((v,i)=>{ if(v!=null) s+=`<circle cx="${X(i)}" cy="${Y(v)}" r="3.2" fill="${col}"><title>${se.n} · ${xs[i]}: ${v}</title></circle>`; });
+  }
+  document.getElementById(id).innerHTML=s+"</svg>";
+}
+function niceStep(r){const p=10**Math.floor(Math.log10(r)); for(const m of [1,2,2.5,5,10]) if(m*p>=r) return m*p;}
+function fmt(t){return t>=1000? (t/1000)+"k" : (t<1? t.toFixed(1): String(+t.toFixed(2)));}
+
+function draw(){
+  chart("f1a",{title:"Qdrant QPS",x:SZ,xl:"read 단위",yl:"QPS (log)",log:true,band:[1,2],series:[
+    {n:"이웃 없음",c:"--a",v:[294,342,355,106,28,14]},
+    {n:"이웃 있음",c:"--b",v:[208,241,262,104,27,14]}]});
+  chart("f1b",{title:"이웃 4KB 읽기 지연",x:SZ,xl:"Qdrant read 단위",yl:"ms",band:[1,2],series:[
+    {n:"이웃 p50",c:"--d",v:[19.5,null,11.5,34.9,46.4,48.2]},
+    {n:"이웃 p99",c:"--d",dash:true,v:[84.4,null,81.7,95.6,99.6,99.1]}]});
+  legend("f1l",[["Qdrant, 이웃 없음","--a"],["Qdrant, 이웃 있음","--b"],["이웃 p50","--d"],["이웃 p99 (점선)","--d",1]]);
+
+  chart("f2",{title:"Qdrant QPS, 캐시 OFF",x:SZ,xl:"read 단위",yl:"QPS",series:[
+    {n:"FiQA C=32",c:"--c",v:[1762,1688,1479,1195,726,478]},
+    {n:"NQ C=32",c:"--a",v:[881,861,900,766,498,339]},
+    {n:"NQ C=128",c:"--b",v:[823,854,881,740,503,354]}]});
+  legend("f2l",[["FiQA C=32","--c"],["NQ C=32","--a"],["NQ C=128","--b"]]);
+
+  chart("f3a",{title:"Qdrant QPS, 캐시 예산별",x:SZ,xl:"read 단위",yl:"QPS",series:[
+    {n:"예산 20%",c:"--a",v:[1379,1326,1221,1222,424,164]},
+    {n:"예산 5%",c:"--b",v:[1291,1260,1283,1006,179,125]}]});
+  chart("f3b",{title:"질의당 디스크 I/O",x:SZ,xl:"read 단위",yl:"I/O 횟수 (log)",log:true,series:[
+    {n:"예산 20%",c:"--a",v:[1.6,1.2,0.9,1.8,136.2,487.4]},
+    {n:"예산 5%",c:"--b",v:[1.6,1.2,1.2,8.3,482.1,676.0]}]});
+  legend("f3l",[["캐시 예산 20%","--a"],["캐시 예산 5%","--b"]]);
+
+  const RG=["1 RG","2 RG","4 RG","8 RG"];
+  chart("f4a",{title:"Milvus QPS",x:RG,xl:"cell 크기 (row group 수)",yl:"QPS",series:[
+    {n:"20% zipf",c:"--a",v:[298,299,255,217]},
+    {n:"5% zipf",c:"--c",v:[291,238,199,189]},
+    {n:"20% natural",c:"--b",v:[205,195,173,161]},
+    {n:"5% natural",c:"--d",v:[179,147,143,136]}]});
+  chart("f4b",{title:"Milvus 읽기 증폭",x:RG,xl:"cell 크기 (row group 수)",yl:"S3 바이트 / 텍스트 바이트",series:[
+    {n:"20% zipf",c:"--a",v:[19,39,70,96]},
+    {n:"5% zipf",c:"--c",v:[38,77,96,157]},
+    {n:"20% natural",c:"--b",v:[114,165,191,228]},
+    {n:"5% natural",c:"--d",v:[141,194,248,302]}]});
+  legend("f4l",[["캐시 20%, zipf","--a"],["캐시 5%, zipf","--c"],["캐시 20%, natural","--b"],["캐시 5%, natural","--d"]]);
+}
+draw();
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change",draw);
+new MutationObserver(draw).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+</script>

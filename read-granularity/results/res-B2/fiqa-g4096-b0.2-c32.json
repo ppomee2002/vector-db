@@ -1,0 +1,31 @@
+{
+  "engine": "qdrant",
+  "case": "fiqa-g4096-b0.2-c32",
+  "dataset": "fiqa",
+  "trace": "zipf",
+  "alpha": 1.2,
+  "requests": 10000,
+  "concurrency": 32,
+  "topk": 10,
+  "ef": 64,
+  "text": 1,
+  "seconds": 3.861633539199829,
+  "qps": 2589.5776744450236,
+  "p50_ms": 10.240986943244934,
+  "p95_ms": 12.233190611004826,
+  "p99_ms": 14.693801105022432,
+  "returned_text_bytes": 89274128,
+  "storage_read_bytes": 15007744,
+  "proc_delta": {
+    "majflt": 0,
+    "minflt": 21381,
+    "io_rbytes": 15007744,
+    "io_rios": 6766
+  },
+  "proc_after": {
+    "mem_file": 4388233216,
+    "mem_anon": 777789440,
+    "mem_current": 5204480000,
+    "cgroup": "/sys/fs/cgroup/k8s.io/rm-qgran"
+  }
+}

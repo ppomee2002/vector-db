@@ -1,0 +1,188 @@
+--- a/lib/blobstore/src/blobstore/gridstore/pages.rs
++++ b/lib/blobstore/src/blobstore/gridstore/pages.rs
+@@ -19,6 +19,97 @@
+ use crate::error::BlobstoreError;
+ use crate::tracker::{PageId, ValuePointer};
+ 
++/// Experiment hook: read granularity for Gridstore page reads.
++///
++/// `QDRANT_GRAN=<bytes>` widens every page read to the enclosing `<bytes>`-aligned window
++/// (clipped to the page file) and returns only the requested bytes. Unset or 0 = stock.
++/// `QDRANT_GRAN_STATS=<path>` makes a background thread write cumulative counters there
++/// every 500 ms: reads issued, value bytes requested, bytes actually read.
++pub(crate) mod gran {
++    use std::borrow::Cow;
++    use std::sync::LazyLock;
++    use std::sync::atomic::{AtomicU64, Ordering};
++    use std::time::Duration;
++
++    use common::universal_io::ReadRange;
++
++    static READS: AtomicU64 = AtomicU64::new(0);
++    static VALUE_BYTES: AtomicU64 = AtomicU64::new(0);
++    static IO_BYTES: AtomicU64 = AtomicU64::new(0);
++
++    static G: LazyLock<u64> = LazyLock::new(|| {
++        let g = std::env::var("QDRANT_GRAN")
++            .ok()
++            .and_then(|v| v.trim().parse::<u64>().ok())
++            .unwrap_or(0);
++        if let Ok(path) = std::env::var("QDRANT_GRAN_STATS") {
++            std::thread::spawn(move || {
++                loop {
++                    std::thread::sleep(Duration::from_millis(500));
++                    let line = format!(
++                        "{{\"gran\":{g},\"reads\":{},\"value_bytes\":{},\"io_bytes\":{}}}\n",
++                        READS.load(Ordering::Relaxed),
++                        VALUE_BYTES.load(Ordering::Relaxed),
++                        IO_BYTES.load(Ordering::Relaxed),
++                    );
++                    let tmp = format!("{path}.tmp");
++                    if std::fs::write(&tmp, line).is_ok() {
++                        let _ = std::fs::rename(&tmp, &path);
++                    }
++                }
++            });
++        }
++        log::info!("gridstore read granularity: {g} bytes (0 = stock)");
++        g
++    });
++
++    /// Widen `range` to the `G`-aligned window inside a page of `page_len` bytes.
++    /// Returns the range to read, how many leading bytes to skip, and the requested length.
++    pub fn widen(range: ReadRange, page_len: u64) -> (ReadRange, usize, usize) {
++        let ReadRange {
++            byte_offset,
++            length,
++        } = range;
++        let g = *G;
++        READS.fetch_add(1, Ordering::Relaxed);
++        VALUE_BYTES.fetch_add(length, Ordering::Relaxed);
++        if g == 0 || length == 0 {
++            IO_BYTES.fetch_add(length, Ordering::Relaxed);
++            return (range, 0, length as usize);
++        }
++        let end = byte_offset + length;
++        let start = byte_offset / g * g;
++        let wide_end = end.div_ceil(g).saturating_mul(g).min(page_len).max(end);
++        IO_BYTES.fetch_add(wide_end - start, Ordering::Relaxed);
++        (
++            ReadRange {
++                byte_offset: start,
++                length: wide_end - start,
++            },
++            (byte_offset - start) as usize,
++            length as usize,
++        )
++    }
++
++    /// Cut the requested bytes out of a widened read.
++    pub fn trim(bytes: Cow<'_, [u8]>, skip: usize, len: usize) -> Cow<'_, [u8]> {
++        if skip == 0 && bytes.len() == len {
++            return bytes;
++        }
++        assert!(
++            bytes.len() >= skip + len,
++            "widened read returned {} bytes, need {}..{}",
++            bytes.len(),
++            skip,
++            skip + len
++        );
++        match bytes {
++            Cow::Borrowed(b) => Cow::Borrowed(&b[skip..skip + len]),
++            Cow::Owned(b) => Cow::Owned(b[skip..skip + len].to_vec()),
++        }
++    }
++}
++
+ pub fn page_path(base_path: &Path, page_id: PageId) -> PathBuf {
+     base_path.join(format!("page_{page_id}.dat"))
+ }
+@@ -289,19 +380,22 @@
+         // Drive the read pipeline directly: refill it from `reads` whenever it can
+         // accept more, then drain one completed read at a time. Reads span multiple
+         // page files, so each is scheduled on its own file handle.
+-        let mut pipeline = S::ReadPipeline::<'_, usize>::new()?;
++        let page_len = config.page_size_bytes as u64;
++        let mut pipeline = S::ReadPipeline::<'_, (usize, usize, usize)>::new()?;
+ 
+         loop {
+             while pipeline.can_schedule()
+                 && let Some((offset, page, range)) = reads.next()
+             {
++                let (range, skip, len) = gran::widen(range, page_len);
+                 let range = range.into_byte_range::<u8>();
+-                pipeline.schedule::<P>(offset, page, range, align_of::<u8>())?;
++                pipeline.schedule::<P>((offset, skip, len), page, range, align_of::<u8>())?;
+             }
+ 
+-            let Some((offset, bytes)) = pipeline.wait_bytemuck::<u8>()? else {
++            let Some(((offset, skip, len), bytes)) = pipeline.wait_bytemuck::<u8>()? else {
+                 break;
+             };
++            let bytes = gran::trim(bytes, skip, len);
+ 
+             if pages == 1 {
+                 return Ok(bytes);
+@@ -337,6 +431,8 @@
+             value_idx: usize,
+             buffer_offset: usize,
+             user_data: Option<U>,
++            skip: usize,
++            len: usize,
+         }
+ 
+         // Multi-page values need buffering, because chunks for the same value may arrive out-of-order
+@@ -374,10 +470,14 @@
+                 };
+ 
+                 Either::Right(ranges.map(move |(buffer_offset, page_idx, range)| {
++                    let (range, skip, len) =
++                        gran::widen(range, config.page_size_bytes as u64);
+                     let meta = ReadMeta {
+                         value_idx,
+                         buffer_offset,
+                         user_data: user_data.take(),
++                        skip,
++                        len,
+                     };
+ 
+                     let page = &self.pages[page_idx as usize];
+@@ -413,7 +513,10 @@
+                 value_idx,
+                 buffer_offset,
+                 user_data,
++                skip,
++                len,
+             } = meta;
++            let bytes = gran::trim(bytes, skip, len);
+ 
+             if let Some(user_data) = user_data {
+                 debug_assert!(
+--- a/lib/common/common/src/universal_io/io_uring/mod.rs
++++ b/lib/common/common/src/universal_io/io_uring/mod.rs
+@@ -106,6 +106,24 @@
+             .open(path.as_ref())
+             .map_err(|err| UniversalIoError::extract_not_found(err, path.as_ref()))?;
+ 
++        // Experiment hook: QDRANT_PAYLOAD_FADV_RANDOM=1 turns off kernel readahead on payload
++        // page files, so the bytes the device reads match the requested (or widened) range.
++        if std::env::var_os("QDRANT_PAYLOAD_FADV_RANDOM").is_some_and(|v| v == "1")
++            && path
++                .as_ref()
++                .components()
++                .any(|c| c.as_os_str() == "payload_storage")
++        {
++            use std::os::fd::AsRawFd;
++            // SAFETY: plain syscall on a valid, owned fd.
++            let rc = unsafe {
++                nix::libc::posix_fadvise(file.as_raw_fd(), 0, 0, nix::libc::POSIX_FADV_RANDOM)
++            };
++            if rc != 0 {
++                log::warn!("posix_fadvise(RANDOM) failed on {:?}: {rc}", path.as_ref());
++            }
++        }
++
+         Ok(IoUringFile {
+             file: Arc::new(file),
+             direct_io,

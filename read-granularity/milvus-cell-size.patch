@@ -1,0 +1,65 @@
+diff --git a/internal/core/src/segcore/storagev2translator/GroupCTMeta.h b/internal/core/src/segcore/storagev2translator/GroupCTMeta.h
+index 006ca7b..4b0c431 100644
+--- a/internal/core/src/segcore/storagev2translator/GroupCTMeta.h
++++ b/internal/core/src/segcore/storagev2translator/GroupCTMeta.h
+@@ -15,6 +15,8 @@
+ // limitations under the License.
+ #pragma once
+ 
++#include <cstdlib>
++
+ #include "cachinglayer/Translator.h"
+ 
+ namespace milvus::segcore::storagev2translator {
+@@ -22,9 +24,14 @@ namespace milvus::segcore::storagev2translator {
+ // Number of row groups (parquet row groups) merged into one cache cell,
+ // for now it is a constant.
+ // hierarchy: 1 group chunk <-> 1 cache cell <-> kRowGroupsPerCell row groups
+-constexpr size_t kRowGroupsPerCell = 4;
+-static_assert(kRowGroupsPerCell > 0,
+-              "kRowGroupsPerCell must be greater than 0");
++// Experiment hook: MILVUS_ROW_GROUPS_PER_CELL overrides the default of 4 at process start.
++inline size_t
++RowGroupsPerCellFromEnv() {
++    const char* v = std::getenv("MILVUS_ROW_GROUPS_PER_CELL");
++    long n = v ? std::strtol(v, nullptr, 10) : 0;
++    return n > 0 ? static_cast<size_t>(n) : 4;
++}
++inline const size_t kRowGroupsPerCell = RowGroupsPerCellFromEnv();
+ 
+ struct GroupCTMeta : public milvus::cachinglayer::Meta {
+     // num_rows_until_chunk_[i] = total rows(prefix sum) in cells [0, i-1]
+diff --git a/internal/core/src/segcore/storagev2translator/GroupChunkTranslator.cpp b/internal/core/src/segcore/storagev2translator/GroupChunkTranslator.cpp
+index d32a910..4adccfa 100644
+--- a/internal/core/src/segcore/storagev2translator/GroupChunkTranslator.cpp
++++ b/internal/core/src/segcore/storagev2translator/GroupChunkTranslator.cpp
+@@ -1,3 +1,5 @@
++#include <numeric>
++#include <algorithm>
+ // Licensed to the LF AI & Data foundation under one
+ // or more contributor license agreements. See the NOTICE file
+ // distributed with this work for additional information
+@@ -212,11 +214,21 @@ GroupChunkTranslator::GroupChunkTranslator(
+ 
+     LOG_INFO(
+         "[StorageV2] translator {} merged {} row groups into {} cells ({} "
+-        "row groups per cell)",
++        "row groups per cell, cell bytes avg {} max {})",
+         key_,
+         total_row_groups,
+         num_cells,
+-        kRowGroupsPerCell);
++        kRowGroupsPerCell,
++        meta_.chunk_memory_size_.empty()
++            ? 0
++            : std::accumulate(meta_.chunk_memory_size_.begin(),
++                              meta_.chunk_memory_size_.end(),
++                              int64_t{0}) /
++                  static_cast<int64_t>(meta_.chunk_memory_size_.size()),
++        meta_.chunk_memory_size_.empty()
++            ? 0
++            : *std::max_element(meta_.chunk_memory_size_.begin(),
++                                meta_.chunk_memory_size_.end()));
+ }
+ 
+ GroupChunkTranslator::~GroupChunkTranslator() {

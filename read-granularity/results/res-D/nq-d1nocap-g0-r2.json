@@ -1,0 +1,31 @@
+{
+  "engine": "qdrant",
+  "case": "nq-d1nocap-g0-r2",
+  "dataset": "nq",
+  "trace": "natural",
+  "alpha": null,
+  "requests": 1500,
+  "concurrency": 32,
+  "topk": 10,
+  "ef": 64,
+  "text": 1,
+  "seconds": 3.3857390880584717,
+  "qps": 443.03472919414014,
+  "p50_ms": 58.13220329582691,
+  "p95_ms": 72.77102181687951,
+  "p99_ms": 79.52805992215872,
+  "returned_text_bytes": 7647349,
+  "storage_read_bytes": 135733248,
+  "proc_delta": {
+    "majflt": 0,
+    "minflt": 11835,
+    "io_rbytes": 135733248,
+    "io_rios": 40708
+  },
+  "proc_after": {
+    "mem_file": 4356321280,
+    "mem_anon": 765538304,
+    "mem_current": 5161029632,
+    "cgroup": "/sys/fs/cgroup/k8s.io/rm-qgran"
+  }
+}

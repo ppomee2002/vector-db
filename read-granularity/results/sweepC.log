@@ -1,0 +1,44 @@
+{"dataset":"nq","payload_disk_bytes":1542857872,"m0_bytes":5190438912}
+Traceback (most recent call last):
+  File "/home/ubuntu/gran/neighbor.py", line 7, in <module>
+    path, rate, nth, out = sys.argv[1], float(sys.argv[2]), int(sys.argv[3]), sys.argv[4]
+                                        ^^^^^^^^^^^^^^^^^^
+ValueError: could not convert string to float: '0 1000'
+{"case": "nq-g262144-n0 1000-c32", "qps": 106.49935861258541, "p50_ms": 296.2135002017021, "p95_ms": 385.89799404144287, "p99_ms": 398.1974699534476, "storage_read_bytes": 2651205632, "majflt": 0, "mem_file": 4371668992}
+Traceback (most recent call last):
+  File "/home/ubuntu/gran/neighbor.py", line 7, in <module>
+    path, rate, nth, out = sys.argv[1], float(sys.argv[2]), int(sys.argv[3]), sys.argv[4]
+                                        ^^^^^^^^^^^^^^^^^^
+ValueError: could not convert string to float: '0 1000'
+{"case": "nq-g1048576-n0 1000-c32", "qps": 28.095032546479665, "p50_ms": 1103.739708662033, "p95_ms": 1304.0607580915093, "p99_ms": 1402.0606699958444, "storage_read_bytes": 10381975552, "majflt": 0, "mem_file": 4377694208}
+Traceback (most recent call last):
+  File "/home/ubuntu/gran/neighbor.py", line 7, in <module>
+    path, rate, nth, out = sys.argv[1], float(sys.argv[2]), int(sys.argv[3]), sys.argv[4]
+                                        ^^^^^^^^^^^^^^^^^^
+ValueError: could not convert string to float: '0 1000'
+{"case": "nq-g2097152-n0 1000-c32", "qps": 14.16407621239881, "p50_ms": 2202.433100901544, "p95_ms": 2599.6285068802536, "p99_ms": 2798.912395387888, "storage_read_bytes": 20708745216, "majflt": 0, "mem_file": 4374286336}
+Traceback (most recent call last):
+  File "/home/ubuntu/gran/neighbor.py", line 7, in <module>
+    path, rate, nth, out = sys.argv[1], float(sys.argv[2]), int(sys.argv[3]), sys.argv[4]
+                                        ^^^^^^^^^^^^^^^^^^
+ValueError: could not convert string to float: '0 1000'
+{"case": "nq-g0-n0 1000-c32", "qps": 294.42370748188216, "p50_ms": 94.58985738456249, "p95_ms": 110.42511025443672, "p99_ms": 166.11459845677018, "storage_read_bytes": 59064320, "majflt": 0, "mem_file": 4371668992}
+Traceback (most recent call last):
+  File "/home/ubuntu/gran/neighbor.py", line 7, in <module>
+    path, rate, nth, out = sys.argv[1], float(sys.argv[2]), int(sys.argv[3]), sys.argv[4]
+                                        ^^^^^^^^^^^^^^^^^^
+ValueError: could not convert string to float: '0 1000'
+{"case": "nq-g4096-n0 1000-c32", "qps": 294.90221754050253, "p50_ms": 96.45969979465008, "p95_ms": 112.71248273551463, "p99_ms": 171.0657325387001, "storage_read_bytes": 59047936, "majflt": 0, "mem_file": 4371755008}
+Traceback (most recent call last):
+  File "/home/ubuntu/gran/neighbor.py", line 7, in <module>
+    path, rate, nth, out = sys.argv[1], float(sys.argv[2]), int(sys.argv[3]), sys.argv[4]
+                                        ^^^^^^^^^^^^^^^^^^
+ValueError: could not convert string to float: '0 1000'
+{"case": "nq-g65536-n0 1000-c32", "qps": 355.25642872384776, "p50_ms": 82.65887945890427, "p95_ms": 101.47362966090441, "p99_ms": 114.30935779586434, "storage_read_bytes": 478273536, "majflt": 0, "mem_file": 4371668992}
+Traceback (most recent call last):
+  File "/home/ubuntu/gran/neighbor.py", line 7, in <module>
+    path, rate, nth, out = sys.argv[1], float(sys.argv[2]), int(sys.argv[3]), sys.argv[4]
+                                        ^^^^^^^^^^^^^^^^^^
+ValueError: could not convert string to float: '0 1000'
+{"case": "nq-g16384-n0 1000-c32", "qps": 341.8906678003145, "p50_ms": 86.88789512962103, "p95_ms": 105.87503286078572, "p99_ms": 114.01813918724655, "storage_read_bytes": 148795392, "majflt": 0, "mem_file": 4371664896}
+done

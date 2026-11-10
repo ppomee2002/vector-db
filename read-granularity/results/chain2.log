@@ -1,0 +1,10 @@
+[11-09T02:46:52] qdrant A
+[11-09T03:29:58] qdrant B
+[11-09T03:41:10] milvus: load nq
+insert 2681468/2681468 16284 rows/s
+{"dataset": "nq", "rows": 2681468, "text_bytes": 1326217638, "vec_bytes": 4118734848, "insert_s": 166.17263889312744, "index_s": 119.69965696334839, "load_s": 3.8770787715911865, "index": "HNSW M16 efC128 IP"}
+[11-09T03:46:17] packed writer errors in milvus log so far: 8349
+[11-09T03:46:17] milvus sweep
+[11-09T03:46:59] milvus sweep fiqa failed
+[11-09T03:47:41] milvus sweep nq failed
+[11-09T03:47:41] CHAIN_DONE

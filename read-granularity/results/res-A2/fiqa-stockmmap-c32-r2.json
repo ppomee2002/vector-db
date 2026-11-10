@@ -1,0 +1,31 @@
+{
+  "engine": "qdrant",
+  "case": "fiqa-stockmmap-c32-r2",
+  "dataset": "fiqa",
+  "trace": "natural",
+  "alpha": null,
+  "requests": 10000,
+  "concurrency": 32,
+  "topk": 10,
+  "ef": 64,
+  "text": 1,
+  "seconds": 4.198298454284668,
+  "qps": 2381.917366973821,
+  "p50_ms": 11.0153304412961,
+  "p95_ms": 14.363689720630644,
+  "p99_ms": 17.18825843185187,
+  "returned_text_bytes": 90065357,
+  "storage_read_bytes": 23834624,
+  "proc_delta": {
+    "majflt": 5818,
+    "minflt": 32364,
+    "io_rbytes": 23834624,
+    "io_rios": 11638
+  },
+  "proc_after": {
+    "mem_file": 4397314048,
+    "mem_anon": 760979456,
+    "mem_current": 5196742656,
+    "cgroup": "/sys/fs/cgroup/k8s.io/rm-qgran"
+  }
+}
