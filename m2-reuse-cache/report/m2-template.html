@@ -1,0 +1,342 @@
+<title>ANN과 Context 캐시 분할</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one reading column; figures span the column; numbers in mono. Same look as the read-granularity report. */
+:root{
+  --bg:#f6f7f8; --surface:#ffffff; --fg:#1c2226; --muted:#5d6870; --line:#d9dee2;
+  --a:#1f6f8b; --b:#c2571a; --c:#6b7f2a; --d:#7a4b9a; --e:#8a8f94; --band:#1f6f8b18;
+  --good:#2f7d4f; --bad:#b23b3b;
+  --sans:"IBM Plex Sans KR",system-ui,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#13171a; --surface:#1a1f23; --fg:#e4e8eb; --muted:#9aa5ad; --line:#2e363c;
+  --a:#5bb3d1; --b:#f0905a; --c:#a9c25a; --d:#b98ee0; --e:#9aa1a7; --band:#5bb3d122;
+  --good:#6cc28f; --bad:#ec7b7b; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#13171a; --surface:#1a1f23; --fg:#e4e8eb; --muted:#9aa5ad; --line:#2e363c;
+  --a:#5bb3d1; --b:#f0905a; --c:#a9c25a; --d:#b98ee0; --e:#9aa1a7; --band:#5bb3d122;
+  --good:#6cc28f; --bad:#ec7b7b; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:15px;line-height:1.65}
+.wrap{max-width:900px;margin:0 auto;padding-block:40px 64px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  display:flex;flex-direction:column;gap:40px}
+h1{font-size:28px;line-height:1.3;margin:0 0 8px;text-wrap:balance;font-weight:700}
+h2{font-size:20px;margin:0 0 6px;text-wrap:balance}
+h3{font-size:15px;margin:0 0 4px}
+p{margin:0;max-width:68ch}
+.meta{color:var(--muted);font-size:13px;font-family:var(--mono)}
+.lede{color:var(--muted);max-width:70ch}
+section{display:flex;flex-direction:column;gap:14px}
+.claims{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:640px){.claims{grid-template-columns:1fr}}
+.claim{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:14px 16px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.claim .k{font-size:12px;letter-spacing:.06em;color:var(--muted);font-family:var(--mono);display:flex;gap:8px;align-items:center}
+.pill{font-size:11px;padding:1px 8px;border-radius:99px;border:1px solid currentColor;letter-spacing:.02em}
+.pill.ok{color:var(--good)} .pill.no{color:var(--bad)} .pill.mid{color:var(--b)}
+.claim .v{font-weight:700}
+.claim p{color:var(--muted);font-size:14px}
+.fig{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:16px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.fig .cap{font-size:13.5px;color:var(--muted);max-width:none}
+.fig .cap b{color:var(--fg)}
+.row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.row3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:760px){.row3{grid-template-columns:1fr}}
+@media (max-width:640px){.row{grid-template-columns:1fr}}
+.chart{min-width:0}
+.chart svg{width:100%;height:auto;display:block}
+.chart canvas{width:100%;height:auto;display:block}
+.legend{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:12.5px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:14px;height:3px;border-radius:2px;display:inline-block}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;font-size:13px;width:100%;font-variant-numeric:tabular-nums}
+th,td{padding:6px 10px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+th{font-weight:500;color:var(--muted);font-size:12px}
+td.best{color:var(--a);font-weight:700}
+td.neg{color:var(--bad)}
+ul,ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;max-width:74ch}
+code,.path{font-family:var(--mono);font-size:12.5px}
+.paths td{white-space:normal}
+.chart text{font-family:var(--mono)}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:6px;overflow:hidden;align-self:flex-start}
+.seg button{font:inherit;font-size:13px;padding:5px 12px;background:var(--surface);color:var(--muted);border:0;border-right:1px solid var(--line);cursor:pointer}
+.seg button:last-child{border-right:0}
+.seg button[aria-pressed="true"]{background:var(--fg);color:var(--bg)}
+.seg button:focus-visible{outline:2px solid var(--a);outline-offset:-2px}
+.scen{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:760px){.scen{grid-template-columns:1fr}}
+.scen div{border:1px solid var(--line);border-radius:6px;padding:12px 14px;background:var(--surface);font-size:14px;min-width:0}
+.scen b{font-family:var(--mono)}
+.scen p{color:var(--muted);font-size:13.5px}
+</style>
+
+<div class="wrap">
+<header>
+  <h1>ANN과 Context의 재사용 패턴, 그리고 캐시 분할</h1>
+  <p class="lede">벡터 검색(ANN)이 읽는 데이터와 RAG가 컨텍스트로 가져가는 텍스트(Context)가 서로 다르게 재사용되는지, 그리고 그 차이 때문에 하나로 합친 캐시가 불필요한 디스크 I/O를 내는지 확인했다. Qdrant v1.20.0에 접근 기록 패치를 넣어 NQ 질의 3,452개의 실제 접근을 그대로 받아 적고, 같은 기록으로 캐시 정책을 시뮬레이션했다.</p>
+  <p class="meta" style="margin-top:10px">2026-11-09 · 109 서버 · NQ 2.68M chunk, 7 segment · HNSW m=16 ef=64 · top-10 · 4KB 페이지</p>
+</header>
+
+<section>
+  <h2>요약</h2>
+  <div class="claims">
+    <div class="claim"><span class="k">실험 1 <span class="pill ok">확인</span></span><span class="v">ANN 탐색과 Context는 다른 데이터를 다르게 쓴다</span><p id="c1"></p></div>
+    <div class="claim"><span class="k">실험 1 단서 <span class="pill mid">주의</span></span><span class="v">재채점(rescoring) 읽기는 Context와 더 닮았다</span><p id="c2"></p></div>
+    <div class="claim"><span class="k">실험 2 <span class="pill no">기각</span></span><span class="v">분할 캐시는 통합 캐시보다 거의 낫지 않다</span><p id="c3"></p></div>
+    <div class="claim"><span class="k">그래도 남는 것 <span class="pill mid">여지</span></span><span class="v">OPT와의 격차는 크다</span><p id="c4"></p></div>
+  </div>
+</section>
+
+<section>
+  <h2>무엇을 쟀나</h2>
+  <ol>
+    <li>Qdrant의 HNSW 탐색에서 이웃 목록을 읽은 노드와 거리를 계산한 벡터를, segment별 내부 ID로 기록했다. Gridstore payload 읽기도 point offset, page 파일, 바이트 위치, 길이로 기록했다. 동시성 1로 NQ 질의 3,452개를 한 번씩 돌렸다.</li>
+    <li>같은 질의는 같은 데이터를 읽는다(순서만 다르다). 그래서 질의별 기록을 이어 붙여 요청 trace를 만든다. natural은 질의 순열 반복(앞 실험과 같은 seed), zipf는 질의 인기도가 α=1.2 또는 0.9인 분포다. 요청 12,000개 중 앞 2,000개는 캐시 워밍업이다.</li>
+    <li>모든 접근을 4KB 페이지로 바꿨다. 벡터는 <code>matrix.dat</code>의 실제 위치, Context는 payload page 파일의 실제 위치다. HNSW 이웃 목록은 links 파일 안에서 노드 순서대로 균등하게 놓였다고 근사했다.</li>
+    <li>반환된 Context chunk 34,520개 중 34,515개가 같은 질의의 재채점 대상 안에 있었다. 두 기록의 ID 대응이 맞다는 확인이다.</li>
+  </ol>
+  <div class="scen">
+    <div><b>S1</b> 그래프와 원본 벡터가 모두 디스크<p>기록 그대로. ANN이 질의당 약 12,300 페이지를 읽는다. 순수 디스크 기반 ANN에 해당한다.</p></div>
+    <div><b>S2</b> 양자화 벡터는 RAM, 그래프와 원본은 디스크<p>탐색은 RAM의 양자화 벡터로 하고, 이웃 목록(질의당 약 530 페이지)과 재채점용 원본 벡터를 디스크에서 읽는다.</p></div>
+    <div><b>S3</b> 그래프와 양자화 벡터는 RAM, 원본만 디스크<p>Qdrant가 권하는 on-disk 구성이다. 디스크 읽기는 segment별 상위 10개의 재채점(질의당 약 96 페이지)과 Context(약 11 페이지)뿐이다.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>실험 1. 같은 chunk를 ANN과 Context가 얼마나 자주 쓰나</h2>
+  <p>질의 3,452개를 한 번씩 돌렸을 때, chunk마다 ANN이 그 벡터를 읽은 질의 수와 Context로 반환된 질의 수를 셌다. 왼쪽은 HNSW 탐색 전체, 오른쪽은 S2·S3에서 디스크로 가는 재채점 읽기다.</p>
+  <div class="fig">
+    <div class="row">
+      <div class="chart"><canvas id="s1" width="840" height="560" role="img" aria-label="탐색 방문 수와 Context 반환 수 산점도"></canvas></div>
+      <div class="chart"><canvas id="s2" width="840" height="560" role="img" aria-label="재채점 읽기 수와 Context 반환 수 산점도"></canvas></div>
+    </div>
+    <p class="cap" id="cap1"></p>
+  </div>
+  <div class="tbl"><table id="t1"></table></div>
+  <div class="fig">
+    <div class="row">
+      <div class="chart" id="rf"></div>
+      <div class="chart" id="ru"></div>
+    </div>
+    <div class="legend" id="l2"></div>
+    <p class="cap"><b>왼쪽: 페이지 인기도(질의 3,452개 1회씩). 오른쪽: 페이지를 다시 쓰기까지 걸린 요청 수의 누적 분포(zipf α=1.2 trace).</b> 탐색 페이지는 소수의 hub가 거의 모든 질의에 쓰이는 긴 꼬리를 가진다. Context와 재채점 페이지는 대부분 한 번 쓰이고 끝난다. 오른쪽 곡선의 끝 높이가 재사용되는 접근의 비율이다.</p>
+  </div>
+</section>
+
+<section>
+  <h2>실험 2. 같은 캐시 용량에서 통합 vs 분할</h2>
+  <p>캐시 예산은 시나리오마다 디스크에 있는 데이터(ANN + Context) 전체 페이지의 1~20%다. 요청한 5/10/20%에 작은 예산 두 개를 더했다. 질의당 디스크 I/O는 4KB 페이지 miss 수이고, 읽은 바이트는 그 4,096배라 같은 비율로 움직인다.</p>
+  <div class="seg" role="group" aria-label="trace 선택" id="trsel">
+    <button type="button" id="tr-natural" aria-pressed="true">natural</button>
+    <button type="button" id="tr-zipf1.2" aria-pressed="false">zipf α=1.2</button>
+    <button type="button" id="tr-zipf0.9" aria-pressed="false">zipf α=0.9</button>
+  </div>
+  <div class="fig">
+    <div class="row3" id="f4"></div>
+    <div class="legend" id="l4"></div>
+    <p class="cap"><b>정책 다섯 개.</b> 통합 LRU(실제 시스템의 page cache와 Milvus tiered에 가까움), 통합 LFU(접근 횟수를 eviction 뒤에도 유지하는 perfect LFU), 50:50 분할(LRU), 최적 분할(LRU, ANN 몫 0~100%를 1% 간격으로 훑은 사후 최솟값), OPT(Belady + bypass, 미래를 아는 하한)다. LRU 분할 결과는 stack distance로 모든 크기를 정확히 계산했다.</p>
+  </div>
+  <div class="tbl"><table id="t2"></table></div>
+  <div class="fig">
+    <div class="row3" id="f5"></div>
+    <div class="legend" id="l5"></div>
+    <p class="cap"><b>예산 5%에서 ANN 몫을 바꿀 때의 질의당 I/O.</b> 점선은 통합 LRU, 점은 최적 비율이다. 분할 곡선의 바닥이 통합선과 거의 맞닿는다. ANN 몫을 줄이면 I/O가 빠르게 늘어난다.</p>
+  </div>
+</section>
+
+<section>
+  <h2>해석</h2>
+  <ul id="interp"></ul>
+</section>
+
+<section>
+  <h2>주의할 점</h2>
+  <ul>
+    <li>최적 분할은 같은 trace로 비율을 고른 사후 상한이다. 실제로 구현할 수 있는 정책의 성능이 아니다. 그 상한도 통합 LRU와 거의 같다는 것이 이번 결과의 요점이다.</li>
+    <li>trace는 질의 3,452개의 재조합이다. natural은 같은 순열을 반복해 LRU에 불리한 순환 패턴이 생긴다. zipf는 질의 인기도를 가정한 합성이다. 실제 사용자 로그가 아니다.</li>
+    <li>HNSW 이웃 목록의 위치는 균등 근사다. 벡터와 Context는 실제 파일 위치다. 동시 요청의 섞임과 OS readahead는 모델에 없다.</li>
+    <li>재채점 대상은 segment별 정확 점수 상위 10개로 정했다. 실제 양자화 탐색의 후보와는 조금 다를 수 있고, oversampling을 키우면 ANN 쪽 읽기가 늘어 분할 효과는 더 작아진다.</li>
+    <li>Context는 stored(LZ4) 길이로 페이지를 셌다. chunk가 평균 495B라 대부분 4KB 페이지 하나에 들어간다.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>결과 위치 (109 서버 <code>~/gran/m2/</code>)</h2>
+  <div class="tbl"><table class="paths">
+    <thead><tr><th>내용</th><th>경로</th></tr></thead>
+    <tbody>
+      <tr><td>Qdrant 패치</td><td class="path">~/gran/patch_m2.py (QDRANT_M2TRACE), 원본 바이너리 백업 ~/gran/qdrant-gran-v1.bin</td></tr>
+      <tr><td>원시 접근 기록</td><td class="path">~/gran/stats/m2t-nq.txt (214MB), nq-client.jsonl</td></tr>
+      <tr><td>질의별 페이지 배열</td><td class="path">nq/trace.npz, nq/layout.json (m2_parse.py, m2_rescore.py)</td></tr>
+      <tr><td>실험 1</td><td class="path">nq/exp1.json (m2_exp1.py)</td></tr>
+      <tr><td>실험 2</td><td class="path">nq/sim-S1.json, sim-S2.json, sim-S3.json (m2_sim.py), 로그 run-all.log, run-S3.log</td></tr>
+    </tbody>
+  </table></div>
+</section>
+</div>
+
+<script>
+const D = /*DATA*/null;
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const pct = (x, d=1) => (x*100).toFixed(d) + "%";
+const f1 = x => (x>=100? x.toFixed(0) : x.toFixed(1));
+function legend(id, items){
+  document.getElementById(id).innerHTML = items.map(([n,c,dash]) =>
+    `<span><i style="background:var(${c})${dash?';opacity:.55':''}"></i>${n}</span>`).join("");
+}
+function niceStep(r){const p=10**Math.floor(Math.log10(r)); for(const m of [1,2,2.5,5,10]) if(m*p>=r) return m*p;}
+function fmt(t){return t>=1e6? (t/1e6)+"M" : t>=1000? (t/1000)+"k" : (t<1 && t>0? String(+t.toPrecision(2)) : String(+t.toFixed(2)));}
+/* generic line chart; o.xs numeric when o.xnum (log optional), else categorical */
+function chart(el, o){
+  const W=420,H=260,L=50,R=12,T=26,B=40, iw=W-L-R, ih=H-T-B;
+  const vals=o.series.flatMap(s=>s.v.filter(v=>v!=null&&(!o.log||v>0)));
+  let ymin=o.log?Math.min(...vals)/1.3:0, ymax=Math.max(...vals)*1.08;
+  if(o.ymax) ymax=o.ymax; if(o.ymin!=null) ymin=o.ymin;
+  const Y=o.log? v=>T+ih-(Math.log10(v)-Math.log10(ymin))/(Math.log10(ymax)-Math.log10(ymin))*ih : v=>T+ih-(v-ymin)/(ymax-ymin)*ih;
+  let X, xt;
+  if(o.xnum){ const xs=o.series.flatMap(s=>s.x); let x0=Math.min(...xs), x1=Math.max(...xs);
+    X=o.xlog? x=>L+(Math.log10(x)-Math.log10(x0))/(Math.log10(x1)-Math.log10(x0))*iw : x=>L+(x-x0)/(x1-x0)*iw;
+    xt=o.xticks; }
+  else { const n=o.x.length; X=i=>L+(n===1?iw/2:i*iw/(n-1)); xt=o.x.map((x,i)=>[i,x]); }
+  let ticks=[];
+  if(o.log){ for(let e=Math.floor(Math.log10(ymin));e<=Math.ceil(Math.log10(ymax));e++) for(const m of (o.logm||[1,3])){const t=m*10**e; if(t>=ymin&&t<=ymax) ticks.push(t);} }
+  else { const step=niceStep((ymax-ymin)/4); for(let t=Math.ceil(ymin/step)*step;t<=ymax;t+=step) ticks.push(+t.toFixed(6)); }
+  const fg=css("--fg"), mu=css("--muted"), ln=css("--line");
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${o.title}">`;
+  s+=`<text x="${L}" y="14" font-size="12" fill="${fg}" font-weight="500">${o.title}</text>`;
+  for(const t of ticks){ s+=`<line x1="${L}" x2="${W-R}" y1="${Y(t)}" y2="${Y(t)}" stroke="${ln}" stroke-width="1"/>`;
+    s+=`<text x="${L-6}" y="${Y(t)+4}" font-size="10.5" fill="${mu}" text-anchor="end">${o.yfmt?o.yfmt(t):fmt(t)}</text>`; }
+  for(const [x,lab] of xt) s+=`<text x="${X(x)}" y="${H-B+16}" font-size="10.5" fill="${mu}" text-anchor="middle">${lab}</text>`;
+  s+=`<text x="${L+iw/2}" y="${H-6}" font-size="10.5" fill="${mu}" text-anchor="middle">${o.xl}</text>`;
+  s+=`<text x="12" y="${T+ih/2}" font-size="10.5" fill="${mu}" text-anchor="middle" transform="rotate(-90 12 ${T+ih/2})">${o.yl}</text>`;
+  for(const se of o.series){
+    const col=css(se.c); let d="", pen=false;
+    se.v.forEach((v,i)=>{ if(v==null||(o.log&&v<=0)){pen=false;return;} const x=o.xnum?se.x[i]:i; d+=(pen?"L":"M")+X(x).toFixed(1)+" "+Y(v).toFixed(1)+" "; pen=true; });
+    s+=`<path d="${d}" fill="none" stroke="${col}" stroke-width="${se.w||2}" ${se.dash?'stroke-dasharray="5 4"':''} ${se.op?`opacity="${se.op}"`:''}/>`;
+    if(se.dots!==false) se.v.forEach((v,i)=>{ if(v!=null&&!(o.log&&v<=0)){const x=o.xnum?se.x[i]:i; s+=`<circle cx="${X(x)}" cy="${Y(v)}" r="${se.r||3}" fill="${col}"><title>${se.n} · ${o.xnum?se.x[i]:o.x[i]}: ${v}</title></circle>`;} });
+  }
+  for(const m of (o.marks||[])) s+=`<circle cx="${X(m.x)}" cy="${Y(m.y)}" r="5" fill="none" stroke="${css(m.c)}" stroke-width="2"><title>${m.t}</title></circle>`;
+  el.innerHTML=s+"</svg>";
+}
+/* scatter on canvas: x = ANN count (log), y = context count (log, 0 in its own row) */
+function scatter(id, pts, title, xl){
+  const cv=document.getElementById(id), g=cv.getContext("2d"); const W=cv.width,H=cv.height, s=2;
+  const L=100,R=24,T=52,B=80, iw=W-L-R, ih=H-T-B;
+  g.clearRect(0,0,W,H); g.fillStyle=css("--surface"); g.fillRect(0,0,W,H);
+  const xmax=Math.max(...pts.map(p=>p[0]))*1.2, ymax=Math.max(...pts.map(p=>p[1]))*1.3;
+  const X=v=>L+Math.log10(v)/Math.log10(xmax)*iw;
+  const y0=T+ih, Y=v=> v<=0? y0 : T+ih*0.88-(Math.log10(v)/Math.log10(ymax))*ih*0.88;
+  g.strokeStyle=css("--line"); g.lineWidth=1; g.fillStyle=css("--muted"); g.font=`${11*s}px "IBM Plex Mono", monospace`;
+  for(let e=0;10**e<=xmax;e++){ const x=X(10**e); g.beginPath(); g.moveTo(x,T); g.lineTo(x,y0); g.stroke(); g.textAlign="center"; g.fillText(fmt(10**e), x, y0+22*s/2+10); }
+  for(const t of [0,1,2,5,10,20,50,100].filter(t=>t<=ymax)){ const y=Y(t); g.beginPath(); g.moveTo(L,y); g.lineTo(W-R,y); g.stroke(); g.textAlign="right"; g.fillText(String(t), L-10, y+8); }
+  g.fillStyle=css("--fg"); g.textAlign="left"; g.font=`500 ${12*s}px "IBM Plex Sans KR", sans-serif`; g.fillText(title, L, 30);
+  g.fillStyle=css("--muted"); g.font=`${10.5*s}px "IBM Plex Sans KR", sans-serif`; g.textAlign="center"; g.fillText(xl, L+iw/2, H-14);
+  g.save(); g.translate(26, T+ih/2); g.rotate(-Math.PI/2); g.fillText("Context 반환 수", 0, 0); g.restore();
+  let seed=7; const rnd=()=>((seed=(seed*16807)%2147483647)/2147483647-.5);
+  const ca=css("--e"), cb=css("--b");
+  for(const [a,c] of pts){ g.fillStyle=c>0?cb:ca; g.globalAlpha=c>0?.35:.18;
+    const x=X(Math.max(1,a)*(1+rnd()*.25)), y=Y(c)+rnd()*(c>0?ih*.05:ih*.06);
+    g.fillRect(x-2,y-2,4,4); }
+  g.globalAlpha=1;
+}
+const TRN={natural:"natural","zipf1.2":"zipf α=1.2","zipf0.9":"zipf α=0.9"};
+const BUD=["0.01","0.02","0.05","0.1","0.2"], BUDL=["1%","2%","5%","10%","20%"];
+const SC=["S1","S2","S3"].filter(s=>D.sim[s]);
+const SCT={S1:"S1 그래프+원본 디스크",S2:"S2 그래프+원본 디스크, 양자화 RAM",S3:"S3 원본만 디스크"};
+let curTr="natural";
+
+function text(){
+  const E=D.exp1, t=E["distinct/traverse"], r=E["distinct/rescore"];
+  document.getElementById("c1").textContent=`HNSW 탐색은 hub에 몰린다(chunk Gini ${t.gini.ann.toFixed(2)}). Context는 고르게 퍼진다(Gini ${t.gini.ctx.toFixed(2)}). 두 빈도의 Spearman 상관은 ${t.spearman_union.toFixed(2)}이다. Context 상위 1% chunk ${t.top1.ctx_hot}개 중 탐색 상위 1%에 드는 것은 ${t.top1.overlap}개다.`;
+  document.getElementById("c2").textContent=`S2·S3에서 디스크로 가는 ANN 읽기는 재채점뿐이다. 이 읽기는 결과 근처에 몰려 Context와 상관이 생긴다(둘 다 쓰인 chunk에서 Spearman ${r.spearman_both.toFixed(2)}, 탐색은 ${t.spearman_both.toFixed(2)}). 상위 10% 겹침도 ${pct(t.top10.overlap_of_ctx_hot,0)}에서 ${pct(r.top10.overlap_of_ctx_hot,0)}로 오른다.`;
+  // gains
+  let rows=[]; for(const s of SC) for(const tr of ["natural","zipf1.2","zipf0.9"]) { const x=D.sim[s][tr]; if(!x) continue;
+    for(const b of ["0.05","0.1","0.2"]){ const v=x.budgets[b]; rows.push({s,tr,b,gain:1-v.lru_best/v.lru_unified, gainF:1-v.lfu_best/v.lfu_unified, s50:v.lru_split50/v.lru_unified-1, opt:1-v.opt/v.lru_unified}); } }
+  const mx=Math.max(...rows.map(r=>r.gain)), mxF=Math.max(...rows.map(r=>r.gainF));
+  const s50=rows.map(r=>r.s50).sort((a,b)=>a-b), med=s50[Math.floor(s50.length/2)];
+  const optmx=Math.max(...rows.map(r=>r.opt));
+  const tight=[]; for(const s of SC) for(const tr of ["natural","zipf1.2","zipf0.9"]) { const x=D.sim[s][tr]; if(x) for(const b of ["0.01","0.02","0.05"]) tight.push(x.budgets[b].lru_best_ratio); }
+  const hi=tight.filter(v=>v>=0.9).length;
+  document.getElementById("c3").textContent=`예산 5/10/20%, ${SC.length}개 시나리오, 세 trace 전부에서 최적 분할은 통합 LRU보다 I/O를 최대 ${pct(mx)} 줄인다(LFU끼리는 최대 ${pct(mxF)}). 50:50 분할은 통합보다 중앙값 ${pct(med,0)} 더 읽는다. 예산이 빠듯한 1~5%에서는 ${tight.length}개 중 ${hi}개 경우에 최적 비율이 ANN 몫 90% 이상이다. Context에는 캐시를 거의 주지 않는 쪽이 최적이다.`;
+  document.getElementById("c4").textContent=`같은 예산에서 OPT는 통합 LRU보다 I/O를 최대 ${pct(optmx,0)} 적게 읽는다. 개선 여지는 있지만, ANN과 Context를 나누는 데서 오지 않는다. 실험 2의 표에서 격차는 대부분 ANN 쪽 miss다.`;
+  document.getElementById("cap1").innerHTML=`<b>질의 3,452개 1회씩. 주황 = Context로 한 번 이상 반환된 chunk 전부(${t.ctx_items.toLocaleString()}개), 회색 = 탐색만 된 chunk에서 무작위 2만 개(전체 ${(t.ann_items-t.ctx_items).toLocaleString()}개).</b> 점은 흔들어 겹침을 풀었다. 탐색 쪽 x축은 최대 3,452(모든 질의)까지 가는데, Context는 대부분 1~2회다. 반환된 chunk는 모두 탐색 중에 방문된 것이지만, 많이 방문된다고 많이 반환되지는 않는다.`;
+  const it=[];
+  const s3=D.sim.S3, s3n=s3&&s3.natural.budgets["0.05"];
+  it.push(`Context는 질의당 디스크 접근의 일부다. 질의당 접근은 S1에서 ANN ${f1(D.sim.S1?D.sim.S1.natural.acc.ann:12258)} : Context ${f1(s3.natural.acc.ctx)}, S3에서도 ANN ${f1(s3.natural.acc.ann)} : Context ${f1(s3.natural.acc.ctx)}이다. Context에 캐시를 떼어 주면 ANN이 잃는 hit가 Context가 얻는 hit보다 크다.`);
+  it.push(`Context는 재사용이 적어서(NQ에서 질의 간 같은 chunk 반환이 드물다) 통합 LRU에서도 금방 밀려난다. 오염이 작으니 분리해서 얻는 것도 작다. 표의 '통합 LRU의 Context miss'가 질의당 몇 회 수준으로 이미 작다.`);
+  it.push(`따라서 "ANN과 Context가 다르게 재사용된다"(실험 1)는 맞지만, "그래서 통합 캐시가 손해를 본다"(실험 2)로 이어지지 않는다. 이 데이터에서 캐시 관리의 개선 여지는 ANN 내부(hub 고정, 순환 패턴에 대한 LRU의 약점)에 있다.`);
+  it.push(`분할을 살리려면 Context가 디스크 I/O의 큰 몫이어야 한다. 그래프와 벡터를 모두 RAM에 두면 디스크에는 Context만 남아 나눌 대상이 없다. 남는 경우는 Context 바이트가 큰 조건이다(긴 chunk, 이웃 chunk 확장, 큰 읽기 단위). 이건 이번 실험 범위 밖이고, 앞 실험의 읽기 단위 결과와 묶어 볼 만하다.`);
+  it.push(`S1에서는 최적 분할이 통합 LRU보다 오히려 조금 나쁘다. 분할하면 Context 몫이 0이 되어 Context가 매번 miss하는데, 통합 LRU에서는 같은 질의 안에서 이어 읽는 Context 페이지 일부가 hit하기 때문이다. 차이는 질의당 수 회로, 수천 회의 ANN miss에 비하면 무시할 수준이다.`);
+  document.getElementById("interp").innerHTML=it.map(x=>`<li>${x}</li>`).join("");
+}
+
+function exp1(){
+  const t=D.exp1["distinct/traverse"], r=D.exp1["distinct/rescore"];
+  scatter("s1", t.sample, "HNSW 탐색 방문 vs Context 반환", "탐색 중 벡터를 읽은 질의 수 (log)");
+  scatter("s2", r.sample, "재채점 읽기 vs Context 반환", "재채점으로 원본 벡터를 읽은 질의 수 (log)");
+  const rows=[["", "탐색 (distinct)", "재채점 (distinct)", "탐색 (zipf 1.2)", "재채점 (zipf 1.2)"]];
+  const K=["distinct/traverse","distinct/rescore","zipf1.2/traverse","zipf1.2/rescore"].map(k=>D.exp1[k]);
+  const line=(n,f)=>rows.push([n,...K.map(x=>x?f(x):"–")]);
+  line("ANN이 읽은 chunk 수", x=>x.ann_items.toLocaleString());
+  line("Context로 반환된 chunk 수", x=>x.ctx_items.toLocaleString());
+  line("상위 1% 겹침 (Context hot 중)", x=>`${x.top1.overlap} / ${x.top1.ctx_hot}`);
+  line("상위 10% 겹침 (Context hot 중)", x=>pct(x.top10.overlap_of_ctx_hot));
+  line("상위 10% Jaccard", x=>x.top10.jaccard.toFixed(3));
+  line("Context 접근 중 ANN-hot에 든 비율", x=>pct(x.top10.ctx_accesses_in_ann_hot));
+  line("Spearman (합집합, 0 포함)", x=>x.spearman_union.toFixed(2));
+  line("Spearman (둘 다 쓰인 chunk)", x=>x.spearman_both.toFixed(2));
+  line("Gini, ANN / Context", x=>`${x.gini.ann.toFixed(2)} / ${x.gini.ctx.toFixed(2)}`);
+  line("접근 80%를 덮는 chunk 비율, ANN / Context", x=>`${pct(x.cover80.ann,0)} / ${pct(x.cover80.ctx,0)}`);
+  line("다시 쓰인 페이지 접근, ANN / Context", x=>`${pct(x.reuse_ann.reused_share,0)} / ${pct(x.reuse_ctx.reused_share,0)}`);
+  document.getElementById("t1").innerHTML=`<thead><tr>${rows[0].map(h=>`<th>${h}</th>`).join("")}</tr></thead><tbody>`+rows.slice(1).map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")+"</tbody>";
+  const rf=(k,src)=>({x:src.rankfreq[k].map(p=>p[0]), v:src.rankfreq[k].map(p=>p[1])});
+  const a=rf("ann_page",t), b=rf("ann_page",r), c=rf("ctx_page",t);
+  chart(document.getElementById("rf"),{title:"페이지 인기도 (rank-frequency)",xnum:true,xlog:true,log:true,logm:[1],xl:"페이지 순위 (log)",yl:"쓴 질의 수 (log)",
+    xticks:[[1,"1"],[100,"100"],[1e4,"10k"],[1e6,"1M"]],
+    series:[{n:"탐색 페이지",c:"--a",...a,dots:false},{n:"재채점 페이지",c:"--d",...b,dots:false},{n:"Context 페이지",c:"--b",...c,dots:false}]});
+  const Z=D.exp1["zipf1.2/traverse"], Zr=D.exp1["zipf1.2/rescore"];
+  if(Z){ const cd=x=>({x:x.cdf.map(p=>p[0]), v:x.cdf.map(p=>p[1])});
+    chart(document.getElementById("ru"),{title:"다시 쓰기까지 걸린 요청 수 (zipf 1.2)",xnum:true,xlog:true,ymin:0,ymax:1,xl:"요청 수 (log)",yl:"접근 중 비율",yfmt:v=>pct(v,0),
+      xticks:[[1,"1"],[10,"10"],[100,"100"],[1000,"1k"],[12000,"12k"]],
+      series:[{n:"탐색",c:"--a",...cd(Z.reuse_ann)},{n:"재채점",c:"--d",...cd(Zr.reuse_ann)},{n:"Context",c:"--b",...cd(Z.reuse_ctx)}]}); }
+  else document.getElementById("ru").innerHTML=`<p class="meta">zipf trace 결과 대기 중</p>`;
+  legend("l2",[["HNSW 탐색 페이지","--a"],["재채점 페이지","--d"],["Context 페이지","--b"]]);
+}
+
+function exp2(){
+  const P=[["통합 LRU","--a","lru_unified"],["통합 LFU","--c","lfu_unified"],["50:50 분할","--e","lru_split50"],["최적 분할 (사후)","--b","lru_best"],["OPT","--d","opt",1]];
+  const f4=document.getElementById("f4"); f4.innerHTML=SC.map(s=>`<div class="chart" id="f4-${s}"></div>`).join("");
+  for(const s of SC){ const x=D.sim[s][curTr]; if(!x) continue;
+    chart(document.getElementById("f4-"+s),{title:SCT[s],x:BUDL,xl:"캐시 예산",yl:"질의당 디스크 I/O (log)",log:true,logm:[1,2,5],
+      series:P.map(([n,c,k,dash])=>({n,c,dash,v:BUD.map(b=>x.budgets[b][k])}))}); }
+  legend("l4",P.map(([n,c,,d])=>[n,c,d]));
+  const f5=document.getElementById("f5"); f5.innerHTML=SC.map(s=>`<div class="chart" id="f5-${s}"></div>`).join("");
+  for(const s of SC){ const x=D.sim[s][curTr]; if(!x) continue; const v=x.budgets["0.05"];
+    const xs=v.lru_curve.map((_,i)=>i/100), xsF=v.lfu_curve.map((_,i)=>i/20);
+    const top=Math.max(v.lru_unified*3, v.lru_best*3);
+    chart(document.getElementById("f5-"+s),{title:SCT[s],xnum:true,xl:"ANN 몫",yl:"질의당 I/O",ymin:0,ymax:top,
+      xticks:[[0,"0%"],[0.25,"25%"],[0.5,"50%"],[0.75,"75%"],[1,"100%"]],
+      series:[{n:"분할 LRU",c:"--b",x:xs,v:v.lru_curve.map(y=>y>top?null:y),dots:false},
+              {n:"분할 LFU",c:"--c",x:xsF,v:v.lfu_curve.map(y=>y>top?null:y),r:2.2},
+              {n:"통합 LRU",c:"--a",x:[0,1],v:[v.lru_unified,v.lru_unified],dash:true,dots:false},
+              {n:"통합 LFU",c:"--c",x:[0,1],v:[v.lfu_unified,v.lfu_unified],dash:true,dots:false,op:.6}],
+      marks:[{x:v.lru_best_ratio,y:v.lru_best,c:"--b",t:`최적 ${pct(v.lru_best_ratio,0)}: ${v.lru_best}`}]}); }
+  legend("l5",[["분할 LRU","--b"],["분할 LFU (5% 간격)","--c"],["통합 LRU (점선)","--a",1],["통합 LFU (점선)","--c",1]]);
+  // table
+  const hd=["시나리오 · 예산","통합 LRU","Context miss","통합 LFU","50:50","최적 분할","ANN 몫","분할 이득","OPT"];
+  let rows=[];
+  for(const s of SC){ const x=D.sim[s][curTr]; if(!x) continue;
+    for(const b of BUD){ const v=x.budgets[b]; const g=1-v.lru_best/v.lru_unified;
+      rows.push(`<tr><td>${s} · ${BUDL[BUD.indexOf(b)]}</td><td>${f1(v.lru_unified)}</td><td>${f1(v.lru_unified_ctx)}</td><td>${f1(v.lfu_unified)}</td><td class="${v.lru_split50>v.lru_unified*1.02?'neg':''}">${f1(v.lru_split50)}</td><td>${f1(v.lru_best)}</td><td>${pct(v.lru_best_ratio,0)}</td><td>${pct(g)}</td><td class="best">${f1(v.opt)}</td></tr>`); } }
+  document.getElementById("t2").innerHTML=`<caption class="meta" style="text-align:left;padding-bottom:6px">${TRN[curTr]} · 질의당 4KB 페이지 miss · 분할 이득 = 1 − 최적 분할 / 통합 LRU</caption><thead><tr>${hd.map(h=>`<th>${h}</th>`).join("")}</tr></thead><tbody>${rows.join("")}</tbody>`;
+}
+function draw(){ text(); exp1(); exp2(); }
+for(const tr of ["natural","zipf1.2","zipf0.9"]) document.getElementById("tr-"+tr).addEventListener("click",()=>{
+  curTr=tr; document.querySelectorAll("#trsel button").forEach(b=>b.setAttribute("aria-pressed", String(b.id==="tr-"+tr))); exp2(); });
+draw();
+matchMedia("(prefers-color-scheme: dark)").addEventListener("change",draw);
+new MutationObserver(draw).observe(document.documentElement,{attributes:true,attributeFilter:["data-theme"]});
+</script>

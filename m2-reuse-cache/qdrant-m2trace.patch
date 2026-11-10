@@ -1,0 +1,200 @@
+--- a/lib/blobstore/src/blobstore/gridstore/pages.rs
++++ b/lib/blobstore/src/blobstore/gridstore/pages.rs
+@@ -110,6 +110,12 @@
+     }
+ }
+ 
++impl<S> Pages<S> {
++    pub(crate) fn trace_path(&self) -> &Path {
++        &self.base_path
++    }
++}
++
+ pub fn page_path(base_path: &Path, page_id: PageId) -> PathBuf {
+     base_path.join(format!("page_{page_id}.dat"))
+ }
+--- a/lib/blobstore/src/blobstore/gridstore/view.rs
++++ b/lib/blobstore/src/blobstore/gridstore/view.rs
+@@ -87,6 +87,9 @@
+             return Ok(None);
+         };
+ 
++        if crate::m2trace::enabled() {
++            crate::m2trace::write(&format!("P {} {} {} {} {}\n", self.pages.trace_path().display(), point_offset, pointer.page_id, u64::from(pointer.block_offset) * self.config.block_size_bytes as u64, pointer.length));
++        }
+         let raw = self.read_from_pages::<P>(pointer)?;
+         HwMetric::PayloadIoRead.bump(raw.len());
+ 
+@@ -143,6 +146,9 @@
+                 continue;
+             };
+ 
++            if crate::m2trace::enabled() {
++                crate::m2trace::write(&format!("P {} {} {} {} {}\n", self.pages.trace_path().display(), point_offset, pointer.page_id, u64::from(pointer.block_offset) * self.config.block_size_bytes as u64, pointer.length));
++            }
+             pointers.push(((user_data, point_offset), pointer));
+         }
+ 
+--- a/lib/blobstore/src/lib.rs
++++ b/lib/blobstore/src/lib.rs
+@@ -1,6 +1,7 @@
+ pub mod blob;
+ mod blobstore;
+ pub mod config;
++pub mod m2trace;
+ pub mod error;
+ pub mod fixtures;
+ mod tracker;
+--- a/lib/segment/src/index/hnsw_index/graph_layers_builder.rs
++++ b/lib/segment/src/index/hnsw_index/graph_layers_builder.rs
+@@ -251,6 +251,7 @@
+             entry_points,
+             visited_pool: self.visited_pool,
+             residency,
++            m2_tag: String::new(),
+         })
+     }
+ 
+@@ -263,6 +264,7 @@
+             entry_points: self.entry_points.into_inner(),
+             visited_pool: self.visited_pool,
+             residency: GraphLinksResidency::Pinned,
++            m2_tag: String::new(),
+         }
+     }
+ 
+--- a/lib/segment/src/index/hnsw_index/graph_layers.rs
++++ b/lib/segment/src/index/hnsw_index/graph_layers.rs
+@@ -72,6 +72,22 @@
+     pub(super) entry_points: EntryPoints,
+     pub(super) visited_pool: VisitedPool,
+     pub(super) residency: GraphLinksResidency,
++    pub(super) m2_tag: String,
++}
++
++/// M2 experiment hook: per-thread buffer of the accesses of one HNSW search (QDRANT_M2TRACE).
++pub(crate) mod m2 {
++    use std::cell::RefCell;
++    use std::fmt::Write;
++    thread_local! { pub static BUF: RefCell<Option<String>> = const { RefCell::new(None) }; }
++    #[inline]
++    pub fn push_links(id: u32, level: usize) {
++        BUF.with(|b| if let Some(s) = b.borrow_mut().as_mut() { let _ = write!(s, " L{id}.{level}"); });
++    }
++    #[inline]
++    pub fn push_vecs(ids: &[u32]) {
++        BUF.with(|b| if let Some(s) = b.borrow_mut().as_mut() { for i in ids { let _ = write!(s, " {i}"); } });
++    }
+ }
+ 
+ #[derive(Debug, Clone, Copy, Eq, PartialEq)]
+@@ -482,6 +498,7 @@
+     where
+         F: FnMut(PointOffsetType),
+     {
++        m2::push_links(point_id, level);
+         self.links.links(point_id, level).for_each(f);
+     }
+ 
+@@ -494,6 +511,7 @@
+     where
+         F: FnMut(PointOffsetType) -> ControlFlow<(), ()>,
+     {
++        m2::push_links(point_id, level);
+         self.links.links(point_id, level).try_for_each(f)
+     }
+ 
+@@ -539,6 +557,25 @@
+         entry: &SearchEntry,
+         is_stopped: &AtomicBool,
+     ) -> OperationResult<Vec<ScoredPointOffset>> {
++        if !blobstore::m2trace::enabled() {
++            return self.search_m2inner(top, ef, algorithm, points_scorer, entry, is_stopped);
++        }
++        m2::BUF.with(|b| *b.borrow_mut() = Some(String::with_capacity(1 << 14)));
++        let r = self.search_m2inner(top, ef, algorithm, points_scorer, entry, is_stopped);
++        let s = m2::BUF.with(|b| b.borrow_mut().take()).unwrap_or_default();
++        blobstore::m2trace::write(&format!("H {}{}\n", self.m2_tag, s));
++        r
++    }
++
++    fn search_m2inner(
++        &self,
++        top: usize,
++        ef: usize,
++        algorithm: SearchAlgorithm,
++        points_scorer: &mut FilteredScorer,
++        entry: &SearchEntry,
++        is_stopped: &AtomicBool,
++    ) -> OperationResult<Vec<ScoredPointOffset>> {
+         let level_entries: &[_] = match entry {
+             SearchEntry::Point(entry_point) => &[self.search_entry(
+                 entry_point.point_id,
+@@ -682,6 +719,7 @@
+             entry_points: graph_data.entry_points.into_owned(),
+             visited_pool: VisitedPool::new(),
+             residency,
++            m2_tag: dir.to_string_lossy().into_owned(),
+         })
+     }
+ 
+@@ -910,6 +948,7 @@
+             entry_points: EntryPoints::new(entry_points_num),
+             visited_pool: VisitedPool::new(),
+             residency: GraphLinksResidency::Pinned,
++            m2_tag: String::new(),
+         };
+ 
+         let linking_idx: PointOffsetType = 7;
+--- a/lib/segment/src/index/hnsw_index/point_scorer.rs
++++ b/lib/segment/src/index/hnsw_index/point_scorer.rs
+@@ -341,6 +341,7 @@
+             n = n.min(limit);
+         }
+         point_ids.truncate(n);
++        crate::index::hnsw_index::graph_layers::m2::push_vecs(point_ids);
+ 
+         self.score_points_unfiltered(point_ids)
+     }
+@@ -361,6 +362,7 @@
+     }
+ 
+     pub fn score_point(&self, point_id: PointOffsetType) -> OperationResult<ScoreType> {
++        crate::index::hnsw_index::graph_layers::m2::push_vecs(&[point_id]);
+         self.raw_scorer.score_point(point_id)
+     }
+ 
+--- a/lib/blobstore/src/m2trace.rs
++++ b/lib/blobstore/src/m2trace.rs
+@@ -0,0 +1,31 @@
++//! M2 experiment hook: access trace (see QDRANT_M2TRACE).
++use std::io::Write;
++use std::sync::{LazyLock, Mutex};
++
++static OUT: LazyLock<Option<Mutex<std::io::BufWriter<std::fs::File>>>> = LazyLock::new(|| {
++    let p = std::env::var("QDRANT_M2TRACE").ok().filter(|p| !p.is_empty())?;
++    let f = std::fs::OpenOptions::new().create(true).append(true).open(&p).ok()?;
++    log::info!("m2 access trace -> {p}");
++    std::thread::spawn(|| loop {
++        std::thread::sleep(std::time::Duration::from_millis(200));
++        flush();
++    });
++    Some(Mutex::new(std::io::BufWriter::with_capacity(4 << 20, f)))
++});
++
++#[inline]
++pub fn enabled() -> bool {
++    OUT.is_some()
++}
++
++pub fn write(line: &str) {
++    if let Some(m) = OUT.as_ref() {
++        let _ = m.lock().unwrap().write_all(line.as_bytes());
++    }
++}
++
++pub fn flush() {
++    if let Some(m) = OUT.as_ref() {
++        let _ = m.lock().unwrap().flush();
++    }
++}
