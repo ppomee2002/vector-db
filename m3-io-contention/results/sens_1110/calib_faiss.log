@@ -1,0 +1,33 @@
+[synth] data 500000x384, 300 queries, loaded in 2.4s; time scale to 500000x384: x1.000
+IVF-Flat nlist=2048 built in 7.0s
+ivf_flat   nprobe=1      0.1595 ms/query (scaled  0.1595)  recall@10=0.963
+ivf_flat   nprobe=2      0.2298 ms/query (scaled  0.2298)  recall@10=0.997
+ivf_flat   nprobe=4      0.3500 ms/query (scaled  0.3500)  recall@10=1.000
+ivf_flat   nprobe=8      0.5799 ms/query (scaled  0.5799)  recall@10=1.000
+ivf_flat   nprobe=16     1.0134 ms/query (scaled  1.0134)  recall@10=1.000
+ivf_flat   nprobe=32     1.8322 ms/query (scaled  1.8322)  recall@10=1.000
+ivf_flat   nprobe=64     3.7821 ms/query (scaled  3.7821)  recall@10=1.000
+HNSW M=32 built in 10.1s
+hnsw_flat  efSearch=16     0.0711 ms/query (scaled  0.0711)  recall@10=0.835
+hnsw_flat  efSearch=32     0.0869 ms/query (scaled  0.0869)  recall@10=0.934
+hnsw_flat  efSearch=64     0.1146 ms/query (scaled  0.1146)  recall@10=0.983
+hnsw_flat  efSearch=128    0.1517 ms/query (scaled  0.1517)  recall@10=0.990
+hnsw_flat  efSearch=256    0.2682 ms/query (scaled  0.2682)  recall@10=0.994
+hnsw_flat  efSearch=512    0.7452 ms/query (scaled  0.7452)  recall@10=0.994
+hnsw_flat  efSearch=1024   1.6461 ms/query (scaled  1.6461)  recall@10=0.995
+TARGET synth hnsw efSearch=64 0.1146 ms (scaled) recall=0.983
+wrote calib_faiss_synth.csv
+[nytimes] data 290000x256, 300 queries, loaded in 0.8s; time scale to 500000x384: x1.565
+dropping 239 invalid vectors (NaN or all zeros)
+file ground truth vs exact search on these vectors: 0.004 overlap (using exact search)
+HNSW M=32 built in 10.2s
+hnsw_flat  efSearch=16     0.0822 ms/query (scaled  0.1287)  recall@10=0.701
+hnsw_flat  efSearch=32     0.1280 ms/query (scaled  0.2003)  recall@10=0.780
+hnsw_flat  efSearch=64     0.2253 ms/query (scaled  0.3526)  recall@10=0.842
+hnsw_flat  efSearch=128    0.3978 ms/query (scaled  0.6225)  recall@10=0.888
+hnsw_flat  efSearch=256    0.7490 ms/query (scaled  1.1722)  recall@10=0.916
+hnsw_flat  efSearch=512    1.4699 ms/query (scaled  2.3003)  recall@10=0.937
+hnsw_flat  efSearch=1024   3.2125 ms/query (scaled  5.0275)  recall@10=0.959
+hnsw_flat  efSearch=2048   6.7969 ms/query (scaled 10.6368)  recall@10=0.974
+TARGET nytimes hnsw efSearch=1024 5.0275 ms (scaled) recall=0.959
+wrote calib_faiss_real.csv

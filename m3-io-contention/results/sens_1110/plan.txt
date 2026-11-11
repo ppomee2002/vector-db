@@ -1,0 +1,18 @@
+mode=sens reps=3 server_cpus=53,55,56,57,58,59,60 client_cpu=62
+search: main nlist=4096 nprobe=32, light 1024/1, heavy 1024/64, source: real (NYTimes-256, scaled) main@recall0.9 heavy@recall0.95
+A_k5|-workers 7 -io sync -n 1,8,32,64 -k 5
+S_k5|-workers 7 -io async -n 1,8,32,64 -k 5
+A_k20|-workers 7 -io sync -n 1,8,32,64 -k 20
+S_k20|-workers 7 -io async -n 1,8,32,64 -k 20
+A_c16k|-workers 7 -io sync -n 1,8,32,64 -chunk 16k
+S_c16k|-workers 7 -io async -n 1,8,32,64 -chunk 16k
+A_cache100|-workers 7 -io sync -n 1,8,32,64 -cache-mb 100 -zipf 1.0
+S_cache100|-workers 7 -io async -n 1,8,32,64 -cache-mb 100 -zipf 1.0
+A_cache500|-workers 7 -io sync -n 1,8,32,64 -cache-mb 500 -zipf 1.0
+S_cache500|-workers 7 -io async -n 1,8,32,64 -cache-mb 500 -zipf 1.0
+A_nosearch|-workers 7 -io sync -n 1,8,32,64 -search=false
+S_nosearch|-workers 7 -io async -n 1,8,32,64 -search=false
+A_heavy|-workers 7 -io sync -n 1,8,32,64 -nlist 1024 -nprobe 64
+S_heavy|-workers 7 -io async -n 1,8,32,64 -nlist 1024 -nprobe 64
+A_light|-workers 7 -io sync -n 1,8,32,64 -nlist 1024 -nprobe 1
+S_light|-workers 7 -io async -n 1,8,32,64 -nlist 1024 -nprobe 1

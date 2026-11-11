@@ -1,0 +1,13 @@
+== m3bench selftest ==
+[PASS] data file / O_DIRECT       ~/m3data/data.bin, 16.0 GiB, O_DIRECT=true
+[PASS] reads reach device sda     our 195.9 MB/s, device 195.9 MB/s (x1.00), read await 0.088 ms, our IOPS 47824
+[PASS] device / NUMA              NVMe SAMSUNG MZQL21T9 rotational=0 sched=none [mq-deadline]; SSD NUMA: node 1 (cpus 52-103,156-207)
+[PASS] CPU pinning                allowed 208 CPUs; would use server 52-56,58,62 + client 63
+[PASS] native AIO                 io_submit/io_getevents read OK; aio-nr/max 6656/65536
+[PASS] metric sources             PSI (host+cgroup), cgroup cpu.stat, per-thread schedstat
+[PASS] free disk (home)           62 GiB
+[PASS] memory                     MemTotal: 197570660 kB, MemAvailable: 178457016 kB, Cached: 98945456 kB
+[INFO] GPU                        gpu0 0% 0MiB, gpu1 0% 0MiB
+[PASS] background now             device read 0.0 MB/s write 0.3 MB/s, other procs in container 0% CPU, host CPU 0.2%
+[PASS] python3                    3.12.3 (run_all.sh needs it; analyze.py also needs pandas+matplotlib, can run on your PC)
+selftest OK

@@ -1,0 +1,13 @@
+mode=core reps=3 server_cpus=52,53,55,56,57,61,62 client_cpu=63
+search: main nlist=4096 nprobe=32, light 1024/1, heavy 1024/64, source: real (NYTimes-256, scaled) main@recall0.9 heavy@recall0.95
+A_base|-workers 7 -io sync -n 1,4,8,16,32,64
+B_base|-workers n -io sync -n 1,4,8,16,32,64
+C_base|-workers 7 -io parallel -n 1,4,8,16,32,64
+D_base|-workers n -io parallel -n 1,4,8,16,32,64
+S_base|-workers 7 -io async -n 1,4,8,16,32,64
+E_cpu|-workers n -io parallel -n 1,4,8,16,32,64 -nlist 2048 -nprobe 64
+F_ssd|-workers n -io parallel -n 1,4,16,32,64,128 -search=false -chunk 64k
+A_open|-load open -workers 7 -io sync -rates 0.3,0.5,0.7,0.8,0.9,0.95,1.0
+D_open|-load open -workers n -io parallel -rates 0.3,0.5,0.7,0.8,0.9,0.95,1.0
+S_open|-load open -workers 7 -io async -rates 0.3,0.5,0.7,0.8,0.9,0.95,1.0
+D_tsoff|-workers n -io parallel -n 8,64 -ts=false

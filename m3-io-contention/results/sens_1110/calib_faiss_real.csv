@@ -1,0 +1,9 @@
+data,index,knob,value,ms_per_query,recall,ms_scaled
+nytimes,hnsw_flat,efSearch,16,0.08225,0.7013,0.12871
+nytimes,hnsw_flat,efSearch,32,0.12801,0.7803,0.20034
+nytimes,hnsw_flat,efSearch,64,0.22531,0.8417,0.35260
+nytimes,hnsw_flat,efSearch,128,0.39780,0.8880,0.62254
+nytimes,hnsw_flat,efSearch,256,0.74905,0.9163,1.17223
+nytimes,hnsw_flat,efSearch,512,1.46988,0.9370,2.30031
+nytimes,hnsw_flat,efSearch,1024,3.21251,0.9593,5.02747
+nytimes,hnsw_flat,efSearch,2048,6.79685,0.9743,10.63683
