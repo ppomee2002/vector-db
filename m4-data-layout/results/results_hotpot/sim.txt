@@ -1,0 +1,32 @@
+payload size: mean=327B median=287B  (4KB 페이지당 약 12.5개)
+layout        unit  w  sim_pages  measured
+interleaved    4KB  0      10.83      8.37
+interleaved    4KB  1      12.55      9.31
+interleaved    4KB  2      12.59          
+interleaved   64KB  0       9.98          
+interleaved   64KB  1      11.48          
+interleaved   64KB  2      11.52          
+stream8        4KB  0      10.67      8.26
+stream8        4KB  1      11.72      9.14
+stream8        4KB  2      11.75          
+stream8       64KB  0       9.64          
+stream8       64KB  1       9.71          
+stream8       64KB  2       9.71          
+doc            4KB  0      10.47      8.25
+doc            4KB  1      10.67      9.15
+doc            4KB  2      10.67          
+doc           64KB  0       9.60          
+doc           64KB  1       9.61          
+doc           64KB  2       9.61          
+coaccess       4KB  0      10.22      7.87
+coaccess       4KB  1      10.41      8.61
+coaccess       4KB  2      10.43          
+coaccess      64KB  0       9.24          
+coaccess      64KB  1       9.26          
+coaccess      64KB  2       9.27          
+oracle         4KB  0       2.62      1.09
+oracle         4KB  1       2.65      1.09
+oracle         4KB  2       2.70          
+oracle        64KB  0       1.60          
+oracle        64KB  1       1.60          
+oracle        64KB  2       1.64          
