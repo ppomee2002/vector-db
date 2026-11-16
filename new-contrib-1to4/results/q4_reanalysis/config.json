@@ -1,0 +1,34 @@
+{
+ "inputs": [
+  "/workspace/jaeeun/sel_fetch/results/q4_full/chunk_scores.csv",
+  "/workspace/jaeeun/sel_fetch/results/q4_full/rerank_sample.csv",
+  "/workspace/jaeeun/sel_fetch/results/q4_full/train_split.csv",
+  "/workspace/jaeeun/sel_fetch/results/q4_full/train_search_cache.npz (E10 only)",
+  "/workspace/jaeeun/sel_fetch/data/rerank_top100_real.csv",
+  "/workspace/jaeeun/sel_fetch/data/chunk_meta.npz"
+ ],
+ "n_boot": 1000,
+ "boot_seed": 7,
+ "tie_seeds": {
+  "kocc10": 100,
+  "kocc25": 101,
+  "log": 102,
+  "first_chunk": 103,
+  "random_s0": 105,
+  "random_s1": 106,
+  "random_s2": 107,
+  "random_s3": 108,
+  "random_s4": 109,
+  "random_s5": 110,
+  "random_s6": 111,
+  "random_s7": 112,
+  "random_s8": 113,
+  "random_s9": 114
+ },
+ "random_score_seeds": "1000+s",
+ "expansion": "per query: final top-10 + chunk_id\u00b11 within same doc_idx, deduplicated",
+ "excl_d0d1": "chunk_id decile (chunk_id*10//N) >= 2; ranking and targets restricted to this range; budgets are % of in-range chunks/bytes",
+ "decile_table": "within each decile; top 5% of that decile",
+ "coverage": "chunk basis: fraction of accesses; byte basis: fraction of accessed bytes",
+ "recovery": "(pred - random_mean10) / (log - random_mean10), log = existing log-half ANN top-10 counts (unchanged)"
+}

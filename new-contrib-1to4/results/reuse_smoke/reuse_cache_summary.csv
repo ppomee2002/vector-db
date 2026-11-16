@@ -1,0 +1,161 @@
+trace,cache,cap_MB,accounting,tau,exact_hit,approx_hit,total_hit,gain_vs_exact
+distinct,M2 5% (ctx only),19.870228,text_only,exact,0.002,0.0,0.002,0.0
+distinct,M2 5% (ctx only),19.870228,text_only,0.95,0.002,0.0,0.002,0.0
+distinct,M2 5% (ctx only),19.870228,text_only,0.90,0.002,0.0,0.002,0.0
+distinct,M2 5% (ctx only),19.870228,text_only,0.85,0.002,0.0,0.002,0.0
+distinct,M2 5% (ctx only),19.870228,text+emb,exact,0.002,0.0,0.002,0.0
+distinct,M2 5% (ctx only),19.870228,text+emb,0.95,0.002,0.0,0.002,0.0
+distinct,M2 5% (ctx only),19.870228,text+emb,0.90,0.002,0.0,0.002,0.0
+distinct,M2 5% (ctx only),19.870228,text+emb,0.85,0.002,0.0,0.002,0.0
+distinct,M2 5% (all to ctx),78.715168,text_only,exact,0.002,0.0,0.002,0.0
+distinct,M2 5% (all to ctx),78.715168,text_only,0.95,0.002,0.0,0.002,0.0
+distinct,M2 5% (all to ctx),78.715168,text_only,0.90,0.002,0.0,0.002,0.0
+distinct,M2 5% (all to ctx),78.715168,text_only,0.85,0.002,0.0,0.002,0.0
+distinct,M2 5% (all to ctx),78.715168,text+emb,exact,0.002,0.0,0.002,0.0
+distinct,M2 5% (all to ctx),78.715168,text+emb,0.95,0.002,0.0,0.002,0.0
+distinct,M2 5% (all to ctx),78.715168,text+emb,0.90,0.002,0.0,0.002,0.0
+distinct,M2 5% (all to ctx),78.715168,text+emb,0.85,0.002,0.0,0.002,0.0
+distinct,5%_reqset,0.009772,text_only,exact,0.0,0.0,0.0,0.0
+distinct,5%_reqset,0.009772,text_only,0.95,0.0,0.0,0.0,0.0
+distinct,5%_reqset,0.009772,text_only,0.90,0.0,0.0,0.0,0.0
+distinct,5%_reqset,0.009772,text_only,0.85,0.0,0.0,0.0,0.0
+distinct,5%_reqset,0.009772,text+emb,exact,0.0,0.0,0.0,0.0
+distinct,5%_reqset,0.009772,text+emb,0.95,0.0,0.0,0.0,0.0
+distinct,5%_reqset,0.009772,text+emb,0.90,0.0,0.0,0.0,0.0
+distinct,5%_reqset,0.009772,text+emb,0.85,0.0,0.0,0.0,0.0
+distinct,25%_reqset,0.048861,text_only,exact,0.0,0.0,0.0,0.0
+distinct,25%_reqset,0.048861,text_only,0.95,0.0,0.0,0.0,0.0
+distinct,25%_reqset,0.048861,text_only,0.90,0.0,0.0,0.0,0.0
+distinct,25%_reqset,0.048861,text_only,0.85,0.0,0.0,0.0,0.0
+distinct,25%_reqset,0.048861,text+emb,exact,0.0,0.0,0.0,0.0
+distinct,25%_reqset,0.048861,text+emb,0.95,0.0,0.0,0.0,0.0
+distinct,25%_reqset,0.048861,text+emb,0.90,0.0,0.0,0.0,0.0
+distinct,25%_reqset,0.048861,text+emb,0.85,0.0,0.0,0.0,0.0
+distinct,100%_reqset,0.195445,text_only,exact,0.002,0.0,0.002,0.0
+distinct,100%_reqset,0.195445,text_only,0.95,0.002,0.0,0.002,0.0
+distinct,100%_reqset,0.195445,text_only,0.90,0.002,0.0,0.002,0.0
+distinct,100%_reqset,0.195445,text_only,0.85,0.002,0.0,0.002,0.0
+distinct,100%_reqset,0.195445,text+emb,exact,0.0,0.0,0.0,0.0
+distinct,100%_reqset,0.195445,text+emb,0.95,0.0,0.0,0.0,0.0
+distinct,100%_reqset,0.195445,text+emb,0.90,0.0,0.0,0.0,0.0
+distinct,100%_reqset,0.195445,text+emb,0.85,0.0,0.0,0.0,0.0
+natural(M2),M2 5% (ctx only),19.870228,text_only,exact,1.0,0.0,1.0,0.0
+natural(M2),M2 5% (ctx only),19.870228,text_only,0.95,1.0,0.0,1.0,0.0
+natural(M2),M2 5% (ctx only),19.870228,text_only,0.90,1.0,0.0,1.0,0.0
+natural(M2),M2 5% (ctx only),19.870228,text_only,0.85,1.0,0.0,1.0,0.0
+natural(M2),M2 5% (ctx only),19.870228,text+emb,exact,1.0,0.0,1.0,0.0
+natural(M2),M2 5% (ctx only),19.870228,text+emb,0.95,1.0,0.0,1.0,0.0
+natural(M2),M2 5% (ctx only),19.870228,text+emb,0.90,1.0,0.0,1.0,0.0
+natural(M2),M2 5% (ctx only),19.870228,text+emb,0.85,1.0,0.0,1.0,0.0
+natural(M2),M2 5% (all to ctx),78.715168,text_only,exact,1.0,0.0,1.0,0.0
+natural(M2),M2 5% (all to ctx),78.715168,text_only,0.95,1.0,0.0,1.0,0.0
+natural(M2),M2 5% (all to ctx),78.715168,text_only,0.90,1.0,0.0,1.0,0.0
+natural(M2),M2 5% (all to ctx),78.715168,text_only,0.85,1.0,0.0,1.0,0.0
+natural(M2),M2 5% (all to ctx),78.715168,text+emb,exact,1.0,0.0,1.0,0.0
+natural(M2),M2 5% (all to ctx),78.715168,text+emb,0.95,1.0,0.0,1.0,0.0
+natural(M2),M2 5% (all to ctx),78.715168,text+emb,0.90,1.0,0.0,1.0,0.0
+natural(M2),M2 5% (all to ctx),78.715168,text+emb,0.85,1.0,0.0,1.0,0.0
+natural(M2),5%_reqset,0.009772,text_only,exact,0.00425,0.0,0.00425,0.0
+natural(M2),5%_reqset,0.009772,text_only,0.95,0.00425,0.0,0.00425,0.0
+natural(M2),5%_reqset,0.009772,text_only,0.90,0.00425,0.0,0.00425,0.0
+natural(M2),5%_reqset,0.009772,text_only,0.85,0.00425,0.0,0.00425,0.0
+natural(M2),5%_reqset,0.009772,text+emb,exact,0.00125,0.0,0.00125,0.0
+natural(M2),5%_reqset,0.009772,text+emb,0.95,0.00125,0.0,0.00125,0.0
+natural(M2),5%_reqset,0.009772,text+emb,0.90,0.00125,0.0,0.00125,0.0
+natural(M2),5%_reqset,0.009772,text+emb,0.85,0.00125,0.0,0.00125,0.0
+natural(M2),25%_reqset,0.048861,text_only,exact,0.032,0.0,0.032,0.0
+natural(M2),25%_reqset,0.048861,text_only,0.95,0.032,0.0,0.032,0.0
+natural(M2),25%_reqset,0.048861,text_only,0.90,0.032,0.0,0.032,0.0
+natural(M2),25%_reqset,0.048861,text_only,0.85,0.032,0.0,0.032,0.0
+natural(M2),25%_reqset,0.048861,text+emb,exact,0.004,0.0,0.004,0.0
+natural(M2),25%_reqset,0.048861,text+emb,0.95,0.004,0.0,0.004,0.0
+natural(M2),25%_reqset,0.048861,text+emb,0.90,0.004,0.0,0.004,0.0
+natural(M2),25%_reqset,0.048861,text+emb,0.85,0.004,0.0,0.004,0.0
+natural(M2),100%_reqset,0.195445,text_only,exact,1.0,0.0,1.0,0.0
+natural(M2),100%_reqset,0.195445,text_only,0.95,1.0,0.0,1.0,0.0
+natural(M2),100%_reqset,0.195445,text_only,0.90,1.0,0.0,1.0,0.0
+natural(M2),100%_reqset,0.195445,text_only,0.85,1.0,0.0,1.0,0.0
+natural(M2),100%_reqset,0.195445,text+emb,exact,0.02625,0.0,0.02625,0.0
+natural(M2),100%_reqset,0.195445,text+emb,0.95,0.02625,0.0,0.02625,0.0
+natural(M2),100%_reqset,0.195445,text+emb,0.90,0.02625,0.0,0.02625,0.0
+natural(M2),100%_reqset,0.195445,text+emb,0.85,0.02625,0.0,0.02625,0.0
+zipf1.2(M2),M2 5% (ctx only),19.870228,text_only,exact,0.94775,0.0,0.94775,0.0
+zipf1.2(M2),M2 5% (ctx only),19.870228,text_only,0.95,0.94775,0.0,0.94775,0.0
+zipf1.2(M2),M2 5% (ctx only),19.870228,text_only,0.90,0.94775,0.0,0.94775,0.0
+zipf1.2(M2),M2 5% (ctx only),19.870228,text_only,0.85,0.94775,0.0,0.94775,0.0
+zipf1.2(M2),M2 5% (ctx only),19.870228,text+emb,exact,0.94775,0.0,0.94775,0.0
+zipf1.2(M2),M2 5% (ctx only),19.870228,text+emb,0.95,0.94775,0.0,0.94775,0.0
+zipf1.2(M2),M2 5% (ctx only),19.870228,text+emb,0.90,0.94775,0.0,0.94775,0.0
+zipf1.2(M2),M2 5% (ctx only),19.870228,text+emb,0.85,0.94775,0.0,0.94775,0.0
+zipf1.2(M2),M2 5% (all to ctx),78.715168,text_only,exact,0.94775,0.0,0.94775,0.0
+zipf1.2(M2),M2 5% (all to ctx),78.715168,text_only,0.95,0.94775,0.0,0.94775,0.0
+zipf1.2(M2),M2 5% (all to ctx),78.715168,text_only,0.90,0.94775,0.0,0.94775,0.0
+zipf1.2(M2),M2 5% (all to ctx),78.715168,text_only,0.85,0.94775,0.0,0.94775,0.0
+zipf1.2(M2),M2 5% (all to ctx),78.715168,text+emb,exact,0.94775,0.0,0.94775,0.0
+zipf1.2(M2),M2 5% (all to ctx),78.715168,text+emb,0.95,0.94775,0.0,0.94775,0.0
+zipf1.2(M2),M2 5% (all to ctx),78.715168,text+emb,0.90,0.94775,0.0,0.94775,0.0
+zipf1.2(M2),M2 5% (all to ctx),78.715168,text+emb,0.85,0.94775,0.0,0.94775,0.0
+zipf1.2(M2),5%_reqset,0.009772,text_only,exact,0.2665,0.0,0.2665,0.0
+zipf1.2(M2),5%_reqset,0.009772,text_only,0.95,0.2665,0.0,0.2665,0.0
+zipf1.2(M2),5%_reqset,0.009772,text_only,0.90,0.2665,0.0,0.2665,0.0
+zipf1.2(M2),5%_reqset,0.009772,text_only,0.85,0.2665,0.0,0.2665,0.0
+zipf1.2(M2),5%_reqset,0.009772,text+emb,exact,0.0575,0.0,0.0575,0.0
+zipf1.2(M2),5%_reqset,0.009772,text+emb,0.95,0.0575,0.0,0.0575,0.0
+zipf1.2(M2),5%_reqset,0.009772,text+emb,0.90,0.0575,0.0,0.0575,0.0
+zipf1.2(M2),5%_reqset,0.009772,text+emb,0.85,0.0575,0.0,0.0575,0.0
+zipf1.2(M2),25%_reqset,0.048861,text_only,exact,0.6825,0.0,0.6825,0.0
+zipf1.2(M2),25%_reqset,0.048861,text_only,0.95,0.6825,0.0,0.6825,0.0
+zipf1.2(M2),25%_reqset,0.048861,text_only,0.90,0.6825,0.0,0.6825,0.0
+zipf1.2(M2),25%_reqset,0.048861,text_only,0.85,0.6825,0.0,0.6825,0.0
+zipf1.2(M2),25%_reqset,0.048861,text+emb,exact,0.26125,0.0,0.26125,0.0
+zipf1.2(M2),25%_reqset,0.048861,text+emb,0.95,0.26125,0.0,0.26125,0.0
+zipf1.2(M2),25%_reqset,0.048861,text+emb,0.90,0.26125,0.0,0.26125,0.0
+zipf1.2(M2),25%_reqset,0.048861,text+emb,0.85,0.26125,0.0,0.26125,0.0
+zipf1.2(M2),100%_reqset,0.195445,text_only,exact,0.94775,0.0,0.94775,0.0
+zipf1.2(M2),100%_reqset,0.195445,text_only,0.95,0.94775,0.0,0.94775,0.0
+zipf1.2(M2),100%_reqset,0.195445,text_only,0.90,0.94775,0.0,0.94775,0.0
+zipf1.2(M2),100%_reqset,0.195445,text_only,0.85,0.94775,0.0,0.94775,0.0
+zipf1.2(M2),100%_reqset,0.195445,text+emb,exact,0.63325,0.0,0.63325,0.0
+zipf1.2(M2),100%_reqset,0.195445,text+emb,0.95,0.63325,0.0,0.63325,0.0
+zipf1.2(M2),100%_reqset,0.195445,text+emb,0.90,0.63325,0.0,0.63325,0.0
+zipf1.2(M2),100%_reqset,0.195445,text+emb,0.85,0.63325,0.0,0.63325,0.0
+zipf0.9(M2),M2 5% (ctx only),19.870228,text_only,exact,0.95775,0.0,0.95775,0.0
+zipf0.9(M2),M2 5% (ctx only),19.870228,text_only,0.95,0.95775,0.0,0.95775,0.0
+zipf0.9(M2),M2 5% (ctx only),19.870228,text_only,0.90,0.95775,0.0,0.95775,0.0
+zipf0.9(M2),M2 5% (ctx only),19.870228,text_only,0.85,0.95775,0.0,0.95775,0.0
+zipf0.9(M2),M2 5% (ctx only),19.870228,text+emb,exact,0.95775,0.0,0.95775,0.0
+zipf0.9(M2),M2 5% (ctx only),19.870228,text+emb,0.95,0.95775,0.0,0.95775,0.0
+zipf0.9(M2),M2 5% (ctx only),19.870228,text+emb,0.90,0.95775,0.0,0.95775,0.0
+zipf0.9(M2),M2 5% (ctx only),19.870228,text+emb,0.85,0.95775,0.0,0.95775,0.0
+zipf0.9(M2),M2 5% (all to ctx),78.715168,text_only,exact,0.95775,0.0,0.95775,0.0
+zipf0.9(M2),M2 5% (all to ctx),78.715168,text_only,0.95,0.95775,0.0,0.95775,0.0
+zipf0.9(M2),M2 5% (all to ctx),78.715168,text_only,0.90,0.95775,0.0,0.95775,0.0
+zipf0.9(M2),M2 5% (all to ctx),78.715168,text_only,0.85,0.95775,0.0,0.95775,0.0
+zipf0.9(M2),M2 5% (all to ctx),78.715168,text+emb,exact,0.95775,0.0,0.95775,0.0
+zipf0.9(M2),M2 5% (all to ctx),78.715168,text+emb,0.95,0.95775,0.0,0.95775,0.0
+zipf0.9(M2),M2 5% (all to ctx),78.715168,text+emb,0.90,0.95775,0.0,0.95775,0.0
+zipf0.9(M2),M2 5% (all to ctx),78.715168,text+emb,0.85,0.95775,0.0,0.95775,0.0
+zipf0.9(M2),5%_reqset,0.009772,text_only,exact,0.1295,0.0,0.1295,0.0
+zipf0.9(M2),5%_reqset,0.009772,text_only,0.95,0.1295,0.0,0.1295,0.0
+zipf0.9(M2),5%_reqset,0.009772,text_only,0.90,0.1295,0.0,0.1295,0.0
+zipf0.9(M2),5%_reqset,0.009772,text_only,0.85,0.1295,0.0,0.1295,0.0
+zipf0.9(M2),5%_reqset,0.009772,text+emb,exact,0.032,0.0,0.032,0.0
+zipf0.9(M2),5%_reqset,0.009772,text+emb,0.95,0.032,0.0,0.032,0.0
+zipf0.9(M2),5%_reqset,0.009772,text+emb,0.90,0.032,0.0,0.032,0.0
+zipf0.9(M2),5%_reqset,0.009772,text+emb,0.85,0.032,0.0,0.032,0.0
+zipf0.9(M2),25%_reqset,0.048861,text_only,exact,0.51875,0.0,0.51875,0.0
+zipf0.9(M2),25%_reqset,0.048861,text_only,0.95,0.51875,0.0,0.51875,0.0
+zipf0.9(M2),25%_reqset,0.048861,text_only,0.90,0.51875,0.0,0.51875,0.0
+zipf0.9(M2),25%_reqset,0.048861,text_only,0.85,0.51875,0.0,0.51875,0.0
+zipf0.9(M2),25%_reqset,0.048861,text+emb,exact,0.129,0.0,0.129,0.0
+zipf0.9(M2),25%_reqset,0.048861,text+emb,0.95,0.129,0.0,0.129,0.0
+zipf0.9(M2),25%_reqset,0.048861,text+emb,0.90,0.129,0.0,0.129,0.0
+zipf0.9(M2),25%_reqset,0.048861,text+emb,0.85,0.129,0.0,0.129,0.0
+zipf0.9(M2),100%_reqset,0.195445,text_only,exact,0.95775,0.0,0.95775,0.0
+zipf0.9(M2),100%_reqset,0.195445,text_only,0.95,0.95775,0.0,0.95775,0.0
+zipf0.9(M2),100%_reqset,0.195445,text_only,0.90,0.95775,0.0,0.95775,0.0
+zipf0.9(M2),100%_reqset,0.195445,text_only,0.85,0.95775,0.0,0.95775,0.0
+zipf0.9(M2),100%_reqset,0.195445,text+emb,exact,0.46175,0.0,0.46175,0.0
+zipf0.9(M2),100%_reqset,0.195445,text+emb,0.95,0.46175,0.0,0.46175,0.0
+zipf0.9(M2),100%_reqset,0.195445,text+emb,0.90,0.46175,0.0,0.46175,0.0
+zipf0.9(M2),100%_reqset,0.195445,text+emb,0.85,0.46175,0.0,0.46175,0.0

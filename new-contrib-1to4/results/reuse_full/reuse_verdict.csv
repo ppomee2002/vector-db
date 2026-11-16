@@ -1,0 +1,4 @@
+tau,gain_text_only,gain_text_plus_emb,verdict
+0.95,2.8968713789108425e-05,2.8968713789108425e-05,FAIL (upper bound: <5% have corpus neighbor at 0.90)
+0.9,0.00014484356894553518,0.00017381228273464708,FAIL (upper bound: <5% have corpus neighbor at 0.90)
+0.85,0.0010428736964078825,0.0008111239860950185,FAIL (upper bound: <5% have corpus neighbor at 0.90)

@@ -1,0 +1,43 @@
+{
+ "mode": "full",
+ "n_queries": 3452,
+ "warm": 2000,
+ "req": 10000,
+ "m2_seed": 20261103,
+ "taus_gate": [
+  0.98,
+  0.95,
+  0.9,
+  0.85,
+  0.8
+ ],
+ "taus_sim": [
+  0.95,
+  0.9,
+  0.85
+ ],
+ "emb_bytes": 1536,
+ "requests": "per query occurrence: rerank final top-10; cache holds only chunks of previous query occurrences",
+ "substitute_rule": "substitute must not be in the current query request set",
+ "m2_caps": "ctx-only = 5% of context bytes; all-to-ctx = 5% x (ANN+ctx)/ctx of context bytes (M2 layout ratio 3.96)",
+ "unit_note": "M2: Qdrant full NQ, 4KB pages; here: common 1M-chunk set, chunk bytes",
+ "caps_bytes": {
+  "M2 5% (ctx only)": 19870228,
+  "M2 5% (all to ctx)": 78715168,
+  "5%_reqset": 645023,
+  "25%_reqset": 3225116,
+  "100%_reqset": 12900466
+ },
+ "nn_check": {
+  "top1_agree": 1.0,
+  "mean_abs_sim_diff": 1.761317207638058e-07
+ },
+ "nli_model": "cross-encoder/nli-deberta-v3-small",
+ "nli_labels": {
+  "contradiction": 0,
+  "entailment": 1,
+  "neutral": 2
+ },
+ "answer_coverage": 0.65324449594438,
+ "vec_len": 384
+}

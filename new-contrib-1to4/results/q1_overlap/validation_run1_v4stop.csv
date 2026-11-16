@@ -1,0 +1,14 @@
+check,violations,examples
+V1_word_count,0,[]
+V1_text_roundtrip,0,[]
+V1_chunk_bytes_vs_meta,0,[]
+V1_order,0,[]
+V2_cover_0pct,0,[]
+V2_cover_10pct,0,[]
+V2_cover_20pct,0,[]
+V2_tail_rule,0,[]
+V2_resplit0_matches_orig,0,[]
+V3_ga_missing_words,0,[]
+V3_na_not_exact,0,[]
+V4_bytes_equal_0pct,35715,"[{""target"": ""real"", ""q"": 0, ""doc"": 0, ""overlap"": ""0pct"", ""exp"": 0, ""chunks"": [5, 0, 1, 6], ""ga"": 1582, ""na"": 1584, ""dup"": 0, ""excess"": 0, ""gapmiss"": 2}, {""target"": ""real"", ""q"": 0, ""doc"": 0, ""overlap"": ""0pct"", ""exp"": 1, ""chunks"": [5, 0, 1, 6], ""ga"": 2415, ""na"": 2419, ""dup"": 0, ""excess"": 0, ""gapmiss"": 4}, {""target"": ""real"", ""q"": 1, ""doc"": 1, ""overlap"": ""0pct"", ""exp"": 1, ""chunks"": [0], ""ga"": 774, ""na"": 775, ""dup"": 0, ""excess"": 0, ""gapmiss"": 1}, {""target"": ""real"", ""q"": 3206, ""doc"": 1, ""overlap"": ""0pct"", ""exp"": 1, ""chunks"": [0], ""ga"": 774, ""na"": 775, ""dup"": 0, ""excess"": 0, ""gapmiss"": 1}, {""target"": ""real"", ""q"": 2, ""doc"": 2, ""overlap"": ""0pct"", ""exp"": 0, ""chunks"": [0, 4, 5], ""ga"": 1065, ""na"": 1066, ""dup"": 0, ""excess"": 0, ""gapmiss"": 1}]"
+decomp_identity,0,[]

@@ -1,0 +1,72 @@
+{
+ "args": {
+  "out": "results/q4_full",
+  "kocc_n": 0,
+  "kocc_frac": 1.0,
+  "n_train": 0,
+  "n_rerank": 2000,
+  "n_recall": 200,
+  "ef_kocc": 64,
+  "ef_top10": 64,
+  "ef_top100": 256,
+  "batch": 1000,
+  "ckpt_every": 50,
+  "n_boot": 1000,
+  "seed": 0,
+  "mem_limit_gb": 6.0,
+  "fresh": false
+ },
+ "kocc_mode": "full",
+ "n_kocc_queries": 1000000,
+ "k_main": 10,
+ "k_aux": 25,
+ "n_train_raw": 132803,
+ "n_train_dedup": 132803,
+ "n_train_used": 132803,
+ "n_log": 66401,
+ "n_eval": 66402,
+ "n_rerank": 2000,
+ "n_real": 3452,
+ "n_recall_sample": 200,
+ "recall10": 0.9925,
+ "recall25": 0.9864,
+ "timings_s": {
+  "prep": 0.2,
+  "milvus_load": 4.8,
+  "train_search_top10": 209.3,
+  "rerank_sample_top100": 10.1,
+  "kocc_search": 984.1,
+  "exact_recall": 3.5,
+  "rerank": 386.5,
+  "metrics": 15.5
+ },
+ "resources": {
+  "milvus_rss_gb": {
+   "before_load": 0.7702445983886719,
+   "after_load": 2.421520233154297,
+   "after_kocc": 2.864482879638672,
+   "after_release": 1.2699317932128906
+  },
+  "train_top10_qps": 634.5,
+  "top100_qps": 197.5,
+  "train_missing_hits": 0,
+  "kocc_qps": 1016.1,
+  "release_state": "NotLoad",
+  "rerank_qps": 5.28,
+  "gpu_max_alloc_gb": 0.494,
+  "max_rss_gb": 3.869,
+  "self_missing": 160,
+  "self_missing_frac": 0.00016,
+  "short_rows": 0
+ },
+ "notes": [
+  "self exclusion: same pk only, searched k+1=26 neighbors",
+  "coverage: chunk budget -> fraction of accesses; byte budget -> fraction of accessed bytes (both columns stored)",
+  "ties broken by fixed-seed random key per predictor; random baseline = mean of 10 seeds",
+  "bootstrap: resample queries of each target with replacement; predictor rankings fixed",
+  "hot set = top p% chunks by target count, random tie-break",
+  "train_rr_ann10 = rank<10 of top-100 search (ef_top100); train_eval_ann10 = top-10 search (ef_top10)",
+  "doc_len = number of chunks in document",
+  "real_* targets use existing rerank_top100_real.csv"
+ ]
+}

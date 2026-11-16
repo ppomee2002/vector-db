@@ -1,0 +1,20 @@
+{
+ "window": 64,
+ "min_tail": 32,
+ "overlaps_words": {
+  "0pct": 0,
+  "10pct": 6,
+  "20pct": 13
+ },
+ "page_bytes": 4096,
+ "expansions": [
+  0,
+  1
+ ],
+ "byte_model": "UTF-8; words joined by single spaces; elements = words + inter-word gaps (1 byte)",
+ "decomposition": "ga - na = dup (elements read more than once, extra copies) + excess (elements read outside needed range) - gapmiss (gaps inside needed range not contained in any read chunk, e.g. chunk-boundary spaces)",
+ "pages": "per contiguous read: ceil(bytes/4096), summed (ideal, alignment ignored)",
+ "increase": "(ga - na) / na",
+ "max_rss_gb": 0.17612838745117188,
+ "runtime_s": 71.96199440956116
+}
