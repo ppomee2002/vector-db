@@ -1,0 +1,93 @@
+[     6s] V1 done
+[     7s] V2 done
+[    17s] corpus shingles 7984007
+[    18s] V3 done
+
+================ ② 신뢰성 검증 결과 ================
+[V1 구현] (independent_upper_bound >= simulation_gain 이고 차이가 작으면 정상)
+  exact_dup_rate_recomputed: 0.0523
+  ceiling_request_weighted@0.95: 0.0047
+  ceiling_request_weighted@0.9: 0.0172
+  ceiling_request_weighted@0.85: 0.0648
+  ceiling_request_weighted@0.8: 0.2054
+  corpus_neighbor_is_in_requested_set@0.9: 0.7461
+  corpus_neighbor_is_in_requested_set@0.85: 0.6428
+  independent_upper_bound_approx_rate@0.95: 0.0000
+  independent_upper_bound_approx_rate@0.9: 0.0002
+  independent_upper_bound_approx_rate@0.85: 0.0011
+  simulation_gain@0.95: 0.0000
+  simulation_gain@0.90: 0.0001
+  simulation_gain@0.85: 0.0010
+
+[V2 사실관계] ok_A=원래 기준, ok_B=인용번호 제외, ok_C=인용 제외+NLI 한쪽 방향, ok_D=NLI 한쪽 방향만
+  sim_bin  pairs  num_mismatch  num_mismatch_nocite  citation_only  ok_A_original  ok_B_no_citation  ok_C_relaxed  ok_D_nli_either  contradiction  same_doc
+0.85-0.90     40         0.925                0.825            0.1          0.025             0.025         0.025              0.1            0.4      0.15
+0.90-0.95      5         0.600                0.600            0.0          0.000             0.000         0.000              0.0            0.0      0.00
+   >=0.95      1         1.000                0.000            1.0          0.000             1.000         1.000              1.0            0.0      0.00
+  전체: {'num_mismatch': 0.891, 'num_mismatch_nocite': 0.783, 'ok_A_original': 0.022, 'ok_B_no_citation': 0.043, 'ok_C_relaxed': 0.043, 'ok_D_nli_either_only': 0.109}
+
+[V2 원문 대조 샘플] (유사도 0.90 이상 전부 + 0.85~0.90 무작위 8개)
+[1] sim=0.961 same_doc=False | NLI sub=>orig 0.97, orig=>sub 0.96, contra 0.01 | num_mismatch True->False(인용 제외) | ans 0.0->0.0 | ce 6.66->3.18
+    Q   : who wrote the first declaration of human rights
+    원래: of Human Rights.[4] The content of the document emerged largely from the ideals of the Enlightenment.[5] The key drafts were prepared by Lafayette, working at times with his close friend Thomas Jefferson.[6][7] In August 1789, Honoré Mirabeau played a central role in conceptualizing and drafting the
+    대체: document emerged largely from the ideals of the Enlightenment.[5] The key drafts were prepared by Lafayette, working at times with his close friend Thomas Jefferson.[6][7] In August 1789, Honoré Mirabeau played a central role in conceptualizing and drafting the Declaration of the Rights of Man and o
+[2] sim=0.928 same_doc=False | NLI sub=>orig 0.00, orig=>sub 0.02, contra 0.02 | num_mismatch True->True(인용 제외) | ans 1.0->1.0 | ce 7.65->3.97
+    Q   : what is the first book of percy jackson
+    원래: 28, 2011, the series has been on The New York Times Best Seller list for children's book series for 245 weeks.[3] The first book was adapted into a film titled Percy Jackson & the Olympians: The Lightning Thief in 2010, which was commercially successful, but received mixed reviews. An adaptation of 
+    대체: appearing on The New York Times children's Best Seller list and being listed as one of the Young Adult Library Services Association's Best Books for Young Adults, among other awards. It was adapted into a film named Percy Jackson & the Olympians: The Lightning Thief released in the United States on 
+[3] sim=0.924 same_doc=False | NLI sub=>orig 0.00, orig=>sub 0.01, contra 0.05 | num_mismatch True->True(인용 제외) | ans nan->nan | ce 3.99->2.73
+    Q   : where does the phrase hat trick come from
+    원래: A hat-trick in cricket is when a bowler takes three wickets on consecutive deliveries, dismissing three different batsmen. It is a relatively rare event in One Day International (ODI) cricket with only 43 occurrences in more than 3,800 matches since the first ODI, between Australia and England on 5 
+    대체: In the sport of cricket, a hat-trick is an occasion where a bowler takes three wickets in consecutive deliveries. As of 31 July 2017, this feat has only been achieved 43 times in more than two thousand Test matches,[2] the form of the sport in which national representative teams compete in matches o
+[4] sim=0.924 same_doc=False | NLI sub=>orig 0.00, orig=>sub 0.07, contra 0.03 | num_mismatch True->True(인용 제외) | ans 0.0->0.0 | ce 6.31->1.75
+    Q   : when do the walking dead comics come out
+    원래: The Walking Dead is an American post-apocalyptic television series based on the comic book of the same name by Robert Kirkman, Tony Moore and Charlie Adlard, and developed for television by Frank Darabont. It premiered on the cable network AMC on October 31, 2010.[1] The series focuses on Rick Grime
+    대체: The Walking Dead is an American post-apocalyptic horror television series developed by Frank Darabont for AMC that is based on the comic book series of the same name by Robert Kirkman, Tony Moore, and Charlie Adlard. Andrew Lincoln plays the show's lead character, sheriff's deputy Rick Grimes,[3] wh
+[5] sim=0.922 same_doc=False | NLI sub=>orig 0.30, orig=>sub 0.00, contra 0.02 | num_mismatch False->False(인용 제외) | ans 0.0->0.0 | ce 4.42->4.06
+    Q   : how many books are in the diary of a whimpy kid series
+    원래: This is a list of characters in Jeff Kinney's book series Diary of a Wimpy Kid as well as the film versions of the first,[1] second,[2] and third book. Diary of a Wimpy Kid is a series of graphic novels written by American author and cartoonist Jeff Kinney.[3] The books are written as the journals o
+    대체: Diary of a Wimpy Kid is a series of fiction books written by the American author and cartoonist Jeff Kinney.[1][2] All the main books are the journals of the main character, Greg Heffley. Befitting a teen's diary, the books are filled with hand-written notes and simple drawings of Greg's daily adven
+[6] sim=0.902 same_doc=False | NLI sub=>orig 0.00, orig=>sub 0.00, contra 0.00 | num_mismatch False->False(인용 제외) | ans 0.0->0.0 | ce 2.65->2.45
+    Q   : when does jo come in grey's anatomy
+    원래: Grey's Anatomy is an American medical drama television series that premiered on March 27, 2005, on American Broadcasting Company (ABC) as a mid-season replacement. The fictional series focuses on the lives of surgical interns, residents, and attending physicians, as they develop into seasoned doctor
+    대체: Grey's Anatomy is an American television medical drama that debuted on the American Broadcasting Company (ABC), as a mid-season replacement for Boston Legal on March 27, 2005. While creating the show, producers put an emphasis on the casting process.[1] The series has aired for thirteen seasons, and
+[7] sim=0.872 same_doc=False | NLI sub=>orig 0.00, orig=>sub 0.02, contra 0.02 | num_mismatch True->True(인용 제외) | ans nan->nan | ce 3.36->-3.59
+    Q   : how many seasons of the blacklist are there on netflix
+    원래: The fifth season of the American comedy-drama television series Orange Is the New Black premiered on Netflix on June 9, 2017, at 12:00 am PST in multiple countries. It consists of thirteen episodes, each between 51â€“60 minutes. The series is based on Piper Kerman's memoir, Orange Is the New Black: 
+    대체: Orange Is the New Black is an American comedy-drama series created by Jenji Kohan that airs on Netflix. It is based on Piper Kerman's memoir, Orange Is the New Black: My Year in a Women's Prison, about her experiences in a women's prison.[1] The series' protagonist is Piper Chapman, a woman sentence
+[8] sim=0.890 same_doc=False | NLI sub=>orig 0.23, orig=>sub 0.01, contra 0.01 | num_mismatch True->True(인용 제외) | ans 0.0->0.0 | ce 2.56->-1.22
+    Q   : when does sloan come into grey's anatomy
+    원래: Grey's Anatomy is an American medical drama television series that premiered on American Broadcasting Company (ABC) as a mid-season replacement on March 27, 2005.[1] The series has aired for thirteen seasons, and focuses on the fictional lives of surgical interns and residents as they evolve into se
+    대체: Grey's Anatomy is an American television medical drama series created by Shonda Rhimes, broadcast by ABC. The show features an ensemble cast of regular characters, with nine main characters in its first season. Since the first season, many characters have left the show or have been written out, and 
+[9] sim=0.860 same_doc=False | NLI sub=>orig 0.01, orig=>sub 0.02, contra 0.03 | num_mismatch True->True(인용 제외) | ans nan->nan | ce 2.91->-3.59
+    Q   : how many seasons of the blacklist are there on netflix
+    원래: The fourth season of the American comedy-drama television series Orange Is the New Black premiered on Netflix on June 17, 2016, at 12:00 am PST in multiple countries. It consists of thirteen episodes, each between 54â€“60 minutes, with a 77-minute finale. The series is based on Piper Kerman's memoir
+    대체: Orange Is the New Black is an American comedy-drama series created by Jenji Kohan that airs on Netflix. It is based on Piper Kerman's memoir, Orange Is the New Black: My Year in a Women's Prison, about her experiences in a women's prison.[1] The series' protagonist is Piper Chapman, a woman sentence
+[10] sim=0.854 same_doc=False | NLI sub=>orig 0.01, orig=>sub 0.00, contra 0.98 | num_mismatch True->True(인용 제외) | ans 0.0->0.0 | ce 4.19->3.89
+    Q   : when did dragon ball z air in australia
+    원래: Balls. The Dragon Ball manga has been adapted into two anime series produced by Toei Animation: Dragon Ball and Dragon Ball Z, which together were broadcast in Japan from 1986 to 1996. Additionally, the studio has developed 19 animated feature films and three television specials, as well as two anim
+    대체: Dragon Ball GT is the third anime series in the Dragon Ball franchise and a sequel to the Dragon Ball Z anime series.[1] Produced by Toei Animation, the series premiered in Japan on Fuji TV on February 7, 1996, spanning 64 episodes until its conclusion on November 19, 1997. Unlike the other anime se
+[11] sim=0.856 same_doc=False | NLI sub=>orig 0.00, orig=>sub 0.01, contra 0.13 | num_mismatch True->True(인용 제외) | ans nan->nan | ce 5.05->-0.50
+    Q   : when did the 12 tribes of israel form
+    원래: According to the Hebrew Bible, the Twelve Tribes of Israel or Tribes of Israel (Hebrew: שבטי ישראל‎) were said to have descended from the 12 sons of the patriarch Jacob (who was later named Israel) by two wives, Leah and Rachel, and two concubines, Zilpah and Bilhah. Deuteronomy 33:6–25 and Judges 5
+    대체: of Esau. Jacob had twelve sons and at least one daughter, by his two wives, Leah and Rachel, and by their handmaidens Bilhah and Zilpah. Jacob's twelve sons, named in Genesis, were Reuben, Simeon, Levi, Judah, Dan, Naphtali, Gad, Asher, Issachar, Zebulun, Joseph, and Benjamin. His only daughter ment
+[12] sim=0.853 same_doc=False | NLI sub=>orig 0.00, orig=>sub 0.00, contra 0.01 | num_mismatch True->True(인용 제외) | ans 1.0->1.0 | ce -0.68->-6.91
+    Q   : branch of science that deals with the structure of human body parts
+    원래: humans and other vertebrates that he dissected.[70][74] Andreas Vesalius (1514â€“1564) (Latinized from Andries van Wezel), professor of anatomy at the University of Padua, is considered the founder of modern human anatomy.[75] Originally from Brabant, Vesalius published the influential book De human
+    대체: Andreas Vesalius (/vɪˈseɪliəs/;[1] 31 December 1514 – 15 October 1564) was a 16th-century Flemish anatomist, physician, and author of one of the most influential books on human anatomy, De humani corporis fabrica (On the Fabric of the Human Body). Vesalius is often referred to as the founder of mode
+[13] sim=0.854 same_doc=False | NLI sub=>orig 0.00, orig=>sub 0.00, contra 0.85 | num_mismatch True->True(인용 제외) | ans 0.0->0.0 | ce 8.70->6.32
+    Q   : when was the mission san antonio de valero built
+    원래: overcrowded with refugees from the closed East Texas missions, and Father Antonio Margil received permission from the governor of Coahuila and Texas, the Marquis de San Miguel de Aguayo, to build a new mission. On February 23, 1720, the new mission, San José y San Miguel de Aguayo was established[22
+    대체: permission from the Marqués de San Miguel de Aguayo to found a second mission at San Antonio. However, Father Olivares he opposed it. Despite of it, the Zacatecan Franciscans founded Mission San José y San Miguel de Aguayo, next to the San Antonio River, on February 23, 1720. San Antonio grew to bec
+[14] sim=0.861 same_doc=False | NLI sub=>orig 0.00, orig=>sub 0.00, contra 0.18 | num_mismatch True->True(인용 제외) | ans 0.0->0.0 | ce 0.81->-0.44
+    Q   : what is the dogs name in wizard of oz
+    원래: The Wonderful Wizard of Oz (/ɒz/) is an American children's novel written by author L. Frank Baum and illustrated by W. W. Denslow, originally published by the George M. Hill Company in Chicago on May 17, 1900.[1] It has since been reprinted on numerous occasions, most often under the title The Wiza
+    대체: The Wizard of Oz is a 1939 American musical fantasy film produced by Metro-Goldwyn-Mayer. Widely considered to be one of the greatest films in cinema history,[5] it is the best-known and most commercially successful adaptation of L. Frank Baum's 1900 children's book, The Wonderful Wizard of Oz.[6] I
+
+[V3 글자 기반 근접 중복] (임베딩과 무관; partner_emb_sim = 그 쌍의 MiniLM 유사도)
+                        threshold  frac_unique_chunks  frac_requests  partner_same_doc  partner_emb_sim_median  frac_partner_emb_sim_ge_0_90
+>=24 words shared (~37% of chunk)              0.0218         0.0221            0.0842                  0.8421                        0.2945
+         >=40 words shared (~63%)              0.0067         0.0068            0.0413                  0.9433                        0.6881
+
+saved: /workspace/jaeeun/sel_fetch/results/reuse_full/verify/ (v1_impl.json, v2_summary.csv, v2_pairs_rejudged.csv, v3_summary.csv, v3_lexical_neardup.csv)
+[    18s] ALL DONE

@@ -1,0 +1,42 @@
+[     0s] doc features done
+[     1s] embedding features done
+[    18s] model done M1
+[    33s] model done M1-noPos
+[    44s] model done M0+POS
+
+================ 질문 ② 검증 결과 ================
+[1] 위치 편향 확인 (gold가 all보다 first_chunk_frac가 훨씬 높으면 편향)
+             group      n  first_chunk_frac  chunk_pos_median  rel_pos_mean  doc_len_median  doc_idx_median
+    all candidates 345200             0.056              21.0         0.464            61.0          9802.0
+final top-10 (y=1)  34520             0.152              12.0         0.403            44.0          3405.0
+       gold chunks   6400             0.250               2.0         0.236            32.0          1740.5
+   gold & rank>=10   2499             0.080               5.0         0.282            44.0          1737.0
+
+[2] 예측력 (ANN 10위 밖 후보) - 참고: ANN rank only auc 0.7272 / ap 0.1439, M0 0.7463 / 0.1586
+   model  auc_deep  ap_deep
+      M1    0.7817   0.2103
+M1-noPos    0.7770   0.2026
+  M0+POS    0.7532   0.1683
+
+[3] 같은 예산 비교 (gold_in_fetched = 정답 chunk를 Fetch한 쿼리 비율)
+ budget         policy  retained  promoted_recovered  ndcg10  gold_in_fetched  bytes_frac
+    100 FULL (all 100)    1.0000              1.0000  0.4539           0.9171      1.0000
+     10      TopK(ANN)    0.5059              0.0000  0.4357           0.7584      0.0999
+     10             M1    0.5302              0.1139  0.4621           0.7824      0.0998
+     10       M1-noPos    0.5264              0.0963  0.4506           0.7651      0.0997
+     10         M0+POS    0.5110              0.0566  0.4470           0.7740      0.0998
+     15      TopK(ANN)    0.6094              0.2094  0.4473           0.8048      0.1499
+     15             M1    0.6369              0.2743  0.4637           0.8233      0.1496
+     15       M1-noPos    0.6306              0.2593  0.4592           0.8140      0.1496
+     15         M0+POS    0.6157              0.2243  0.4547           0.8152      0.1497
+     20      TopK(ANN)    0.6811              0.3546  0.4504           0.8273      0.1999
+     20             M1    0.7087              0.4119  0.4647           0.8485      0.1994
+     20       M1-noPos    0.7040              0.4020  0.4595           0.8366      0.1994
+     20         M0+POS    0.6864              0.3656  0.4545           0.8337      0.1997
+     30      TopK(ANN)    0.7728              0.5401  0.4528           0.8523      0.2998
+     30             M1    0.7976              0.5904  0.4617           0.8722      0.2991
+     30       M1-noPos    0.7934              0.5818  0.4588           0.8647      0.2988
+     30         M0+POS    0.7782              0.5511  0.4572           0.8601      0.2995
+
+saved: /workspace/jaeeun/sel_fetch/results/q2b_bias.csv, q2b_auc.csv, q2b_budget.csv
+[    49s] ALL DONE

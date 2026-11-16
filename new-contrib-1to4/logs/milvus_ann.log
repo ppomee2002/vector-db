@@ -1,0 +1,12 @@
+[     3s] chunks 1000000 dim 384 docs 27133 | mean bytes 397.4
+[     3s] db_name = jaeeun | collection = nq1m_sel
+[     3s] collection exists, rows = 1000000
+[     3s] index Finished indexed 1000000 pending 0
+[     3s] load state Loaded
+[    15s] search done: 3452 queries, 12.5s
+[    16s] saved ann_top100_real.csv rows 345200 | per-query min/max 100 100
+[    20s] ANN recall@100 vs exact (200 q): 0.9894
+[    20s] queries with relevant chunk in ANN top-10: 0.758
+[    20s] queries with relevant chunk in ANN top-100: 0.917
+[    21s] released nq1m_sel | state NotLoad
+[    21s] ALL DONE

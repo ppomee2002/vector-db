@@ -1,0 +1,33 @@
+[     0s] existing qdrant collections: []
+[    28s] upserted 100000
+[    47s] upserted 200000
+[    68s] upserted 300000
+[    90s] upserted 400000
+[   117s] upserted 500000
+[   140s] upserted 600000
+[   166s] upserted 700000
+[   196s] upserted 800000
+[   223s] upserted 900000
+Traceback (most recent call last):
+  File "/workspace/jaeeun/sel_fetch/scripts/qdrant_check.py", line 23, in <module>
+    qc.upsert(COL, points=models.Batch(ids=list(range(st, e)), vectors=np.asarray(vecs[st:e], dtype=np.float32).tolist()), wait=True)
+  File "/workspace/jaeeun/venv/lib/python3.12/site-packages/qdrant_client/qdrant_client.py", line 947, in upsert
+    return self._client.upsert(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/jaeeun/venv/lib/python3.12/site-packages/qdrant_client/qdrant_remote.py", line 1201, in upsert
+    http_result = self.openapi_client.points_api.upsert_points(
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/jaeeun/venv/lib/python3.12/site-packages/qdrant_client/http/api/points_api.py", line 1063, in upsert_points
+    return self._build_for_upsert_points(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/jaeeun/venv/lib/python3.12/site-packages/qdrant_client/http/api/points_api.py", line 545, in _build_for_upsert_points
+    return self.api_client.request(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/jaeeun/venv/lib/python3.12/site-packages/qdrant_client/http/api_client.py", line 113, in request
+    return self.send(request, type_)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/jaeeun/venv/lib/python3.12/site-packages/qdrant_client/http/api_client.py", line 134, in send
+    raise UnexpectedResponse.for_response(response)
+qdrant_client.http.exceptions.UnexpectedResponse: Unexpected Response: 500 (Internal Server Error)
+Raw response content:
+b'{"status":{"error":"Service internal error: No space left on device: WAL buffer size exceeds available disk space"},"time":0.012435207}'

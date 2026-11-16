@@ -1,0 +1,7 @@
+[    0s] query order: identical
+[    0s] qrels queries 3452 | relevant passages 4201
+[    7s] corpus rows 2680961 | titles 108592 | qrel passages found 4201
+[    9s] docs needed 3452 | loaded 3452
+[   10s] passage stats {'matched': 4201}
+[   10s] queries with >=1 relevant chunk: 3452/3452 (100.0%)
+[   10s] saved /workspace/jaeeun/sel_fetch/data/qrels_chunk.tsv

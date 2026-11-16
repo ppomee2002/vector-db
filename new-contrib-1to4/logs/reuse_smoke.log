@@ -1,0 +1,105 @@
+[     0s] disk /dev/loop1       98G   80G   19G  82% /workspace
+[     0s] gpu 0, 0 MiB | 1, 0 MiB
+[     0s] queries 50 | requests 500 | unique 499 | corpus text 397.4 MB | requested text 0.20 MB | mean chunk 397 B vs embedding 1536 B
+[     0s] db_name = jaeeun
+[     6s] load state Loaded
+[     6s] corpus NN search done
+[     6s] vector returned with search result, length = 384 (expected 384 )
+[    10s] latency done (random order, 20 warm-up pairs, 3 reps)
+[    11s] released, state NotLoad
+[    12s] cache simulation done: distinct
+[    13s] cache simulation done: natural(M2)
+[    13s] cache simulation done: zipf1.2(M2)
+[    13s] cache simulation done: zipf0.9(M2)
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Generating train split:   0%|          | 0/87925 [00:00<?, ? examples/s]Generating train split: 100%|██████████| 87925/87925 [00:00<00:00, 985039.94 examples/s]
+Generating validation split:   0%|          | 0/3610 [00:00<?, ? examples/s]Generating validation split: 100%|██████████| 3610/3610 [00:00<00:00, 512105.98 examples/s]
+[    21s] NQ-open answers matched: 34/50 (68.0%)
+Loading weights:   0%|          | 0/105 [00:00<?, ?it/s]Loading weights: 100%|██████████| 105/105 [00:00<00:00, 8312.14it/s]
+Loading weights:   0%|          | 0/106 [00:00<?, ?it/s]Loading weights: 100%|██████████| 106/106 [00:00<00:00, 7757.07it/s]
+[    42s] NLI model cross-encoder/nli-deberta-v3-small | labels {'contradiction': 0, 'entailment': 1, 'neutral': 2}
+[    43s] NLI sanity: {'entail_same': 0.998, 'entail_diff': 0.0}
+
+================ ② Semantic Reuse 결과 [smoke] ================
+쿼리 50, 요청 500개(쿼리당 최종 Top-10), 서로 다른 chunk 499개 | 요청 chunk 전체 0.20 MB
+캐시 크기 MB: {'M2 5% (ctx only)': 19.87, 'M2 5% (all to ctx)': 78.72, '5%_reqset': 0.01, '25%_reqset': 0.05, '100%_reqset': 0.2}
+
+[A] 상한: corpus 전체에 유사도 >= tau인 다른 chunk가 있는 비율 | Milvus 최근접 검증 {'top1_agree': 1.0, 'mean_abs_sim_diff': 0.0}
+ tau  frac_with_neighbor  same_doc_frac  adjacent_frac
+0.98              0.0000            NaN            NaN
+0.95              0.0160         0.0000         0.0000
+0.90              0.0261         0.1538         0.1538
+0.85              0.0902         0.3333         0.1556
+0.80              0.2305         0.4435         0.1739
+
+[B] 캐시 hit 비율 (열: exact = 정확 재사용만, 0.95/0.90/0.85 = 근사 재사용 포함). distinct = 판정용, (M2) = M2와 같은 흐름
+tau                                         exact    0.95    0.90    0.85
+trace       cache              accounting                                
+distinct    M2 5% (ctx only)   text_only   0.0020  0.0020  0.0020  0.0020
+                               text+emb    0.0020  0.0020  0.0020  0.0020
+            M2 5% (all to ctx) text_only   0.0020  0.0020  0.0020  0.0020
+                               text+emb    0.0020  0.0020  0.0020  0.0020
+            5%_reqset          text_only   0.0000  0.0000  0.0000  0.0000
+                               text+emb    0.0000  0.0000  0.0000  0.0000
+            25%_reqset         text_only   0.0000  0.0000  0.0000  0.0000
+                               text+emb    0.0000  0.0000  0.0000  0.0000
+            100%_reqset        text_only   0.0020  0.0020  0.0020  0.0020
+                               text+emb    0.0000  0.0000  0.0000  0.0000
+natural(M2) M2 5% (ctx only)   text_only   1.0000  1.0000  1.0000  1.0000
+                               text+emb    1.0000  1.0000  1.0000  1.0000
+            M2 5% (all to ctx) text_only   1.0000  1.0000  1.0000  1.0000
+                               text+emb    1.0000  1.0000  1.0000  1.0000
+            5%_reqset          text_only   0.0042  0.0042  0.0042  0.0042
+                               text+emb    0.0012  0.0012  0.0012  0.0012
+            25%_reqset         text_only   0.0320  0.0320  0.0320  0.0320
+                               text+emb    0.0040  0.0040  0.0040  0.0040
+            100%_reqset        text_only   1.0000  1.0000  1.0000  1.0000
+                               text+emb    0.0262  0.0262  0.0262  0.0262
+zipf1.2(M2) M2 5% (ctx only)   text_only   0.9478  0.9478  0.9478  0.9478
+                               text+emb    0.9478  0.9478  0.9478  0.9478
+            M2 5% (all to ctx) text_only   0.9478  0.9478  0.9478  0.9478
+                               text+emb    0.9478  0.9478  0.9478  0.9478
+            5%_reqset          text_only   0.2665  0.2665  0.2665  0.2665
+                               text+emb    0.0575  0.0575  0.0575  0.0575
+            25%_reqset         text_only   0.6825  0.6825  0.6825  0.6825
+                               text+emb    0.2612  0.2612  0.2612  0.2612
+            100%_reqset        text_only   0.9478  0.9478  0.9478  0.9478
+                               text+emb    0.6332  0.6332  0.6332  0.6332
+zipf0.9(M2) M2 5% (ctx only)   text_only   0.9578  0.9578  0.9578  0.9578
+                               text+emb    0.9578  0.9578  0.9578  0.9578
+            M2 5% (all to ctx) text_only   0.9578  0.9578  0.9578  0.9578
+                               text+emb    0.9578  0.9578  0.9578  0.9578
+            5%_reqset          text_only   0.1295  0.1295  0.1295  0.1295
+                               text+emb    0.0320  0.0320  0.0320  0.0320
+            25%_reqset         text_only   0.5188  0.5188  0.5188  0.5188
+                               text+emb    0.1290  0.1290  0.1290  0.1290
+            100%_reqset        text_only   0.9578  0.9578  0.9578  0.9578
+                               text+emb    0.4618  0.4618  0.4618  0.4618
+
+[보완3] 임베딩 조회 비용
+  (a) Milvus 검색 latency ms (with_vec 0=ID만, 1=벡터 포함; 랜덤 순서/예열/3회). vec length 384
+          median     p95
+with_vec                
+0          8.215   9.971
+1         10.483  13.097
+  (b) 캐시에 임베딩 저장 시 chunk당 1536 B 추가 (본문 평균 397 B의 3.9배) -> [B]의 text+emb 행
+  (c) 캐시 안 유사 chunk 조회 계산 비용 (brute force, 3회 중앙값)
+ cache_chunks  brute_force_lookup_ms
+          499                 0.0088
+  ※ HNSW(메모리 상주)에서만 측정. DiskANN/IVF_PQ 등 원본 벡터가 디스크/압축이면 추가 I/O 발생 가능 (미측정)
+
+[보완1] 사실관계 검증 (distinct, 캐시 100%_reqset, 본문만). factual_ok = 정답 유지 & 숫자 일치 & NLI 함의>=0.5
+  NLI=cross-encoder/nli-deberta-v3-small, NQ-open 정답 매칭률=0.68
+  근사 재사용 쌍 없음
+
+[샘플 쌍]
+  (없음)
+
+[판정] distinct 흐름, M2 5% (ctx only), 본문만 기준
+ tau  gain_text_only  gain_text_plus_emb                                              verdict
+0.95             0.0                 0.0 FAIL (upper bound: <5% have corpus neighbor at 0.90)
+0.90             0.0                 0.0 FAIL (upper bound: <5% have corpus neighbor at 0.90)
+0.85             0.0                 0.0 FAIL (upper bound: <5% have corpus neighbor at 0.90)
+
+saved: /workspace/jaeeun/sel_fetch/results/reuse_smoke/
+[    43s] ALL DONE

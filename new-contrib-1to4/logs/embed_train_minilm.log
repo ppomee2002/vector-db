@@ -1,0 +1,13 @@
+[     0s] raw 132803 | empty 0 | dedup 132803 | removed dups 0
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[    13s] verify kinds ['real', 'real', 'real'] | cosine [1.0, 0.999999, 1.0] | min 0.999999
+[    15s] embedded 20000/132803
+[    17s] embedded 40000/132803
+[    19s] embedded 60000/132803
+[    21s] embedded 80000/132803
+[    23s] embedded 100000/132803
+[    25s] embedded 120000/132803
+[    27s] embedded 132803/132803
+[    27s] saved /workspace/jaeeun/sel_fetch/data/q_train_minilm.npy (132803, 384) float32 | norms first5 [1.0004 0.9999 1.0003 1.     1.    ]
+[    27s] max RSS 1.86 GB | GPU max alloc 0.11 GB
+[    27s] ALL DONE

@@ -1,0 +1,33 @@
+[     7s] candidate texts loaded 257437
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/105 [00:00<?, ?it/s]Loading weights: 100%|██████████| 105/105 [00:00<00:00, 5764.20it/s]
+[   102s] reranked 500 / 3452 (5.3 q/s)
+[   197s] reranked 1000 / 3452 (5.3 q/s)
+[   291s] reranked 1500 / 3452 (5.3 q/s)
+[   388s] reranked 2000 / 3452 (5.3 q/s)
+[   484s] reranked 2500 / 3452 (5.3 q/s)
+[   579s] reranked 3000 / 3452 (5.3 q/s)
+[   666s] saved /workspace/jaeeun/sel_fetch/data/rerank_top100_real.csv
+
+================ 질문 ① 결과 ================
+queries: 3452
+Overlap@10 (ANN top10 vs rerank top10): mean 5.06 / 10, median 5
+Overlap@10 distribution: {0: 9, 1: 63, 2: 199, 3: 394, 4: 613, 5: 776, 6: 645, 7: 463, 8: 234, 9: 53, 10: 3}
+final top-10 items from ANN rank >=10: 0.494, >=20: 0.319, >=50: 0.122
+queries with >=1 final item from ANN rank >=20: 0.935
+Kendall tau (ANN rank vs rerank rank, top-100): mean 0.346
+final top-10 ANN-rank histogram: {'0-9': 0.506, '10-19': 0.175, '20-29': 0.092, '30-49': 0.105, '50-99': 0.122}
+nDCG@10  ANN 0.4037  ->  rerank 0.4539  (diff +0.0502; better 0.399, worse 0.243)
+Hit@10   ANN 0.7584  ->  rerank 0.8042
+
+k-curve (ANN 상위 k개만 Fetch 후 리랭킹 = Top-K 축소 기준선):
+ k_fetch  final_top10_retained   ndcg10  fetch_bytes_frac
+      10              0.505939 0.435669          0.099859
+      15              0.609386 0.447271          0.149909
+      20              0.681112 0.450352          0.199905
+      30              0.772798 0.452751          0.299825
+      50              0.877868 0.454378          0.499834
+     100              1.000000 0.453941          1.000000
+
+saved: /workspace/jaeeun/sel_fetch/results/q1_per_query.csv, q1_final_ann_rank_hist.csv, q1_kcurve.csv
+[   671s] ALL DONE

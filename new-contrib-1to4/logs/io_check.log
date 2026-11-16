@@ -1,0 +1,35 @@
+[     0s] doc features done
+[     1s] embedding features done
+[    21s] selection scores ready
+[    23s] TopK@30 retained 0.7728 -> Select needs B*=28
+[    26s] store ready 378 MB
+[    26s] device loop1 | iostat ON -> /workspace/jaeeun/sel_fetch/logs/iostat_io.log
+[    35s] run TopK 10 mean 0.763 ms, dev_reads 16489
+[    40s] run Select 10 mean 0.843 ms, dev_reads 14954
+[    46s] run TopK 20 mean 1.490 ms, dev_reads 29767
+[    52s] run Select 20 mean 1.288 ms, dev_reads 27869
+[    61s] run TopK 30 mean 2.090 ms, dev_reads 39931
+[    71s] run Select 30 mean 2.511 ms, dev_reads 38636
+[    85s] run Select 28 mean 3.393 ms, dev_reads 36529
+[    99s] run TopK 100 mean 3.692 ms, dev_reads 62523
+
+================ ③ I/O 검증 결과 ================
+저장 방식 고정(기존 chunk 순서), chunk별 개별 pread, 단일 스레드, 매 실행 전 콜드 캐시 | device=loop1
+선별 계산 비용(쿼리당): 특징 계산 <= 0.68 ms (CSV 로딩 포함 상한), 모델 예측 0.197 ms
+  policy   B  dev_reads  dev_read_MB  retained  chunks_total   app_MB  mean_ms  p50_ms  p95_ms  p99_ms  dev_read_ms  t_start    t_end
+IDLE(5s)   0          0       0.0000       NaN           NaN      NaN      NaN     NaN     NaN     NaN          NaN      NaN      NaN
+    TopK  10      16489     118.4522    0.5059       34520.0  13.6187   0.7629  0.5392  2.4922  3.9930       2185.0 07:36:06 07:36:09
+  Select  10      14954     112.6031    0.5264       34520.0  13.6026   0.8428  0.5426  2.8391  4.2124       2306.0 07:36:10 07:36:13
+    TopK  20      29767     191.9918    0.6811       69040.0  27.2628   1.4902  1.0120  4.7869  7.1031       4340.0 07:36:14 07:36:20
+  Select  20      27869     182.1491    0.7040       69040.0  27.1879   1.2883  0.9031  4.1219  6.2014       3782.0 07:36:21 07:36:26
+    TopK  30      39931     252.5184    0.7728      103560.0  40.8897   2.0898  1.4191  6.5042  9.4157       6310.0 07:36:27 07:36:34
+  Select  30      38636     246.6611    0.7934      103560.0  40.7564   2.5105  1.8928  6.4626  8.8344       7388.0 07:36:36 07:36:45
+  Select  28      36529     232.5463    0.7785       96656.0  38.0420   3.3930  2.8985  8.2335 10.1836       9035.0 07:36:46 07:36:58
+    TopK 100      62523     393.6338    1.0000      345200.0 136.3788   3.6921  0.6530 18.2702 27.1287      11249.0 07:36:59 07:37:12
+
+[같은 품질 비교] TopK@30 retained 0.7728, mean 2.090 ms, 40.9 MB, dev_reads 39931
+               Select@28 retained 0.7785, mean 3.393 ms, 38.0 MB, dev_reads 36529
+               -> Fetch 개수 6.7% 감소, 읽은 바이트 7.0% 감소
+
+saved: /workspace/jaeeun/sel_fetch/results/io_per_query.csv, io_summary.csv, io_sweep.csv, /workspace/jaeeun/sel_fetch/logs/iostat_io.log
+[    99s] ALL DONE

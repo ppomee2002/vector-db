@@ -1,0 +1,127 @@
+[     0s] disk /dev/loop1       98G   81G   18G  82% /workspace
+[     0s] gpu 0, 0 MiB | 1, 0 MiB
+[     0s] queries 3452 | requests 34520 | unique 32715 | corpus text 397.4 MB | requested text 12.90 MB | mean chunk 397 B vs embedding 1536 B
+[     1s] db_name = jaeeun
+[     6s] load state Loaded
+[    66s] corpus NN search done
+[    66s] vector returned with search result, length = 384 (expected 384 )
+[    85s] latency done (random order, 20 warm-up pairs, 3 reps)
+[    86s] released, state NotLoad
+[    91s] cache simulation done: distinct
+[    95s] cache simulation done: natural(M2)
+[    97s] cache simulation done: zipf1.2(M2)
+[   100s] cache simulation done: zipf0.9(M2)
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[   103s] NQ-open answers matched: 2255/3452 (65.3%)
+Loading weights:   0%|          | 0/105 [00:00<?, ?it/s]Loading weights: 100%|██████████| 105/105 [00:00<00:00, 8009.35it/s]
+Loading weights:   0%|          | 0/106 [00:00<?, ?it/s]Loading weights: 100%|██████████| 106/106 [00:00<00:00, 8004.40it/s]
+[   111s] NLI model cross-encoder/nli-deberta-v3-small | labels {'contradiction': 0, 'entailment': 1, 'neutral': 2}
+[   111s] NLI sanity: {'entail_same': 0.998, 'entail_diff': 0.0}
+
+================ ② Semantic Reuse 결과 [full] ================
+쿼리 3452, 요청 34520개(쿼리당 최종 Top-10), 서로 다른 chunk 32715개 | 요청 chunk 전체 12.90 MB
+캐시 크기 MB: {'M2 5% (ctx only)': 19.87, 'M2 5% (all to ctx)': 78.72, '5%_reqset': 0.65, '25%_reqset': 3.23, '100%_reqset': 12.9}
+
+[A] 상한: corpus 전체에 유사도 >= tau인 다른 chunk가 있는 비율 | Milvus 최근접 검증 {'top1_agree': 1.0, 'mean_abs_sim_diff': 0.0}
+ tau  frac_with_neighbor  same_doc_frac  adjacent_frac
+0.98              0.0017         0.0000         0.0000
+0.95              0.0045         0.0135         0.0000
+0.90              0.0157         0.1309         0.0371
+0.85              0.0606         0.3375         0.0994
+0.80              0.1977         0.4627         0.1464
+
+[B] 캐시 hit 비율 (열: exact = 정확 재사용만, 0.95/0.90/0.85 = 근사 재사용 포함). distinct = 판정용, (M2) = M2와 같은 흐름
+tau                                         exact    0.95    0.90    0.85
+trace       cache              accounting                                
+distinct    M2 5% (ctx only)   text_only   0.0523  0.0523  0.0524  0.0533
+                               text+emb    0.0292  0.0292  0.0293  0.0300
+            M2 5% (all to ctx) text_only   0.0523  0.0523  0.0524  0.0533
+                               text+emb    0.0523  0.0523  0.0524  0.0533
+            5%_reqset          text_only   0.0057  0.0057  0.0057  0.0058
+                               text+emb    0.0010  0.0010  0.0010  0.0010
+            25%_reqset         text_only   0.0241  0.0241  0.0242  0.0248
+                               text+emb    0.0058  0.0058  0.0058  0.0059
+            100%_reqset        text_only   0.0523  0.0523  0.0524  0.0533
+                               text+emb    0.0203  0.0203  0.0203  0.0207
+natural(M2) M2 5% (ctx only)   text_only   0.8667  0.8667  0.8667  0.8669
+                               text+emb    0.0871  0.0871  0.0873  0.0880
+            M2 5% (all to ctx) text_only   0.8667  0.8667  0.8667  0.8669
+                               text+emb    0.8667  0.8667  0.8667  0.8669
+            5%_reqset          text_only   0.0076  0.0076  0.0076  0.0079
+                               text+emb    0.0012  0.0012  0.0012  0.0012
+            25%_reqset         text_only   0.0614  0.0614  0.0615  0.0621
+                               text+emb    0.0078  0.0078  0.0078  0.0081
+            100%_reqset        text_only   0.8667  0.8667  0.8667  0.8669
+                               text+emb    0.0442  0.0442  0.0443  0.0448
+zipf1.2(M2) M2 5% (ctx only)   text_only   0.9119  0.9119  0.9120  0.9120
+                               text+emb    0.9088  0.9088  0.9088  0.9088
+            M2 5% (all to ctx) text_only   0.9119  0.9119  0.9120  0.9120
+                               text+emb    0.9119  0.9119  0.9120  0.9120
+            5%_reqset          text_only   0.7620  0.7620  0.7620  0.7621
+                               text+emb    0.5636  0.5636  0.5636  0.5636
+            25%_reqset         text_only   0.8996  0.8996  0.8996  0.8997
+                               text+emb    0.7638  0.7638  0.7638  0.7639
+            100%_reqset        text_only   0.9119  0.9119  0.9120  0.9120
+                               text+emb    0.8855  0.8855  0.8855  0.8856
+zipf0.9(M2) M2 5% (ctx only)   text_only   0.8546  0.8546  0.8546  0.8547
+                               text+emb    0.7436  0.7436  0.7436  0.7439
+            M2 5% (all to ctx) text_only   0.8546  0.8546  0.8546  0.8547
+                               text+emb    0.8546  0.8546  0.8546  0.8547
+            5%_reqset          text_only   0.4210  0.4210  0.4210  0.4212
+                               text+emb    0.2098  0.2098  0.2098  0.2098
+            25%_reqset         text_only   0.6979  0.6979  0.6979  0.6981
+                               text+emb    0.4232  0.4232  0.4232  0.4233
+            100%_reqset        text_only   0.8546  0.8546  0.8546  0.8547
+                               text+emb    0.6566  0.6566  0.6566  0.6570
+
+[보완3] 임베딩 조회 비용
+  (a) Milvus 검색 latency ms (with_vec 0=ID만, 1=벡터 포함; 랜덤 순서/예열/3회). vec length 384
+          median     p95
+with_vec                
+0          8.711  10.508
+1         11.011  13.120
+  (b) 캐시에 임베딩 저장 시 chunk당 1536 B 추가 (본문 평균 397 B의 3.9배) -> [B]의 text+emb 행
+  (c) 캐시 안 유사 chunk 조회 계산 비용 (brute force, 3회 중앙값)
+ cache_chunks  brute_force_lookup_ms
+         1000                 0.0199
+        10000                 0.1792
+        32715                 0.5782
+  ※ HNSW(메모리 상주)에서만 측정. DiskANN/IVF_PQ 등 원본 벡터가 디스크/압축이면 추가 I/O 발생 가능 (미측정)
+
+[보완1] 사실관계 검증 (distinct, 캐시 100%_reqset, 본문만). factual_ok = 정답 유지 & 숫자 일치 & NLI 함의>=0.5
+  NLI=cross-encoder/nli-deberta-v3-small, NQ-open 정답 매칭률=0.65324449594438
+ tau  pairs  factual_ok  nli_entail  nli_bidir  contradiction  num_mismatch  answer_lost  answer_applicable  gold_lost  entity_recall  equiv_ce  jaccard  same_doc
+0.95      1      0.0000      1.0000     1.0000         0.0000        1.0000          NaN                  0          0         0.9167    0.0000   0.8913    0.0000
+0.90      6      0.0000      0.1667     0.1667         0.0000        0.6667       0.0000                  1          0         0.6434    0.1667   0.4412    0.0000
+0.85     46      0.0217      0.0870     0.0217         0.3478        0.8913       0.1429                  7          4         0.5469    0.0652   0.2807    0.1304
+
+[샘플 쌍]
+sim=0.924 | factual_ok=False nli=0.00 contra=0.05 num_mismatch=True ans nan->nan | ce 3.99->2.73
+  Q : where does the phrase hat trick come from
+  원래: A hat-trick in cricket is when a bowler takes three wickets on consecutive deliveries, dismissing three different batsmen. It is a relatively rare event in One Day International (ODI) cricket with onl
+  대체: In the sport of cricket, a hat-trick is an occasion where a bowler takes three wickets in consecutive deliveries. As of 31 July 2017, this feat has only been achieved 43 times in more than two thousan
+sim=0.922 | factual_ok=False nli=0.30 contra=0.02 num_mismatch=False ans 0.0->0.0 | ce 4.42->4.06
+  Q : how many books are in the diary of a whimpy kid series
+  원래: This is a list of characters in Jeff Kinney's book series Diary of a Wimpy Kid as well as the film versions of the first,[1] second,[2] and third book. Diary of a Wimpy Kid is a series of graphic nove
+  대체: Diary of a Wimpy Kid is a series of fiction books written by the American author and cartoonist Jeff Kinney.[1][2] All the main books are the journals of the main character, Greg Heffley. Befitting a 
+sim=0.902 | factual_ok=False nli=0.00 contra=0.00 num_mismatch=False ans 0.0->0.0 | ce 2.65->2.45
+  Q : when does jo come in grey's anatomy
+  원래: Grey's Anatomy is an American medical drama television series that premiered on March 27, 2005, on American Broadcasting Company (ABC) as a mid-season replacement. The fictional series focuses on the 
+  대체: Grey's Anatomy is an American television medical drama that debuted on the American Broadcasting Company (ABC), as a mid-season replacement for Boston Legal on March 27, 2005. While creating the show,
+sim=0.924 | factual_ok=False nli=0.00 contra=0.03 num_mismatch=True ans 0.0->0.0 | ce 6.31->1.75
+  Q : when do the walking dead comics come out
+  원래: The Walking Dead is an American post-apocalyptic television series based on the comic book of the same name by Robert Kirkman, Tony Moore and Charlie Adlard, and developed for television by Frank Dara
+  대체: The Walking Dead is an American post-apocalyptic horror television series developed by Frank Darabont for AMC that is based on the comic book series of the same name by Robert Kirkman, Tony Moore, and
+sim=0.961 | factual_ok=False nli=0.97 contra=0.01 num_mismatch=True ans 0.0->0.0 | ce 6.66->3.18
+  Q : who wrote the first declaration of human rights
+  원래: of Human Rights.[4] The content of the document emerged largely from the ideals of the Enlightenment.[5] The key drafts were prepared by Lafayette, working at times with his close friend Thomas Jeffer
+  대체: document emerged largely from the ideals of the Enlightenment.[5] The key drafts were prepared by Lafayette, working at times with his close friend Thomas Jefferson.[6][7] In August 1789, Honoré Mirab
+
+[판정] distinct 흐름, M2 5% (ctx only), 본문만 기준
+ tau  gain_text_only  gain_text_plus_emb                                              verdict
+0.95          0.0000              0.0000 FAIL (upper bound: <5% have corpus neighbor at 0.90)
+0.90          0.0001              0.0002 FAIL (upper bound: <5% have corpus neighbor at 0.90)
+0.85          0.0010              0.0008 FAIL (upper bound: <5% have corpus neighbor at 0.90)
+
+saved: /workspace/jaeeun/sel_fetch/results/reuse_full/
+[   113s] ALL DONE
