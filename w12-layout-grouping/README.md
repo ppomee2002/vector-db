@@ -83,3 +83,4 @@ ConStore 방식의 로그: NQ train 쿼리(3만 개 또는 전체 132,803개)의
 - `results/qdrant/`: `seen/`, `unseen/` (`q_*.csv` 쿼리별 원시 데이터, `summary.jsonl`), `summary_w12.txt`, 로그
 - `results/milvus/`: `mq_*.csv` 쿼리별 원시 데이터, `summary.jsonl`, `summary_milvus.txt`, 로그
 - `logs/`: 파일 실험 로그
+- `query_sets/`: 쿼리 집합. 파일 실험은 `file_log.csv` (배치용 로그 3만 개), `file_seen.csv` (로그에 포함된 쿼리 1,000개), `file_unseen.csv` (처음 보는 쿼리 1,000개, NQ test)이며 값은 NQ 쿼리 ID다. Qdrant·Milvus는 `db_seen.csv`, `db_unseen.csv` (각 500개)이며 값은 지난주 m4 데이터의 쿼리 번호다.
