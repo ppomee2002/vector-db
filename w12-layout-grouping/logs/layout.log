@@ -1,0 +1,10 @@
+10:32:22 query sets saved
+10:32:31 D.bin 1.33 GB
+10:32:36 R.bin written
+10:32:57 k-means done
+10:33:02 K.bin written
+/workspace/jihyeon/scripts/layout.py:53: DeprecationWarning: Passing xadj/adjncy is deprecated and will be removed in 2027. Pass a CSRAdjacency object instead.
+  _, parts = pymetis.part_graph(NC, xadj=A.indptr.tolist(), adjncy=A.indices.tolist(), eweights=A.data.astype(int).tolist())
+10:33:05 METIS done: 로그에 등장한 passage 210,682개
+10:33:11 L.bin written
+10:33:11 ALL DONE

@@ -1,0 +1,11 @@
+12:51:40 chunks=150,002 train_q=1400 test_q=600
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights:   0%|          | 0/103 [00:00<?, ?it/s]Loading weights: 100%|██████████| 103/103 [00:00<00:00, 8359.55it/s]
+12:54:10 NQ train 쿼리 132,803개 top-10 완료
+12:54:11 k-means 완료
+/workspace/jihyeon/w12q/prep_w12.py:43: DeprecationWarning: Passing xadj/adjncy is deprecated and will be removed in 2027. Pass a CSRAdjacency object instead.
+  _, parts = pymetis.part_graph(max(2, -(-M // B)), xadj=A.indptr.tolist(), adjncy=A.indices.tolist(), eweights=A.data.astype(int).tolist())
+12:54:12 P64: 로그 쿼리 7,400개, 로그에 등장한 chunk 45,930개(30.6%), top-10이 로그에 있는 비율: 본 쿼리 100.0% / 처음 보는 쿼리 46.7%
+12:54:19 P64x: 로그 쿼리 134,203개, 로그에 등장한 chunk 132,504개(88.3%), top-10이 로그에 있는 비율: 본 쿼리 100.0% / 처음 보는 쿼리 97.6%
+12:54:19 HN: 이웃 포함 로그 영역 84,134개(56.1%)
+12:54:19 PREP DONE

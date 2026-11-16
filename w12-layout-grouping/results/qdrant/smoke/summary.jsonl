@@ -1,0 +1,1 @@
+{"n_ctx": 20.4, "need_bytes": 10683.002, "lat_ms": 4.9171905647963285, "read_bytes": 27844.608, "majflt": 6.798, "pages_payload": 6.798, "pages_pdata": 5.89, "pages_ptracker": 0.908, "pages_pmeta": 0.0, "p95_ms": 9.924032655544579, "layout": "w12_doc", "window": 1, "mode": "cold_each"}

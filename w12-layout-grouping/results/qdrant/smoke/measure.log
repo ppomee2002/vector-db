@@ -1,0 +1,1 @@
+[measure] w12_doc     w=1 cold_each lat=4.92ms p95=9.92 read=27.2KB need=10.4KB pages_payload=6.8 majflt=6.8 files=35 (note: wall incl. measuring overhead 14s)

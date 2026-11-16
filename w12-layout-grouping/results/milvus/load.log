@@ -1,0 +1,332 @@
+Traceback (most recent call last):
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 270, in _wait_for_channel_ready
+    target_final_channel, target_stub = self._setup_identifier_interceptor(
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 461, in _setup_identifier_interceptor
+    self.__internal_register(user, host, timeout=timeout)
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 606, in handler
+    raise e from e
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 595, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 3516, in __internal_register
+    return self._internal_register(user, host, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 3510, in _internal_register
+    response = target_stub.Connect(request=req, timeout=kwargs.get("timeout"))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/grpc/_channel.py", line 1168, in __call__
+    return _end_unary_response_blocking(state, call, False, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/grpc/_channel.py", line 999, in _end_unary_response_blocking
+    raise _InactiveRpcError(state)  # pytype: disable=not-instantiable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+grpc._channel._InactiveRpcError: <_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.UNAVAILABLE
+	details = "failed to connect to all addresses; last error: UNKNOWN: ipv4:127.0.0.1:19530: Failed to connect to remote host: Connection refused"
+	debug_error_string = "UNAVAILABLE:failed to connect to all addresses; last error: UNKNOWN: ipv4:127.0.0.1:19530: Failed to connect to remote host: Connection refused"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/workspace/jihyeon/w12q/milvus_w12.py", line 11, in <module>
+    root = MilvusClient(URI, timeout=1800)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/milvus_client/milvus_client.py", line 100, in __init__
+    self._handler = self._manager.get_or_create(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/client/connection_manager.py", line 502, in get_or_create
+    return self._create_shared(config, client, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/client/connection_manager.py", line 526, in _create_shared
+    handler._wait_for_channel_ready(timeout=timeout)
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 277, in _wait_for_channel_ready
+    raise MilvusException(
+pymilvus.exceptions.MilvusException: <MilvusException: (code=2, message=Fail connecting to server on localhost:19530, illegal connection params or server unavailable)>
+Traceback (most recent call last):
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 270, in _wait_for_channel_ready
+    target_final_channel, target_stub = self._setup_identifier_interceptor(
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 461, in _setup_identifier_interceptor
+    self.__internal_register(user, host, timeout=timeout)
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 606, in handler
+    raise e from e
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 595, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 3516, in __internal_register
+    return self._internal_register(user, host, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 3510, in _internal_register
+    response = target_stub.Connect(request=req, timeout=kwargs.get("timeout"))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/grpc/_channel.py", line 1168, in __call__
+    return _end_unary_response_blocking(state, call, False, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/grpc/_channel.py", line 999, in _end_unary_response_blocking
+    raise _InactiveRpcError(state)  # pytype: disable=not-instantiable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+grpc._channel._InactiveRpcError: <_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.UNAVAILABLE
+	details = "failed to connect to all addresses; last error: UNKNOWN: ipv4:127.0.0.1:19530: Failed to connect to remote host: Connection refused"
+	debug_error_string = "UNAVAILABLE:failed to connect to all addresses; last error: UNKNOWN: ipv4:127.0.0.1:19530: Failed to connect to remote host: Connection refused"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/workspace/jihyeon/w12q/milvus_w12.py", line 11, in <module>
+    root = MilvusClient(URI, timeout=1800)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/milvus_client/milvus_client.py", line 100, in __init__
+    self._handler = self._manager.get_or_create(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/client/connection_manager.py", line 502, in get_or_create
+    return self._create_shared(config, client, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/client/connection_manager.py", line 526, in _create_shared
+    handler._wait_for_channel_ready(timeout=timeout)
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 277, in _wait_for_channel_ready
+    raise MilvusException(
+pymilvus.exceptions.MilvusException: <MilvusException: (code=2, message=Fail connecting to server on localhost:19530, illegal connection params or server unavailable)>
+Traceback (most recent call last):
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 270, in _wait_for_channel_ready
+    target_final_channel, target_stub = self._setup_identifier_interceptor(
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 461, in _setup_identifier_interceptor
+    self.__internal_register(user, host, timeout=timeout)
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 606, in handler
+    raise e from e
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 595, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 3516, in __internal_register
+    return self._internal_register(user, host, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 3510, in _internal_register
+    response = target_stub.Connect(request=req, timeout=kwargs.get("timeout"))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/grpc/_channel.py", line 1168, in __call__
+    return _end_unary_response_blocking(state, call, False, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/grpc/_channel.py", line 999, in _end_unary_response_blocking
+    raise _InactiveRpcError(state)  # pytype: disable=not-instantiable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+grpc._channel._InactiveRpcError: <_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.UNAVAILABLE
+	details = "failed to connect to all addresses; last error: UNKNOWN: ipv4:127.0.0.1:19530: Failed to connect to remote host: Connection refused"
+	debug_error_string = "UNAVAILABLE:failed to connect to all addresses; last error: UNKNOWN: ipv4:127.0.0.1:19530: Failed to connect to remote host: Connection refused"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/workspace/jihyeon/w12q/milvus_w12.py", line 11, in <module>
+    root = MilvusClient(URI, timeout=1800)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/milvus_client/milvus_client.py", line 100, in __init__
+    self._handler = self._manager.get_or_create(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/client/connection_manager.py", line 502, in get_or_create
+    return self._create_shared(config, client, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/client/connection_manager.py", line 526, in _create_shared
+    handler._wait_for_channel_ready(timeout=timeout)
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 277, in _wait_for_channel_ready
+    raise MilvusException(
+pymilvus.exceptions.MilvusException: <MilvusException: (code=2, message=Fail connecting to server on localhost:19530, illegal connection params or server unavailable)>
+Traceback (most recent call last):
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 270, in _wait_for_channel_ready
+    target_final_channel, target_stub = self._setup_identifier_interceptor(
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 461, in _setup_identifier_interceptor
+    self.__internal_register(user, host, timeout=timeout)
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 606, in handler
+    raise e from e
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 595, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 3516, in __internal_register
+    return self._internal_register(user, host, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 3510, in _internal_register
+    response = target_stub.Connect(request=req, timeout=kwargs.get("timeout"))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/grpc/_channel.py", line 1168, in __call__
+    return _end_unary_response_blocking(state, call, False, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/grpc/_channel.py", line 999, in _end_unary_response_blocking
+    raise _InactiveRpcError(state)  # pytype: disable=not-instantiable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+grpc._channel._InactiveRpcError: <_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.UNAVAILABLE
+	details = "failed to connect to all addresses; last error: UNKNOWN: ipv4:127.0.0.1:19530: Failed to connect to remote host: Connection refused"
+	debug_error_string = "UNAVAILABLE:failed to connect to all addresses; last error: UNKNOWN: ipv4:127.0.0.1:19530: Failed to connect to remote host: Connection refused"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/workspace/jihyeon/w12q/milvus_w12.py", line 11, in <module>
+    root = MilvusClient(URI, timeout=1800)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/milvus_client/milvus_client.py", line 100, in __init__
+    self._handler = self._manager.get_or_create(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/client/connection_manager.py", line 502, in get_or_create
+    return self._create_shared(config, client, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/client/connection_manager.py", line 526, in _create_shared
+    handler._wait_for_channel_ready(timeout=timeout)
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 277, in _wait_for_channel_ready
+    raise MilvusException(
+pymilvus.exceptions.MilvusException: <MilvusException: (code=2, message=Fail connecting to server on localhost:19530, illegal connection params or server unavailable)>
+Traceback (most recent call last):
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 270, in _wait_for_channel_ready
+    target_final_channel, target_stub = self._setup_identifier_interceptor(
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 461, in _setup_identifier_interceptor
+    self.__internal_register(user, host, timeout=timeout)
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 606, in handler
+    raise e from e
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 595, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 3516, in __internal_register
+    return self._internal_register(user, host, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 3510, in _internal_register
+    response = target_stub.Connect(request=req, timeout=kwargs.get("timeout"))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/grpc/_channel.py", line 1168, in __call__
+    return _end_unary_response_blocking(state, call, False, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/grpc/_channel.py", line 999, in _end_unary_response_blocking
+    raise _InactiveRpcError(state)  # pytype: disable=not-instantiable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+grpc._channel._InactiveRpcError: <_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.UNAVAILABLE
+	details = "failed to connect to all addresses; last error: UNKNOWN: ipv4:127.0.0.1:19530: Failed to connect to remote host: Connection refused"
+	debug_error_string = "UNAVAILABLE:failed to connect to all addresses; last error: UNKNOWN: ipv4:127.0.0.1:19530: Failed to connect to remote host: Connection refused"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/workspace/jihyeon/w12q/milvus_w12.py", line 11, in <module>
+    root = MilvusClient(URI, timeout=1800)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/milvus_client/milvus_client.py", line 100, in __init__
+    self._handler = self._manager.get_or_create(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/client/connection_manager.py", line 502, in get_or_create
+    return self._create_shared(config, client, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/client/connection_manager.py", line 526, in _create_shared
+    handler._wait_for_channel_ready(timeout=timeout)
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 277, in _wait_for_channel_ready
+    raise MilvusException(
+pymilvus.exceptions.MilvusException: <MilvusException: (code=2, message=Fail connecting to server on localhost:19530, illegal connection params or server unavailable)>
+Traceback (most recent call last):
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 270, in _wait_for_channel_ready
+    target_final_channel, target_stub = self._setup_identifier_interceptor(
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 461, in _setup_identifier_interceptor
+    self.__internal_register(user, host, timeout=timeout)
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 606, in handler
+    raise e from e
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 595, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 3516, in __internal_register
+    return self._internal_register(user, host, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 3510, in _internal_register
+    response = target_stub.Connect(request=req, timeout=kwargs.get("timeout"))
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/grpc/_channel.py", line 1168, in __call__
+    return _end_unary_response_blocking(state, call, False, None)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/grpc/_channel.py", line 999, in _end_unary_response_blocking
+    raise _InactiveRpcError(state)  # pytype: disable=not-instantiable
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+grpc._channel._InactiveRpcError: <_InactiveRpcError of RPC that terminated with:
+	status = StatusCode.UNAVAILABLE
+	details = "failed to connect to all addresses; last error: UNKNOWN: ipv4:127.0.0.1:19530: Failed to connect to remote host: Connection refused"
+	debug_error_string = "UNAVAILABLE:failed to connect to all addresses; last error: UNKNOWN: ipv4:127.0.0.1:19530: Failed to connect to remote host: Connection refused"
+>
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/workspace/jihyeon/w12q/milvus_w12.py", line 11, in <module>
+    root = MilvusClient(URI, timeout=1800)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/milvus_client/milvus_client.py", line 100, in __init__
+    self._handler = self._manager.get_or_create(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/client/connection_manager.py", line 502, in get_or_create
+    return self._create_shared(config, client, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/client/connection_manager.py", line 526, in _create_shared
+    handler._wait_for_channel_ready(timeout=timeout)
+  File "/home/vdb02/m4-exp/venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 277, in _wait_for_channel_ready
+    raise MilvusException(
+pymilvus.exceptions.MilvusException: <MilvusException: (code=2, message=Fail connecting to server on localhost:19530, illegal connection params or server unavailable)>
+/workspace/jihyeon/w12q/milvus_w12.py:34: PyMilvusDeprecationWarning: `connections.connect` is an ORM-style PyMilvus API and will be removed in PyMilvus 3.1. Use `MilvusClient` instead.
+  c.flush(name); connections.connect(uri=URI, db_name=DB); utility.wait_for_index_building_complete(name)
+/workspace/jihyeon/w12q/milvus_w12.py:34: PyMilvusDeprecationWarning: `utility.wait_for_index_building_complete` is an ORM-style PyMilvus API and will be removed in PyMilvus 3.1. Use `MilvusClient` instead.
+  c.flush(name); connections.connect(uri=URI, db_name=DB); utility.wait_for_index_building_complete(name)
+created database jihyeon
+[mload] jihyeon.w12m_doc: rows=150002 time=14s
+/workspace/jihyeon/w12q/milvus_w12.py:34: PyMilvusDeprecationWarning: `connections.connect` is an ORM-style PyMilvus API and will be removed in PyMilvus 3.1. Use `MilvusClient` instead.
+  c.flush(name); connections.connect(uri=URI, db_name=DB); utility.wait_for_index_building_complete(name)
+/workspace/jihyeon/w12q/milvus_w12.py:34: PyMilvusDeprecationWarning: `utility.wait_for_index_building_complete` is an ORM-style PyMilvus API and will be removed in PyMilvus 3.1. Use `MilvusClient` instead.
+  c.flush(name); connections.connect(uri=URI, db_name=DB); utility.wait_for_index_building_complete(name)
+[mload] jihyeon.w12m_rand: rows=150002 time=16s
+/workspace/jihyeon/w12q/milvus_w12.py:34: PyMilvusDeprecationWarning: `connections.connect` is an ORM-style PyMilvus API and will be removed in PyMilvus 3.1. Use `MilvusClient` instead.
+  c.flush(name); connections.connect(uri=URI, db_name=DB); utility.wait_for_index_building_complete(name)
+/workspace/jihyeon/w12q/milvus_w12.py:34: PyMilvusDeprecationWarning: `utility.wait_for_index_building_complete` is an ORM-style PyMilvus API and will be removed in PyMilvus 3.1. Use `MilvusClient` instead.
+  c.flush(name); connections.connect(uri=URI, db_name=DB); utility.wait_for_index_building_complete(name)
+[mload] jihyeon.w12m_P64: rows=150002 time=17s
+/workspace/jihyeon/w12q/milvus_w12.py:34: PyMilvusDeprecationWarning: `connections.connect` is an ORM-style PyMilvus API and will be removed in PyMilvus 3.1. Use `MilvusClient` instead.
+  c.flush(name); connections.connect(uri=URI, db_name=DB); utility.wait_for_index_building_complete(name)
+/workspace/jihyeon/w12q/milvus_w12.py:34: PyMilvusDeprecationWarning: `utility.wait_for_index_building_complete` is an ORM-style PyMilvus API and will be removed in PyMilvus 3.1. Use `MilvusClient` instead.
+  c.flush(name); connections.connect(uri=URI, db_name=DB); utility.wait_for_index_building_complete(name)
+[mload] jihyeon.w12m_P64x: rows=150002 time=15s
+/workspace/jihyeon/w12q/milvus_w12.py:34: PyMilvusDeprecationWarning: `connections.connect` is an ORM-style PyMilvus API and will be removed in PyMilvus 3.1. Use `MilvusClient` instead.
+  c.flush(name); connections.connect(uri=URI, db_name=DB); utility.wait_for_index_building_complete(name)
+/workspace/jihyeon/w12q/milvus_w12.py:34: PyMilvusDeprecationWarning: `utility.wait_for_index_building_complete` is an ORM-style PyMilvus API and will be removed in PyMilvus 3.1. Use `MilvusClient` instead.
+  c.flush(name); connections.connect(uri=URI, db_name=DB); utility.wait_for_index_building_complete(name)
+[mload] jihyeon.w12m_HN: rows=150002 time=20s
+/workspace/jihyeon/w12q/milvus_w12.py:34: PyMilvusDeprecationWarning: `connections.connect` is an ORM-style PyMilvus API and will be removed in PyMilvus 3.1. Use `MilvusClient` instead.
+  c.flush(name); connections.connect(uri=URI, db_name=DB); utility.wait_for_index_building_complete(name)
+/workspace/jihyeon/w12q/milvus_w12.py:34: PyMilvusDeprecationWarning: `utility.wait_for_index_building_complete` is an ORM-style PyMilvus API and will be removed in PyMilvus 3.1. Use `MilvusClient` instead.
+  c.flush(name); connections.connect(uri=URI, db_name=DB); utility.wait_for_index_building_complete(name)
+[mload] jihyeon.w12m_doc: rows=150002 time=18s
+/workspace/jihyeon/w12q/milvus_w12.py:34: PyMilvusDeprecationWarning: `connections.connect` is an ORM-style PyMilvus API and will be removed in PyMilvus 3.1. Use `MilvusClient` instead.
+  c.flush(name); connections.connect(uri=URI, db_name=DB); utility.wait_for_index_building_complete(name)
+/workspace/jihyeon/w12q/milvus_w12.py:34: PyMilvusDeprecationWarning: `utility.wait_for_index_building_complete` is an ORM-style PyMilvus API and will be removed in PyMilvus 3.1. Use `MilvusClient` instead.
+  c.flush(name); connections.connect(uri=URI, db_name=DB); utility.wait_for_index_building_complete(name)
+[mload] jihyeon.w12m_rand: rows=150002 time=15s
+/workspace/jihyeon/w12q/milvus_w12.py:34: PyMilvusDeprecationWarning: `connections.connect` is an ORM-style PyMilvus API and will be removed in PyMilvus 3.1. Use `MilvusClient` instead.
+  c.flush(name); connections.connect(uri=URI, db_name=DB); utility.wait_for_index_building_complete(name)
+/workspace/jihyeon/w12q/milvus_w12.py:34: PyMilvusDeprecationWarning: `utility.wait_for_index_building_complete` is an ORM-style PyMilvus API and will be removed in PyMilvus 3.1. Use `MilvusClient` instead.
+  c.flush(name); connections.connect(uri=URI, db_name=DB); utility.wait_for_index_building_complete(name)
+[mload] jihyeon.w12m_P64: rows=150002 time=15s
+/workspace/jihyeon/w12q/milvus_w12.py:34: PyMilvusDeprecationWarning: `connections.connect` is an ORM-style PyMilvus API and will be removed in PyMilvus 3.1. Use `MilvusClient` instead.
+  c.flush(name); connections.connect(uri=URI, db_name=DB); utility.wait_for_index_building_complete(name)
+/workspace/jihyeon/w12q/milvus_w12.py:34: PyMilvusDeprecationWarning: `utility.wait_for_index_building_complete` is an ORM-style PyMilvus API and will be removed in PyMilvus 3.1. Use `MilvusClient` instead.
+  c.flush(name); connections.connect(uri=URI, db_name=DB); utility.wait_for_index_building_complete(name)
+[mload] jihyeon.w12m_P64x: rows=150002 time=17s
+/workspace/jihyeon/w12q/milvus_w12.py:34: PyMilvusDeprecationWarning: `connections.connect` is an ORM-style PyMilvus API and will be removed in PyMilvus 3.1. Use `MilvusClient` instead.
+  c.flush(name); connections.connect(uri=URI, db_name=DB); utility.wait_for_index_building_complete(name)
+/workspace/jihyeon/w12q/milvus_w12.py:34: PyMilvusDeprecationWarning: `utility.wait_for_index_building_complete` is an ORM-style PyMilvus API and will be removed in PyMilvus 3.1. Use `MilvusClient` instead.
+  c.flush(name); connections.connect(uri=URI, db_name=DB); utility.wait_for_index_building_complete(name)
+[mload] jihyeon.w12m_HN: rows=150002 time=16s
+dropped jihyeon w12m_HN
+dropped jihyeon w12m_doc
+dropped jihyeon w12m_rand
+dropped jihyeon w12m_P64
+dropped jihyeon w12m_P64x

@@ -1,0 +1,130 @@
+qdrant ready (pid 126613)
+12:57:41 === 적재 w12_doc
+  m4_w12_doc: 25,000/150,002  187s
+  m4_w12_doc: 50,000/150,002  379s
+  m4_w12_doc: 75,000/150,002  577s
+  m4_w12_doc: 100,000/150,002  772s
+  m4_w12_doc: 125,000/150,002  965s
+  m4_w12_doc: 150,000/150,002  1133s
+[load] m4_w12_doc: points=150002 segments=1 time=1133s
+qdrant stopped
+13:16:37 === 확인용 측정 (unseen ±1 w12_doc)
+qdrant ready (pid 128329)
+[measure] w12_doc     w=1 cold_each lat=4.92ms p95=9.92 read=27.2KB need=10.4KB pages_payload=6.8 majflt=6.8 files=35 (note: wall incl. measuring overhead 14s)
+qdrant stopped
+qdrant ready (pid 129259)
+13:17:01 === 적재 w12_rand
+  m4_w12_rand: 25,000/150,002  188s
+  m4_w12_rand: 50,000/150,002  382s
+  m4_w12_rand: 75,000/150,002  581s
+  m4_w12_rand: 100,000/150,002  752s
+  m4_w12_rand: 125,000/150,002  920s
+  m4_w12_rand: 150,000/150,002  1033s
+[load] m4_w12_rand: points=150002 segments=1 time=1033s
+13:34:16 === 적재 w12_P64
+  m4_w12_P64: 25,000/150,002  189s
+  m4_w12_P64: 50,000/150,002  378s
+  m4_w12_P64: 75,000/150,002  569s
+  m4_w12_P64: 100,000/150,002  758s
+  m4_w12_P64: 125,000/150,002  946s
+  m4_w12_P64: 150,000/150,002  1136s
+[load] m4_w12_P64: points=150002 segments=1 time=1136s
+13:53:15 === 적재 w12_P64x
+  m4_w12_P64x: 25,000/150,002  188s
+  m4_w12_P64x: 50,000/150,002  379s
+  m4_w12_P64x: 75,000/150,002  570s
+  m4_w12_P64x: 100,000/150,002  760s
+  m4_w12_P64x: 125,000/150,002  950s
+  m4_w12_P64x: 150,000/150,002  1138s
+[load] m4_w12_P64x: points=150002 segments=1 time=1138s
+14:12:16 === 적재 w12_HN
+  m4_w12_HN: 25,000/150,002  191s
+  m4_w12_HN: 50,000/150,002  382s
+  m4_w12_HN: 75,000/150,002  578s
+  m4_w12_HN: 100,000/150,002  771s
+  m4_w12_HN: 125,000/150,002  945s
+  m4_w12_HN: 150,000/150,002  1133s
+[load] m4_w12_HN: points=150002 segments=1 time=1133s
+qdrant stopped
+14:31:12 === 측정 unseen ±0 w12_doc
+qdrant ready (pid 137040)
+[measure] w12_doc     w=0 cold_each lat=8.41ms p95=11.70 read=24.6KB need=4.9KB pages_payload=6.1 majflt=6.1 files=34 (note: wall incl. measuring overhead 26s)
+qdrant stopped
+14:31:46 === 측정 unseen ±0 w12_rand
+qdrant ready (pid 138321)
+[measure] w12_rand    w=0 cold_each lat=7.18ms p95=10.82 read=42.6KB need=4.9KB pages_payload=10.6 majflt=10.6 files=34 (note: wall incl. measuring overhead 16s)
+qdrant stopped
+14:32:10 === 측정 unseen ±0 w12_P64
+qdrant ready (pid 139294)
+[measure] w12_P64     w=0 cold_each lat=6.95ms p95=11.54 read=29.0KB need=4.9KB pages_payload=7.2 majflt=7.2 files=34 (note: wall incl. measuring overhead 19s)
+qdrant stopped
+14:32:36 === 측정 unseen ±0 w12_P64x
+qdrant ready (pid 140269)
+[measure] w12_P64x    w=0 cold_each lat=6.55ms p95=10.42 read=25.9KB need=4.9KB pages_payload=6.5 majflt=6.5 files=34 (note: wall incl. measuring overhead 17s)
+qdrant stopped
+14:33:02 === 측정 unseen ±0 w12_HN
+qdrant ready (pid 141242)
+[measure] w12_HN      w=0 cold_each lat=7.50ms p95=12.09 read=28.1KB need=4.9KB pages_payload=7.0 majflt=7.0 files=34 (note: wall incl. measuring overhead 18s)
+qdrant stopped
+14:33:27 === 측정 unseen ±1 w12_doc
+qdrant ready (pid 142215)
+[measure] w12_doc     w=1 cold_each lat=4.91ms p95=10.19 read=27.3KB need=10.4KB pages_payload=6.8 majflt=6.8 files=34 (note: wall incl. measuring overhead 13s)
+qdrant stopped
+14:33:48 === 측정 unseen ±1 w12_rand
+qdrant ready (pid 143178)
+[measure] w12_rand    w=1 cold_each lat=12.00ms p95=20.81 read=72.9KB need=10.4KB pages_payload=18.2 majflt=18.2 files=34 (note: wall incl. measuring overhead 21s)
+qdrant stopped
+14:34:16 === 측정 unseen ±1 w12_P64
+qdrant ready (pid 144161)
+[measure] w12_P64     w=1 cold_each lat=6.28ms p95=14.06 read=44.4KB need=10.4KB pages_payload=11.1 majflt=11.1 files=34 (note: wall incl. measuring overhead 16s)
+qdrant stopped
+14:34:40 === 측정 unseen ±1 w12_P64x
+qdrant ready (pid 145134)
+[measure] w12_P64x    w=1 cold_each lat=9.73ms p95=14.93 read=49.3KB need=10.4KB pages_payload=12.3 majflt=12.3 files=34 (note: wall incl. measuring overhead 20s)
+qdrant stopped
+14:35:08 === 측정 unseen ±1 w12_HN
+qdrant ready (pid 146115)
+[measure] w12_HN      w=1 cold_each lat=9.74ms p95=14.89 read=35.9KB need=10.4KB pages_payload=9.0 majflt=9.0 files=34 (note: wall incl. measuring overhead 24s)
+qdrant stopped
+14:35:41 === 측정 seen ±0 w12_doc
+qdrant ready (pid 147301)
+[measure] w12_doc     w=0 cold_each lat=4.98ms p95=10.03 read=24.8KB need=4.8KB pages_payload=6.2 majflt=6.2 files=34 (note: wall incl. measuring overhead 14s)
+qdrant stopped
+14:36:04 === 측정 seen ±0 w12_rand
+qdrant ready (pid 148270)
+[measure] w12_rand    w=0 cold_each lat=6.94ms p95=11.46 read=42.9KB need=4.8KB pages_payload=10.7 majflt=10.7 files=34 (note: wall incl. measuring overhead 17s)
+qdrant stopped
+14:36:28 === 측정 seen ±0 w12_P64
+qdrant ready (pid 149241)
+[measure] w12_P64     w=0 cold_each lat=3.15ms p95=4.21 read=13.4KB need=4.8KB pages_payload=3.3 majflt=3.3 files=34 (note: wall incl. measuring overhead 11s)
+qdrant stopped
+14:36:47 === 측정 seen ±0 w12_P64x
+qdrant ready (pid 150204)
+[measure] w12_P64x    w=0 cold_each lat=6.26ms p95=11.17 read=22.1KB need=4.8KB pages_payload=5.5 majflt=5.5 files=34 (note: wall incl. measuring overhead 19s)
+qdrant stopped
+14:37:14 === 측정 seen ±0 w12_HN
+qdrant ready (pid 151197)
+[measure] w12_HN      w=0 cold_each lat=6.58ms p95=9.64 read=20.4KB need=4.8KB pages_payload=5.1 majflt=5.1 files=34 (note: wall incl. measuring overhead 19s)
+qdrant stopped
+14:37:41 === 측정 seen ±1 w12_doc
+qdrant ready (pid 152172)
+[measure] w12_doc     w=1 cold_each lat=6.47ms p95=10.33 read=27.2KB need=10.4KB pages_payload=6.8 majflt=6.8 files=34 (note: wall incl. measuring overhead 18s)
+qdrant stopped
+14:38:07 === 측정 seen ±1 w12_rand
+qdrant ready (pid 153145)
+[measure] w12_rand    w=1 cold_each lat=8.66ms p95=16.16 read=74.3KB need=10.4KB pages_payload=18.6 majflt=18.6 files=34 (note: wall incl. measuring overhead 18s)
+qdrant stopped
+14:38:33 === 측정 seen ±1 w12_P64
+qdrant ready (pid 154118)
+[measure] w12_P64     w=1 cold_each lat=5.54ms p95=11.62 read=40.2KB need=10.4KB pages_payload=10.1 majflt=10.1 files=34 (note: wall incl. measuring overhead 14s)
+qdrant stopped
+14:38:55 === 측정 seen ±1 w12_P64x
+qdrant ready (pid 155085)
+[measure] w12_P64x    w=1 cold_each lat=9.34ms p95=15.71 read=46.4KB need=10.4KB pages_payload=11.6 majflt=11.6 files=34 (note: wall incl. measuring overhead 20s)
+qdrant stopped
+14:39:23 === 측정 seen ±1 w12_HN
+qdrant ready (pid 156068)
+[measure] w12_HN      w=1 cold_each lat=8.52ms p95=12.61 read=24.5KB need=10.4KB pages_payload=6.1 majflt=6.1 files=34 (note: wall incl. measuring overhead 21s)
+qdrant stopped
+14:39:53 ALL DONE
+no pid file

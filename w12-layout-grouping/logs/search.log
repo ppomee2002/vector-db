@@ -1,0 +1,4 @@
+corpus on GPU: (2681468, 384)
+q_test: 3,452 queries  2s
+q_train: 132,803 queries  69s
+Recall@10 (정답이 top-10에 하나라도 있음): 74.2%

@@ -1,0 +1,9 @@
+/workspace/jihyeon/scripts/layout2.py:33: DeprecationWarning: Passing xadj/adjncy is deprecated and will be removed in 2027. Pass a CSRAdjacency object instead.
+  _, parts = pymetis.part_graph(-(-M // B), xadj=A.indptr.tolist(), adjncy=A.indices.tolist(), eweights=A.data.astype(int).tolist())
+10:45:35 P16: 로그 쿼리 132,803개, 로그에 등장한 passage 590,729개(22.0%), 그룹 36,918개, 그룹 크기 평균 16 / 최대 21
+10:45:53 P64: 로그 쿼리 132,803개, 로그에 등장한 passage 590,729개(22.0%), 그룹 9,231개, 그룹 크기 평균 64 / 최대 72
+10:46:04 P256: 로그 쿼리 132,803개, 로그에 등장한 passage 590,729개(22.0%), 그룹 2,308개, 그룹 크기 평균 256 / 최대 263
+10:46:12 P64s: 로그 쿼리 30,000개, 로그에 등장한 passage 210,682개(7.9%), 그룹 3,292개, 그룹 크기 평균 64 / 최대 74
+10:46:12 ALL DONE
+	***Cannot bisect a graph with 0 vertices!
+	***You are trying to partition a graph into too many parts!

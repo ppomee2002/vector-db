@@ -1,0 +1,10 @@
+10:56:46 seen top-80 저장, 기존 top-10과 일치율 93.1%
+10:56:46 unseen top-80 저장, 기존 top-10과 일치율 92.6%
+/workspace/jihyeon/scripts/layout3.py:45: DeprecationWarning: Passing xadj/adjncy is deprecated and will be removed in 2027. Pass a CSRAdjacency object instead.
+  _, parts = pymetis.part_graph(-(-M // 64), xadj=A.indptr.tolist(), adjncy=A.indices.tolist(), eweights=A.data.astype(int).tolist())
+10:57:01 P64w: 로그에 등장한 passage 597,646개(22.3%), 연결 4,458,391개
+10:57:07 P64w.bin written
+10:57:13 HC.bin written
+10:57:13 HN: 이웃 포함 로그 영역 1,136,074개(42.4%)
+10:57:19 HN.bin written
+10:57:19 ALL DONE

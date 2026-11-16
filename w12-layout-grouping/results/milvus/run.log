@@ -1,0 +1,100 @@
+17:46:50 === 적재 doc
+/workspace/jihyeon/w12q/milvus_w12.py:34: PyMilvusDeprecationWarning: `connections.connect` is an ORM-style PyMilvus API and will be removed in PyMilvus 3.1. Use `MilvusClient` instead.
+  c.flush(name); connections.connect(uri=URI, db_name=DB); utility.wait_for_index_building_complete(name)
+/workspace/jihyeon/w12q/milvus_w12.py:34: PyMilvusDeprecationWarning: `utility.wait_for_index_building_complete` is an ORM-style PyMilvus API and will be removed in PyMilvus 3.1. Use `MilvusClient` instead.
+  c.flush(name); connections.connect(uri=URI, db_name=DB); utility.wait_for_index_building_complete(name)
+[mload] jihyeon.w12m_doc: rows=150002 time=18s
+17:47:12 === 적재 rand
+/workspace/jihyeon/w12q/milvus_w12.py:34: PyMilvusDeprecationWarning: `connections.connect` is an ORM-style PyMilvus API and will be removed in PyMilvus 3.1. Use `MilvusClient` instead.
+  c.flush(name); connections.connect(uri=URI, db_name=DB); utility.wait_for_index_building_complete(name)
+/workspace/jihyeon/w12q/milvus_w12.py:34: PyMilvusDeprecationWarning: `utility.wait_for_index_building_complete` is an ORM-style PyMilvus API and will be removed in PyMilvus 3.1. Use `MilvusClient` instead.
+  c.flush(name); connections.connect(uri=URI, db_name=DB); utility.wait_for_index_building_complete(name)
+[mload] jihyeon.w12m_rand: rows=150002 time=15s
+17:47:30 === 적재 P64
+/workspace/jihyeon/w12q/milvus_w12.py:34: PyMilvusDeprecationWarning: `connections.connect` is an ORM-style PyMilvus API and will be removed in PyMilvus 3.1. Use `MilvusClient` instead.
+  c.flush(name); connections.connect(uri=URI, db_name=DB); utility.wait_for_index_building_complete(name)
+/workspace/jihyeon/w12q/milvus_w12.py:34: PyMilvusDeprecationWarning: `utility.wait_for_index_building_complete` is an ORM-style PyMilvus API and will be removed in PyMilvus 3.1. Use `MilvusClient` instead.
+  c.flush(name); connections.connect(uri=URI, db_name=DB); utility.wait_for_index_building_complete(name)
+[mload] jihyeon.w12m_P64: rows=150002 time=15s
+17:47:49 === 적재 P64x
+/workspace/jihyeon/w12q/milvus_w12.py:34: PyMilvusDeprecationWarning: `connections.connect` is an ORM-style PyMilvus API and will be removed in PyMilvus 3.1. Use `MilvusClient` instead.
+  c.flush(name); connections.connect(uri=URI, db_name=DB); utility.wait_for_index_building_complete(name)
+/workspace/jihyeon/w12q/milvus_w12.py:34: PyMilvusDeprecationWarning: `utility.wait_for_index_building_complete` is an ORM-style PyMilvus API and will be removed in PyMilvus 3.1. Use `MilvusClient` instead.
+  c.flush(name); connections.connect(uri=URI, db_name=DB); utility.wait_for_index_building_complete(name)
+[mload] jihyeon.w12m_P64x: rows=150002 time=17s
+17:48:10 === 적재 HN
+/workspace/jihyeon/w12q/milvus_w12.py:34: PyMilvusDeprecationWarning: `connections.connect` is an ORM-style PyMilvus API and will be removed in PyMilvus 3.1. Use `MilvusClient` instead.
+  c.flush(name); connections.connect(uri=URI, db_name=DB); utility.wait_for_index_building_complete(name)
+/workspace/jihyeon/w12q/milvus_w12.py:34: PyMilvusDeprecationWarning: `utility.wait_for_index_building_complete` is an ORM-style PyMilvus API and will be removed in PyMilvus 3.1. Use `MilvusClient` instead.
+  c.flush(name); connections.connect(uri=URI, db_name=DB); utility.wait_for_index_building_complete(name)
+[mload] jihyeon.w12m_HN: rows=150002 time=16s
+17:48:29 === 측정 unseen ±0 doc
+[mmeasure] unseen doc   w=0: miss=9.1MB cells=2.0 lat=63.2ms (453s)
+17:56:08 === 측정 unseen ±0 rand
+[mmeasure] unseen rand  w=0: miss=33.0MB cells=2.0 lat=124.5ms (463s)
+18:03:56 === 측정 unseen ±0 P64
+[mmeasure] unseen P64   w=0: miss=12.0MB cells=2.0 lat=73.8ms (455s)
+18:11:36 === 측정 unseen ±0 P64x
+[mmeasure] unseen P64x  w=0: miss=8.2MB cells=2.0 lat=66.1ms (453s)
+18:19:14 === 측정 unseen ±0 HN
+[mmeasure] unseen HN    w=0: miss=12.0MB cells=2.0 lat=75.0ms (456s)
+18:26:55 === 측정 unseen ±1 doc
+[mmeasure] unseen doc   w=1: miss=9.1MB cells=2.0 lat=62.9ms (456s)
+18:34:36 === 측정 unseen ±1 rand
+[mmeasure] unseen rand  w=1: miss=53.4MB cells=2.0 lat=204.5ms (477s)
+18:42:38 === 측정 unseen ±1 P64
+[mmeasure] unseen P64   w=1: miss=19.5MB cells=2.0 lat=89.6ms (455s)
+18:50:18 === 측정 unseen ±1 P64x
+[mmeasure] unseen P64x  w=1: miss=16.1MB cells=2.0 lat=88.2ms (459s)
+18:58:01 === 측정 unseen ±1 HN
+[mmeasure] unseen HN    w=1: miss=14.2MB cells=2.0 lat=80.2ms (454s)
+19:05:40 === 측정 seen ±0 doc
+[mmeasure] seen doc   w=0: miss=10.2MB cells=2.0 lat=64.2ms (453s)
+19:13:17 === 측정 seen ±0 rand
+[mmeasure] seen rand  w=0: miss=33.3MB cells=2.0 lat=126.3ms (460s)
+19:21:02 === 측정 seen ±0 P64
+[mmeasure] seen P64   w=0: miss=4.8MB cells=2.0 lat=58.2ms (452s)
+19:28:39 === 측정 seen ±0 P64x
+[mmeasure] seen P64x  w=0: miss=6.5MB cells=2.0 lat=62.2ms (453s)
+19:36:17 === 측정 seen ±0 HN
+[mmeasure] seen HN    w=0: miss=6.9MB cells=2.0 lat=65.1ms (454s)
+19:43:56 === 측정 seen ±1 doc
+[mmeasure] seen doc   w=1: miss=10.2MB cells=2.0 lat=65.0ms (456s)
+19:51:36 === 측정 seen ±1 rand
+[mmeasure] seen rand  w=1: miss=53.2MB cells=2.0 lat=211.5ms (481s)
+19:59:42 === 측정 seen ±1 P64
+[mmeasure] seen P64   w=1: miss=18.5MB cells=2.0 lat=90.8ms (455s)
+20:07:22 === 측정 seen ±1 P64x
+[mmeasure] seen P64x  w=1: miss=14.9MB cells=2.0 lat=86.7ms (460s)
+20:15:06 === 측정 seen ±1 HN
+[mmeasure] seen HN    w=1: miss=7.6MB cells=2.0 lat=67.8ms (452s)
+dropped jihyeon w12m_HN
+dropped jihyeon w12m_doc
+dropped jihyeon w12m_rand
+dropped jihyeon w12m_P64
+dropped jihyeon w12m_P64x
+
+== 쿼리당 저장소에서 읽은 양 (MB) ==
+layout       ±0 seen   ±0 unseen     ±1 seen   ±1 unseen
+rand           33.29       32.97       53.22       53.43
+doc            10.18        9.13       10.18        9.13
+P64             4.78       12.02       18.51       19.51
+P64x            6.50        8.18       14.94       16.07
+HN              6.92       11.97        7.59       14.24
+
+== 쿼리당 cell 로드 수 ==
+layout       ±0 seen   ±0 unseen     ±1 seen   ±1 unseen
+rand            2.00        2.00        2.00        2.00
+doc             2.00        2.00        2.00        2.00
+P64             2.00        2.00        2.00        2.00
+P64x            2.00        2.00        2.00        2.00
+HN              2.00        2.00        2.00        2.00
+
+== 쿼리당 지연 p50 (ms) ==
+layout       ±0 seen   ±0 unseen     ±1 seen   ±1 unseen
+rand          123.05      123.04      197.55      196.85
+doc            59.30       59.40       59.91       58.46
+P64            55.68       67.30       90.12       89.49
+P64x           55.20       60.03       81.37       76.99
+HN             57.68       66.53       58.08       75.99
+20:22:44 ALL DONE
