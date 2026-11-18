@@ -1,0 +1,52 @@
+nohup: ignoring input
+start ds=fiqa cond=base mode=full runs=33 (약 16분) backend=milvus
+----- [2026-11-14 03:18:03] before
+process_resident_memory_bytes 3.845955584e+09
+               total        used        free      shared  buff/cache   available
+Mem:          192940       19905       70714          36      103784      173034
+   7       1 loop1 771950054 718976 17725710992 212293523 5686058 3309350 246849960 2555119 0 12063212 215884837 866 0 203241584 30 4256427 1036163
+loaded fiqa_seq in 2.5s {'state': <LoadState: Loaded>}
+03:18:27 warm-up (분석 제외)
+{'layout': 'seq', 'cond': 'base', 'topk': 10, 'expand': 1, 'reps': 300, 'version': 'pymilvus 3.0.3 / server 2.6.23', 'ctx_pks_mean': 20.4, 'S_ids_p50': 2.675, 'S_ids_p95': 3.458, 'R_fetch_p50': 1.96, 'R_fetch_p95': 2.697, 'floor_p50': 1.67, 'R_net_p50': 0.29, 'search_text_p50': 2.457, 'gain_max': 1.733}
+03:19:09 rep 1
+{'method': 'm1', 'n': 64, 'qps': 449.7, 'p50_ms': 136.27, 'p95_ms': 200.2, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.992, 'client_cores': 1.14, 'r_iops': 0}
+{'method': 'm3', 'n': 64, 'qps': 870.5, 'p50_ms': 73.19, 'p95_ms': 122.25, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.998, 'client_cores': 1.05, 'r_iops': 0}
+{'method': 'm3', 'n': 8, 'qps': 869.6, 'p50_ms': 8.46, 'p95_ms': 11.25, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.999, 'client_cores': 1.32, 'r_iops': 10}
+{'method': 'm5', 'n': 64, 'qps': 1225.9, 'p50_ms': 42.97, 'p95_ms': 83.74, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.079, 'client_cores': 0.96, 'r_iops': 0}
+{'method': 'm6', 'n': 64, 'qps': 953.1, 'p50_ms': 60.21, 'p95_ms': 111.87, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.989, 'client_cores': 1.42, 'r_iops': 0}
+{'method': 'm7', 'n': 64, 'qps': 845.1, 'p50_ms': 71.08, 'p95_ms': 118.85, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.996, 'client_cores': 1.35, 'r_iops': 10}
+{'method': 'm8', 'n': 64, 'qps': 950.5, 'p50_ms': 62.14, 'p95_ms': 85.61, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.12, 'client_cores': 0.85, 'r_iops': 0}
+{'method': 'm7', 'n': 64, 'qps': 1003.8, 'p50_ms': 57.49, 'p95_ms': 108.77, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.993, 'client_cores': 1.46, 'r_iops': 10}
+{'method': 'm7', 'n': 64, 'qps': 1008.4, 'p50_ms': 57.33, 'p95_ms': 108.73, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.989, 'client_cores': 1.43, 'r_iops': 0}
+{'method': 'm7', 'n': 64, 'qps': 954.9, 'p50_ms': 64.56, 'p95_ms': 108.64, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.999, 'client_cores': 1.25, 'r_iops': 0}
+{'method': 'm8', 'n': 64, 'qps': 1202.2, 'p50_ms': 43.23, 'p95_ms': 93.23, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.095, 'client_cores': 0.99, 'r_iops': 10}
+03:24:00 rep 2
+{'method': 'm1', 'n': 64, 'qps': 451.1, 'p50_ms': 138.38, 'p95_ms': 185.72, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.993, 'client_cores': 1.15, 'r_iops': 0}
+{'method': 'm3', 'n': 64, 'qps': 864.9, 'p50_ms': 74.11, 'p95_ms': 120.73, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.997, 'client_cores': 1.06, 'r_iops': 0}
+{'method': 'm3', 'n': 8, 'qps': 859.4, 'p50_ms': 8.59, 'p95_ms': 11.19, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.999, 'client_cores': 1.35, 'r_iops': 0}
+{'method': 'm5', 'n': 64, 'qps': 1225.8, 'p50_ms': 42.42, 'p95_ms': 81.16, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.081, 'client_cores': 0.96, 'r_iops': 0}
+{'method': 'm6', 'n': 64, 'qps': 986.0, 'p50_ms': 59.39, 'p95_ms': 105.65, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.997, 'client_cores': 1.45, 'r_iops': 10}
+{'method': 'm7', 'n': 64, 'qps': 869.2, 'p50_ms': 69.44, 'p95_ms': 107.35, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.996, 'client_cores': 1.39, 'r_iops': 0}
+{'method': 'm8', 'n': 64, 'qps': 974.1, 'p50_ms': 60.55, 'p95_ms': 91.75, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.12, 'client_cores': 0.87, 'r_iops': 0}
+{'method': 'm7', 'n': 64, 'qps': 995.4, 'p50_ms': 59.39, 'p95_ms': 101.79, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.995, 'client_cores': 1.47, 'r_iops': 11}
+{'method': 'm7', 'n': 64, 'qps': 1022.8, 'p50_ms': 56.99, 'p95_ms': 98.02, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.99, 'client_cores': 1.45, 'r_iops': 0}
+{'method': 'm7', 'n': 64, 'qps': 957.8, 'p50_ms': 64.13, 'p95_ms': 108.96, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.998, 'client_cores': 1.25, 'r_iops': 0}
+{'method': 'm8', 'n': 64, 'qps': 1298.7, 'p50_ms': 41.66, 'p95_ms': 84.55, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.094, 'client_cores': 1.06, 'r_iops': 11}
+03:28:51 rep 3
+{'method': 'm1', 'n': 64, 'qps': 456.5, 'p50_ms': 136.43, 'p95_ms': 188.1, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.993, 'client_cores': 1.17, 'r_iops': 0}
+{'method': 'm3', 'n': 64, 'qps': 873.8, 'p50_ms': 73.39, 'p95_ms': 117.44, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.998, 'client_cores': 1.06, 'r_iops': 0}
+{'method': 'm3', 'n': 8, 'qps': 951.0, 'p50_ms': 8.08, 'p95_ms': 11.78, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.999, 'client_cores': 1.35, 'r_iops': 0}
+{'method': 'm5', 'n': 64, 'qps': 1287.4, 'p50_ms': 41.31, 'p95_ms': 88.18, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.079, 'client_cores': 0.99, 'r_iops': 0}
+{'method': 'm6', 'n': 64, 'qps': 984.6, 'p50_ms': 59.53, 'p95_ms': 103.77, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.995, 'client_cores': 1.46, 'r_iops': 0}
+{'method': 'm7', 'n': 64, 'qps': 860.4, 'p50_ms': 69.0, 'p95_ms': 125.29, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.997, 'client_cores': 1.37, 'r_iops': 0}
+{'method': 'm8', 'n': 64, 'qps': 942.8, 'p50_ms': 61.75, 'p95_ms': 95.42, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.115, 'client_cores': 0.82, 'r_iops': 0}
+{'method': 'm7', 'n': 64, 'qps': 898.1, 'p50_ms': 60.57, 'p95_ms': 139.87, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.997, 'client_cores': 1.27, 'r_iops': 0}
+{'method': 'm7', 'n': 64, 'qps': 993.8, 'p50_ms': 57.69, 'p95_ms': 107.07, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.996, 'client_cores': 1.42, 'r_iops': 0}
+{'method': 'm7', 'n': 64, 'qps': 944.6, 'p50_ms': 65.91, 'p95_ms': 106.21, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 1.0, 'client_cores': 1.24, 'r_iops': 0}
+{'method': 'm8', 'n': 64, 'qps': 1316.2, 'p50_ms': 40.59, 'p95_ms': 74.79, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.093, 'client_cores': 1.04, 'r_iops': 0}
+----- [2026-11-14 03:33:43] after
+process_resident_memory_bytes 2.16973312e+09
+               total        used        free      shared  buff/cache   available
+Mem:          192940       18782       71223          36      104398      174157
+   7       1 loop1 771952553 718976 17726690344 212294458 5691736 3313377 248005968 2558477 0 12067630 215890152 866 0 203241584 30 4258245 1037185
+03:33:43 done ds=fiqa cond=base

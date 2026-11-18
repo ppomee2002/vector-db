@@ -1,0 +1,2 @@
+ts_utc,ts_kst,version,layout,cond,rep,method,mode,n,workers,cap,window_ms,maxb,topk,expand,dur_s,completed,errors,bad,qps,p50_ms,p95_ms,p99_ms,search_calls_per_req,fetch_calls_per_req,req_pks_per_req,fetched_pks_per_req,text_chars_per_req,client_cores,disk_dev,r_iops,read_mbps,r_await_ms,util_pct,avg_qd,n_chunks
+2026-11-14 03:19:04,2026-11-14 12:19:04,pymilvus 3.0.3 / server 2.6.23,seq,base_warmup,1,m3,async,16,,,,,10,1,30.0,26555,0,0,885.1,14.25,41.94,85.96,1.0,1.0,20.68,20.68,6819,1.22,loop1,0,0.0,0,0.1,0.0,133919

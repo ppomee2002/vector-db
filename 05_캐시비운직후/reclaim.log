@@ -1,0 +1,152 @@
+nohup: ignoring input
+20:37:55 start run_reclaim levels=[off 3000 1000] runs=63 (약 32분) backend=milvus
+20:37:55 switch: reset
+milvus reset
+loaded nq_seq in 4.5s
+nq_seq {'state': <LoadState: Loaded>} index mmap: False
+target=milvus (mv-milvus)
+memory.current 2.38GiB  memory.high max  memory.max max
+  anon           1.82GiB
+  file           0.52GiB
+  shmem          0.00GiB
+  file_mapped    0.49GiB
+  inactive_file  0.39GiB
+  active_file    0.14GiB
+  events.high=0
+  events.max=0
+  events.oom=0
+  events.oom_kill=0
+20:38:22 switch: iops off
+milvus iops off
+20:38:22 ===== reclaim
+20:38:22 switch: reclaim
+milvus reclaim file 0.52GiB -> 0.00GiB
+{'layout': 'seq', 'cond': 'reclaim', 'topk': 10, 'expand': 1, 'reps': 300, 'version': 'pymilvus 3.0.3 / server 2.6.23', 'ctx_pks_mean': 27.0, 'S_ids_p50': 6.551, 'S_ids_p95': 7.361, 'R_fetch_p50': 7.145, 'R_fetch_p95': 9.893, 'floor_p50': 4.612, 'R_net_p50': 2.533, 'search_text_p50': 6.467, 'gain_max': 1.917}
+20:38:32 reclaim rep 1
+{'method': 'm1', 'n': 64, 'qps': 295.7, 'p50_ms': 210.13, 'p95_ms': 296.61, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.989, 'client_cores': 1.11, 'r_iops': 228}
+{'method': 'm3', 'n': 64, 'qps': 316.2, 'p50_ms': 191.9, 'p95_ms': 376.98, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.995, 'client_cores': 0.61, 'r_iops': 229}
+{'method': 'm3', 'n': 8, 'qps': 504.9, 'p50_ms': 12.1, 'p95_ms': 37.7, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 1.0, 'client_cores': 1.04, 'r_iops': 231}
+{'method': 'm5', 'n': 64, 'qps': 409.2, 'p50_ms': 131.72, 'p95_ms': 295.66, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.101, 'client_cores': 0.54, 'r_iops': 231}
+{'method': 'm6', 'n': 64, 'qps': 364.1, 'p50_ms': 171.42, 'p95_ms': 297.8, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.991, 'client_cores': 0.86, 'r_iops': 230}
+{'method': 'm7', 'n': 64, 'qps': 602.7, 'p50_ms': 98.16, 'p95_ms': 158.27, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.995, 'client_cores': 1.1, 'r_iops': 232}
+{'method': 'm8', 'n': 64, 'qps': 508.9, 'p50_ms': 110.19, 'p95_ms': 207.08, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.159, 'client_cores': 0.7, 'r_iops': 232}
+20:41:06 reclaim rep 2
+{'method': 'm1', 'n': 64, 'qps': 336.7, 'p50_ms': 178.12, 'p95_ms': 256.31, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.99, 'client_cores': 1.06, 'r_iops': 229}
+{'method': 'm3', 'n': 64, 'qps': 327.6, 'p50_ms': 190.73, 'p95_ms': 316.65, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 1.0, 'client_cores': 0.64, 'r_iops': 229}
+{'method': 'm3', 'n': 8, 'qps': 427.5, 'p50_ms': 12.88, 'p95_ms': 45.52, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 1.0, 'client_cores': 0.96, 'r_iops': 231}
+{'method': 'm5', 'n': 64, 'qps': 390.7, 'p50_ms': 142.18, 'p95_ms': 306.7, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.104, 'client_cores': 0.53, 'r_iops': 230}
+{'method': 'm6', 'n': 64, 'qps': 411.4, 'p50_ms': 136.96, 'p95_ms': 264.59, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.992, 'client_cores': 0.9, 'r_iops': 231}
+{'method': 'm7', 'n': 64, 'qps': 598.2, 'p50_ms': 99.77, 'p95_ms': 157.6, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.995, 'client_cores': 1.09, 'r_iops': 232}
+{'method': 'm8', 'n': 64, 'qps': 578.6, 'p50_ms': 98.88, 'p95_ms': 203.02, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.153, 'client_cores': 0.7, 'r_iops': 232}
+20:43:40 reclaim rep 3
+{'method': 'm1', 'n': 64, 'qps': 379.2, 'p50_ms': 163.06, 'p95_ms': 217.29, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.992, 'client_cores': 1.06, 'r_iops': 230}
+{'method': 'm3', 'n': 64, 'qps': 373.4, 'p50_ms': 179.76, 'p95_ms': 299.24, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.994, 'client_cores': 0.64, 'r_iops': 229}
+{'method': 'm3', 'n': 8, 'qps': 534.1, 'p50_ms': 11.51, 'p95_ms': 35.08, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.999, 'client_cores': 1.06, 'r_iops': 232}
+{'method': 'm5', 'n': 64, 'qps': 451.5, 'p50_ms': 112.8, 'p95_ms': 277.78, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.102, 'client_cores': 0.56, 'r_iops': 231}
+{'method': 'm6', 'n': 64, 'qps': 404.8, 'p50_ms': 153.15, 'p95_ms': 279.18, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.994, 'client_cores': 0.89, 'r_iops': 231}
+{'method': 'm7', 'n': 64, 'qps': 527.7, 'p50_ms': 107.37, 'p95_ms': 178.96, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.995, 'client_cores': 1.06, 'r_iops': 232}
+{'method': 'm8', 'n': 64, 'qps': 499.1, 'p50_ms': 114.52, 'p95_ms': 224.29, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.159, 'client_cores': 0.68, 'r_iops': 231}
+target=milvus (mv-milvus)
+memory.current 3.15GiB  memory.high max  memory.max max
+  anon           2.71GiB
+  file           0.38GiB
+  shmem          0.00GiB
+  file_mapped    0.37GiB
+  inactive_file  0.00GiB
+  active_file    0.38GiB
+  events.high=0
+  events.max=0
+  events.oom=0
+  events.oom_kill=0
+20:46:15 switch: iops 3000
+milvus iops 3000
+20:46:16 ===== reclaim_iops3000
+20:46:16 switch: reclaim
+milvus reclaim file 0.38GiB -> 0.00GiB
+{'layout': 'seq', 'cond': 'reclaim_iops3000', 'topk': 10, 'expand': 1, 'reps': 300, 'version': 'pymilvus 3.0.3 / server 2.6.23', 'ctx_pks_mean': 27.0, 'S_ids_p50': 6.206, 'S_ids_p95': 7.262, 'R_fetch_p50': 6.793, 'R_fetch_p95': 9.777, 'floor_p50': 4.241, 'R_net_p50': 2.552, 'search_text_p50': 6.197, 'gain_max': 1.914}
+20:46:25 reclaim_iops3000 rep 1
+{'method': 'm1', 'n': 64, 'qps': 344.7, 'p50_ms': 173.15, 'p95_ms': 268.68, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.991, 'client_cores': 1.07, 'r_iops': 229}
+{'method': 'm3', 'n': 64, 'qps': 328.1, 'p50_ms': 188.6, 'p95_ms': 324.32, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.994, 'client_cores': 0.66, 'r_iops': 228}
+{'method': 'm3', 'n': 8, 'qps': 401.9, 'p50_ms': 13.2, 'p95_ms': 46.68, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.999, 'client_cores': 0.92, 'r_iops': 229}
+{'method': 'm5', 'n': 64, 'qps': 432.3, 'p50_ms': 119.86, 'p95_ms': 271.92, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.1, 'client_cores': 0.54, 'r_iops': 231}
+{'method': 'm6', 'n': 64, 'qps': 373.2, 'p50_ms': 166.05, 'p95_ms': 289.97, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.991, 'client_cores': 0.86, 'r_iops': 229}
+{'method': 'm7', 'n': 64, 'qps': 550.0, 'p50_ms': 103.9, 'p95_ms': 176.16, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.995, 'client_cores': 1.05, 'r_iops': 232}
+{'method': 'm8', 'n': 64, 'qps': 492.8, 'p50_ms': 115.45, 'p95_ms': 227.34, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.16, 'client_cores': 0.65, 'r_iops': 231}
+20:48:59 reclaim_iops3000 rep 2
+{'method': 'm1', 'n': 64, 'qps': 374.9, 'p50_ms': 158.96, 'p95_ms': 222.77, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.991, 'client_cores': 1.05, 'r_iops': 230}
+{'method': 'm3', 'n': 64, 'qps': 332.9, 'p50_ms': 189.77, 'p95_ms': 318.23, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.993, 'client_cores': 0.65, 'r_iops': 229}
+{'method': 'm3', 'n': 8, 'qps': 531.2, 'p50_ms': 11.48, 'p95_ms': 34.41, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 1.0, 'client_cores': 1.05, 'r_iops': 231}
+{'method': 'm5', 'n': 64, 'qps': 406.8, 'p50_ms': 128.43, 'p95_ms': 276.25, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.104, 'client_cores': 0.54, 'r_iops': 230}
+{'method': 'm6', 'n': 64, 'qps': 402.4, 'p50_ms': 147.89, 'p95_ms': 281.05, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.992, 'client_cores': 0.88, 'r_iops': 230}
+{'method': 'm7', 'n': 64, 'qps': 552.9, 'p50_ms': 105.76, 'p95_ms': 175.05, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.994, 'client_cores': 1.08, 'r_iops': 232}
+{'method': 'm8', 'n': 64, 'qps': 538.0, 'p50_ms': 102.2, 'p95_ms': 270.88, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.163, 'client_cores': 0.67, 'r_iops': 232}
+20:51:33 reclaim_iops3000 rep 3
+{'method': 'm1', 'n': 64, 'qps': 356.1, 'p50_ms': 164.96, 'p95_ms': 243.46, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.991, 'client_cores': 1.09, 'r_iops': 230}
+{'method': 'm3', 'n': 64, 'qps': 334.9, 'p50_ms': 187.71, 'p95_ms': 355.53, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.992, 'client_cores': 0.63, 'r_iops': 228}
+{'method': 'm3', 'n': 8, 'qps': 412.6, 'p50_ms': 13.0, 'p95_ms': 46.13, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.999, 'client_cores': 0.94, 'r_iops': 230}
+{'method': 'm5', 'n': 64, 'qps': 398.8, 'p50_ms': 128.0, 'p95_ms': 385.12, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.103, 'client_cores': 0.53, 'r_iops': 230}
+{'method': 'm6', 'n': 64, 'qps': 369.7, 'p50_ms': 166.38, 'p95_ms': 302.61, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.993, 'client_cores': 0.84, 'r_iops': 229}
+{'method': 'm7', 'n': 64, 'qps': 508.9, 'p50_ms': 107.99, 'p95_ms': 191.97, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.994, 'client_cores': 1.03, 'r_iops': 232}
+{'method': 'm8', 'n': 64, 'qps': 613.2, 'p50_ms': 94.95, 'p95_ms': 166.02, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.151, 'client_cores': 0.71, 'r_iops': 232}
+target=milvus (mv-milvus)
+memory.current 3.32GiB  memory.high max  memory.max max
+  anon           2.87GiB
+  file           0.38GiB
+  shmem          0.00GiB
+  file_mapped    0.37GiB
+  inactive_file  0.00GiB
+  active_file    0.38GiB
+  events.high=0
+  events.max=0
+  events.oom=0
+  events.oom_kill=0
+20:54:08 switch: iops 1000
+milvus iops 1000
+20:54:09 ===== reclaim_iops1000
+20:54:09 switch: reclaim
+milvus reclaim file 0.38GiB -> 0.00GiB
+{'layout': 'seq', 'cond': 'reclaim_iops1000', 'topk': 10, 'expand': 1, 'reps': 300, 'version': 'pymilvus 3.0.3 / server 2.6.23', 'ctx_pks_mean': 27.0, 'S_ids_p50': 6.482, 'S_ids_p95': 7.516, 'R_fetch_p50': 6.717, 'R_fetch_p95': 9.623, 'floor_p50': 4.378, 'R_net_p50': 2.339, 'search_text_p50': 6.047, 'gain_max': 1.965}
+20:54:19 reclaim_iops1000 rep 1
+{'method': 'm1', 'n': 64, 'qps': 343.0, 'p50_ms': 169.54, 'p95_ms': 279.64, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.991, 'client_cores': 1.04, 'r_iops': 229}
+{'method': 'm3', 'n': 64, 'qps': 312.3, 'p50_ms': 192.98, 'p95_ms': 367.8, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.99, 'client_cores': 0.63, 'r_iops': 228}
+{'method': 'm3', 'n': 8, 'qps': 425.1, 'p50_ms': 13.1, 'p95_ms': 45.88, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 1.0, 'client_cores': 0.94, 'r_iops': 230}
+{'method': 'm5', 'n': 64, 'qps': 380.0, 'p50_ms': 129.87, 'p95_ms': 399.15, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.104, 'client_cores': 0.5, 'r_iops': 231}
+{'method': 'm6', 'n': 64, 'qps': 373.4, 'p50_ms': 163.69, 'p95_ms': 297.9, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.991, 'client_cores': 0.84, 'r_iops': 230}
+{'method': 'm7', 'n': 64, 'qps': 367.1, 'p50_ms': 156.97, 'p95_ms': 301.97, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.992, 'client_cores': 0.92, 'r_iops': 230}
+{'method': 'm8', 'n': 64, 'qps': 512.2, 'p50_ms': 101.96, 'p95_ms': 283.09, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.153, 'client_cores': 0.65, 'r_iops': 232}
+20:56:53 reclaim_iops1000 rep 2
+{'method': 'm1', 'n': 64, 'qps': 320.1, 'p50_ms': 181.45, 'p95_ms': 293.08, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.99, 'client_cores': 1.06, 'r_iops': 229}
+{'method': 'm3', 'n': 64, 'qps': 312.4, 'p50_ms': 190.22, 'p95_ms': 379.65, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.991, 'client_cores': 0.64, 'r_iops': 227}
+{'method': 'm3', 'n': 8, 'qps': 465.1, 'p50_ms': 12.33, 'p95_ms': 41.3, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.999, 'client_cores': 0.98, 'r_iops': 231}
+{'method': 'm5', 'n': 64, 'qps': 381.6, 'p50_ms': 160.37, 'p95_ms': 386.68, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.102, 'client_cores': 0.52, 'r_iops': 229}
+{'method': 'm6', 'n': 64, 'qps': 373.2, 'p50_ms': 168.32, 'p95_ms': 296.53, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.993, 'client_cores': 0.81, 'r_iops': 230}
+{'method': 'm7', 'n': 64, 'qps': 487.8, 'p50_ms': 110.6, 'p95_ms': 225.43, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.994, 'client_cores': 1.0, 'r_iops': 231}
+{'method': 'm8', 'n': 64, 'qps': 456.5, 'p50_ms': 116.22, 'p95_ms': 339.5, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.16, 'client_cores': 0.62, 'r_iops': 230}
+20:59:28 reclaim_iops1000 rep 3
+{'method': 'm1', 'n': 64, 'qps': 349.7, 'p50_ms': 165.66, 'p95_ms': 251.28, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.991, 'client_cores': 1.06, 'r_iops': 229}
+{'method': 'm3', 'n': 64, 'qps': 322.5, 'p50_ms': 188.79, 'p95_ms': 381.45, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.994, 'client_cores': 0.62, 'r_iops': 229}
+{'method': 'm3', 'n': 8, 'qps': 536.4, 'p50_ms': 11.15, 'p95_ms': 34.69, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 1.0, 'client_cores': 1.02, 'r_iops': 231}
+{'method': 'm5', 'n': 64, 'qps': 385.2, 'p50_ms': 133.33, 'p95_ms': 397.2, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.102, 'client_cores': 0.53, 'r_iops': 229}
+{'method': 'm6', 'n': 64, 'qps': 358.4, 'p50_ms': 169.29, 'p95_ms': 303.87, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.991, 'client_cores': 0.81, 'r_iops': 229}
+{'method': 'm7', 'n': 64, 'qps': 492.3, 'p50_ms': 110.23, 'p95_ms': 218.15, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.994, 'client_cores': 0.99, 'r_iops': 231}
+{'method': 'm8', 'n': 64, 'qps': 474.2, 'p50_ms': 112.68, 'p95_ms': 309.37, 'errors': 0, 'bad': 0, 'fetch_calls_per_req': 0.154, 'client_cores': 0.65, 'r_iops': 231}
+target=milvus (mv-milvus)
+memory.current 3.32GiB  memory.high max  memory.max max
+  anon           2.88GiB
+  file           0.38GiB
+  shmem          0.00GiB
+  file_mapped    0.37GiB
+  inactive_file  0.00GiB
+  active_file    0.38GiB
+  events.high=0
+  events.max=0
+  events.oom=0
+  events.oom_kill=0
+21:02:02 done run_reclaim
+21:02:02 cleanup: reset
+milvus reset
+released nq_seq {'state': <LoadState: NotLoad>}
+target=milvus (mv-milvus)
+memory.current 1.36GiB  memory.high max  memory.max max
+  anon           1.31GiB
+  file           0.00GiB

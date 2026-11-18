@@ -1,0 +1,2 @@
+ts_utc,ts_kst,version,layout,cond,topk,expand,reps,ctx_pks_mean,S_ids_p50,S_ids_p95,R_fetch_p50,R_fetch_p95,floor_p50,R_net_p50,search_text_p50,gain_max
+2026-11-14 00:57:37,2026-11-14 09:57:37,pymilvus 3.0.3 / server 2.6.23,seq,base,10,1,300,27.2,6.807,7.721,5.322,6.068,4.593,0.729,6.69,1.782
