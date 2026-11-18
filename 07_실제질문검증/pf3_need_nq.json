@@ -1,0 +1,31 @@
+{
+ "ds": "nq",
+ "searched": 3452,
+ "gold_eval": 3452,
+ "ans_eval": 2254,
+ "gold_any_top10": 0.7561,
+ "gold_any_all": 0.8056,
+ "gold_cov_top10": 0.5143,
+ "gold_cov_all": 0.7204,
+ "gold_full_top10": 0.3155,
+ "gold_full_all": 0.6753,
+ "p_nb_gold": 0.529,
+ "p_nb_gold_rescue": 0.0495,
+ "p_nb_gold_complete": 0.4794,
+ "ans_top10": 0.7808,
+ "ans_all": 0.8767,
+ "p_ans_need": 0.0958,
+ "p_nb_has_ans": 0.496,
+ "nb_has_ans_but_top10_already": 0.8095,
+ "p_ans_need_given_reach": 0.1093,
+ "ans_eval_and_gold_eval": 2254,
+ "p_ans_need_on_gold_eval": 0.0958,
+ "timing_set": {
+  "source": "answer",
+  "queries": 2254,
+  "need_share": 0.0958
+ },
+ "gold_ok": true,
+ "pk_text_same": 508,
+ "pk_text_diff": 0
+}

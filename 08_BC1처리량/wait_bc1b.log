@@ -1,0 +1,11 @@
+11-16 16:58:08 wait_run_pf 시작 (run_bc1b.sh): 180초마다 확인, 연속 2번 조용하면 측정, 최대 6시간
+11-16 16:58:22 조용함 (1/2)
+11-16 17:01:36 조용함 (2/2)
+11-16 17:01:36 측정 시작 (run_bc1b.sh, 로그 bc1b.log). 시작 때 다른 계정 프로세스:
+  vdb01         166682    16:45:34 tail -n +1 -f logs/q4_full.log
+  vdb01         166683    16:45:34 /bin/bash -c source /workspace/jaeeun/.claude/shell-snapshots/snapshot-bash-1794788029198-eyv1oq.sh 2>/dev/null || true && \builtin shopt -u extglob 2>/dev/null || true && { \builtin unalias -- 'which'; \builtin unset -f -- 'which'; } >/dev/null 2>&1 || true && { \builtin unalias -- 'unsetenv'; \builtin unset -f -- 'unsetenv'; } >/dev/null 2>&1 || true && eval 'cd /workspace/jaeeun/sel_fetch (tail -n +1 -f logs/q4_full.log | grep -E --line-buffered "== .* done|k-occ [0-9]+0000/|recall|released|STOP|Error|Traceback|Killed|EXIT=|ALL DONE") & TP=$! while true; do   ps -eo user,pid,%cpu,rss,cmd --no-headers | awk '"'"'$1!="vdb01" && $1!="root" && ($3>50 || $4>1000000) {print "OTHER_USER_HEAVY:", $0; fflush()}'"'"'   grep -q "EXIT=" logs/q4_full.log && { sleep 2; kill $TP; exit 0; }   sleep 60 done' < /dev/null && pwd -P >| /tmp/claude-194b-cwd
+  vdb01         166684    16:45:34 ugrep -G --ignore-files --hidden -I --exclude-dir=.git --exclude-dir=.svn --exclude-dir=.hg --exclude-dir=.bzr --exclude-dir=.jj --exclude-dir=.sl -E --line-buffered == .* done|k-occ [0-9]+0000/|recall|released|STOP|Error|Traceback|Killed|EXIT=|ALL DONE
+  vdb01         168044    15:42:32 /workspace/jaeeun/.local/bin/claude -c
+11-16 17:12:17 run_bc1b.sh 끝 (종료 코드 0). bc1b.log 마지막 줄: 17:12:11 결과 묶음: /workspace/junlim/bc1b_results_1116_1712.tgz (688K)
+11-16 17:12:30 끝난 뒤 확인: 결과: 조용함. 측정해도 됩니다.
+11-16 17:12:30 측정 중에 다른 계정의 새 프로세스는 없었음

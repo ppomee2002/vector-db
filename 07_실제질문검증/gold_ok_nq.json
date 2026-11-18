@@ -1,0 +1,35 @@
+{
+ "dataset": "nq",
+ "ok": true,
+ "prep_nq_md5": "cf0ca4d9",
+ "n_chunks": 1000000,
+ "n_real": 3452,
+ "flags": {
+  "chunks": 1000000,
+  "term_share": 0.0419,
+  "start_cut_share": 0.9679,
+  "end_cut_share": 0.9679,
+  "cut_any_share_of_chunks_with_nb": 0.997
+ },
+ "src_queries": 3452,
+ "query_aligned": 3452,
+ "qrels_queries": 3452,
+ "passages_read": 1058932,
+ "articles": 36505,
+ "want_words": 83200000,
+ "structure_mismatch": 0,
+ "chunks_checked": 1000000,
+ "chunk_mismatch": 0,
+ "chunk_mismatch_first": [],
+ "passage_text_checked": 4201,
+ "passage_text_ok": 4201,
+ "gold_passages": 4201,
+ "gold_passages_where": {
+  "included": 4201,
+  "not_read": 0
+ },
+ "eval_queries": 3452,
+ "answers_matched": 2255,
+ "eval_and_answers": 2255,
+ "corpus_ok": true
+}

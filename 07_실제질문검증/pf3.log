@@ -1,0 +1,242 @@
+== 지금 접속한 계정
+== 다른 계정의 프로세스 (CPU 순 상위 10개, %CPU는 시작 후 평균)
+  vdb01         168044    08:58:01  1.1 /workspace/jaeeun/.local/bin/claude -c
+  vdb01         166684    10:01:03  0.6 ugrep -G --ignore-files --hidden -I --exclude-dir=.git --exclude-dir=.svn --exclude-dir=.hg --exclude-dir=.bzr -
+  vdb01         166463    10:07:03  0.0 tmux new -s claude
+  vdb02          99110  2-08:20:55  0.0 tmux new -s jihyeon
+  vdb01         166464    10:07:03  0.0 -bash
+  vdb02          99111  2-08:20:55  0.0 -bash
+  vdb02          99330  2-08:07:58  0.0 -bash
+  vdb01         166682    10:01:03  0.0 tail -n +1 -f logs/q4_full.log
+  vdb01         166683    10:01:03  0.0 /bin/bash -c source /workspace/jaeeun/.claude/shell-snapshots/snapshot-bash-1794788029198-eyv1oq.sh 2>/dev/null 
+== Milvus 활동 (10초 동안)
+  Milvus CPU 0.11코어 (기준 1.0)
+  요청 0.0건/초 (기준 5)
+== 올라가 있는 컬렉션 (참고: 올라가 있다고 지금 쓰는 중이라는 뜻은 아님)
+  (없음)
+== 관리자 스위치: 지금 걸린 제한과 최근 기록 (참고)
+  target=milvus (mv-milvus)
+  memory.current 1.07GiB  memory.high max  memory.max max
+    anon           0.99GiB
+    file           0.01GiB
+    shmem          0.00GiB
+    file_mapped    0.00GiB
+    inactive_file  0.00GiB
+    active_file    0.01GiB
+  2026-11-15 20:49:50 203.253.145.110 milvus reset
+  2026-11-15 20:51:04 203.253.145.110 milvus reclaim file 1.38GiB -> 0.00GiB
+  2026-11-15 20:51:22 203.253.145.110 milvus reclaim file 0.33GiB -> 0.00GiB
+  2026-11-15 20:51:39 203.253.145.110 milvus reclaim file 0.33GiB -> 0.00GiB
+  2026-11-15 20:51:56 203.253.145.110 milvus reset
+==
+결과: 조용함. 측정해도 됩니다.
+10:17:17 start run_pf3 reps=3 backend=milvus out=/workspace/junlim/pf3_out n=64 cap=8 dur=20 seq_reqs=400
+379e9fd6  gold_map.py
+9eb76ed5  bench_pf3.py
+4a4ace33  analyze_pf3.py
+2754643f  pf3_rules.py
+fe950764  bench_pf2.py
+58d771b9  bench_v2.py
+cf0ca4d9  prep_nq.py
+0fb7e0ea  run_pf3.sh
+pf3_rules selftest PASS
+10:17:22 switch: reset
+milvus reset
+10:17:23 ===== 1) gold_map (Milvus 안 씀)
+10:17:23 == NQ  data=/workspace/junlim/data_nq chunks=1000000 words=64 min_tail=32 실제 질문=3452 prep_nq.py md5=cf0ca4d9 (전처리 때 cf0ca4d9)
+10:17:27 조각 경계(규칙 A): 문장 끝으로 끝나는 조각 4.2%, 앞 이웃이 있는 조각 중 앞이 잘린 것 96.8%, 뒤 이웃이 있는 조각 중 뒤가 잘린 것 96.8%
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+10:17:31 질문: 원본 3452개, 우리 실제 질문 3452개, 같은 자리에 같은 글 3452개
+Generating test split:   0%|          | 0/4201 [00:00<?, ? examples/s]Generating test split: 100%|██████████| 4201/4201 [00:00<00:00, 323118.01 examples/s]
+10:17:33 qrels(test): 질문 3452개, 관련 문단 쌍 4201개
+Generating train split:   0%|          | 0/87925 [00:00<?, ? examples/s]Generating train split: 100%|██████████| 87925/87925 [00:00<00:00, 1410350.84 examples/s]
+Generating validation split:   0%|          | 0/3610 [00:00<?, ? examples/s]Generating validation split: 100%|██████████| 3610/3610 [00:00<00:00, 638798.36 examples/s]
+10:17:40 nq_open validation: 정답 문자열이 있는 질문 3610개
+10:18:57 코퍼스 다시 읽기: 문단 1058932개, 위키 글 36505개, 다시 만든 조각 1000000개
+10:19:04 조각 대조: 1000000개 중 다른 것 0개, 문서 경계 계산이 어긋난 곳 0개
+10:19:04 정답 문단 글 확인: 4201개 중 저장된 조각 글 안에 그대로 있는 것 4201개
+10:19:04 정답 문단 4201개의 위치: {'included': 4201, 'not_read': 0} (included=우리 조각 안에 통째로, partial=일부만, read_not_included=읽었지만 조각 100만 개 밖, not_read=전처리 때 읽지 않은 부분)
+10:19:04 평가 가능한 질문(정답 문단이 통째로 우리 데이터 안에 있음): 3452개 / 실제 질문 3452개
+10:19:04 정답 문자열이 붙은 질문: 2255개 (평가 가능 + 정답 문자열: 2255개)
+10:19:04 NQ 정답 문단 기준 사용: 가능
+10:19:05 == FiQA  data=/workspace/junlim/data
+10:19:05 조각 133919개. 조각 경계(규칙 A): 문장 끝으로 끝나는 조각 41.0%, 앞이 잘린 것 94.9%, 뒤가 잘린 것 94.9%
+10:19:10 문서 맞추기: 우리 문서 57600개, 원본 57638개, 방법별 {'exact': 57600, 'title+text': 0, 'prefix': 0, 'none': 0} (맞춘 비율 100.0%)
+Generating train split:   0%|          | 0/14166 [00:00<?, ? examples/s]Generating train split: 100%|██████████| 14166/14166 [00:00<00:00, 1083294.02 examples/s]
+Generating dev split:   0%|          | 0/1238 [00:00<?, ? examples/s]Generating dev split: 100%|██████████| 1238/1238 [00:00<00:00, 375835.87 examples/s]
+Generating test split:   0%|          | 0/1706 [00:00<?, ? examples/s]Generating test split: 100%|██████████| 1706/1706 [00:00<00:00, 437590.67 examples/s]
+10:19:14 질문: queries.jsonl 6648줄(query_vecs 6648행), test qrels가 있는 질문 648개, 평가 가능 648개
+10:19:14 FiQA 관련 문서 기준 사용: 가능
+10:19:14 gold_map 끝 (111s): nq ok=True, fiqa ok=True
+10:19:14 ===== 2) FiQA 실제 질문 검색 (품질용)
+released nq_seq {'state': <LoadState: NotLoad>}
+loaded fiqa_seq in 2.7s
+fiqa_seq {'state': <LoadState: Loaded>} index mmap: False
+hits fiqa: 648 queries in 6.9s -> /workspace/junlim/pf3_out/hits_fiqa.jsonl
+released fiqa_seq {'state': <LoadState: NotLoad>}
+{"ds": "fiqa", "searched": 648, "gold_eval": 648, "ans_eval": 0, "gold_any_top10": 0.6111, "gold_any_all": 0.6111, "gold_cov_top10": 0.2062, "gold_cov_all": 0.3293, "gold_full_top10": 0.1991, "gold_full_all": 0.3981, "p_nb_gold": 0.5108, "p_nb_gold_rescue": 0.0, "p_nb_gold_complete": 0.5108, "timing_set": {"source": "gold", "queries": 648, "need_share": 0.5108}, "gold_ok": true, "pk_text_same": 417, "pk_text_diff": 0}
+subset rule      q  extra gold_cov gold_full    ans  fixed prec_g  rec_g
+gold   none    648    0.0   0.2062    0.1991                         0.0
+gold   A       648 10.039   0.3239    0.3889               0.0939 0.9577
+gold   A3      648  2.809   0.2748    0.3194               0.1775 0.5063
+gold   B       648  1.031   0.2415     0.267               0.3024 0.3166
+gold   C1      648  0.929   0.2445    0.2593               0.2575 0.2429
+gold   C3      648  2.938   0.2779    0.3241               0.1765 0.5266
+gold   BC1     648  1.809   0.2704    0.3133               0.2645 0.4859
+gold   all     648 10.565   0.3293    0.3981               0.0932    1.0
+all    none    648    0.0   0.2062    0.1991                         0.0
+all    A       648 10.039   0.3239    0.3889               0.0939 0.9577
+all    A3      648  2.809   0.2748    0.3194               0.1775 0.5063
+all    B       648  1.031   0.2415     0.267               0.3024 0.3166
+all    C1      648  0.929   0.2445    0.2593               0.2575 0.2429
+all    C3      648  2.938   0.2779    0.3241               0.1765 0.5266
+all    BC1     648  1.809   0.2704    0.3133               0.2645 0.4859
+all    all     648 10.565   0.3293    0.3981               0.0932    1.0
+10:19:36 ===== 3) NQ 준비와 실제 질문 검색 (품질용)
+loaded nq_seq in 5.4s
+nq_seq {'state': <LoadState: Loaded>} index mmap: False
+target=milvus (mv-milvus)
+memory.current 3.02GiB  memory.high max  memory.max max
+  anon           2.54GiB
+  file           0.39GiB
+  shmem          0.00GiB
+  file_mapped    0.39GiB
+  inactive_file  0.10GiB
+  active_file    0.29GiB
+  events.high=0
+  events.max=0
+  events.oom=0
+  events.oom_kill=0
+hits nq: 3452 queries in 34.4s -> /workspace/junlim/pf3_out/hits_nq.jsonl
+{"ds": "nq", "searched": 3452, "gold_eval": 3452, "ans_eval": 2254, "gold_any_top10": 0.7561, "gold_any_all": 0.8056, "gold_cov_top10": 0.5143, "gold_cov_all": 0.7204, "gold_full_top10": 0.3155, "gold_full_all": 0.6753, "p_nb_gold": 0.529, "p_nb_gold_rescue": 0.0495, "p_nb_gold_complete": 0.4794, "ans_top10": 0.7808, "ans_all": 0.8767, "p_ans_need": 0.0958, "p_nb_has_ans": 0.496, "nb_has_ans_but_top10_already": 0.8095, "p_ans_need_given_reach": 0.1093, "ans_eval_and_gold_eval": 2254, "p_ans_need_on_gold_eval": 0.0958, "timing_set": {"source": "answer", "queries": 2254, "need_share": 0.0958}, "gold_ok": true, "pk_text_same": 508, "pk_text_diff": 0}
+subset rule      q  extra gold_cov gold_full    ans  fixed prec_g  rec_g
+gold   none   3452    0.0   0.5143    0.3155 0.7808    0.0           0.0
+gold   A      3452 14.287    0.715    0.6674 0.8744 0.9769 0.0469  0.978
+gold   A3     3452  3.819   0.6382    0.5527 0.8314 0.5278 0.1054 0.5871
+gold   B      3452  8.387    0.692    0.6257 0.8611  0.838 0.0718 0.8787
+gold   C1     3452  1.172   0.5797    0.4429 0.8114 0.3194 0.1787 0.3056
+gold   C3     3452  3.947   0.6417    0.5591 0.8327 0.5417 0.1047 0.6031
+gold   BC1    3452  8.708   0.7056    0.6515 0.8665 0.8935 0.0736 0.9349
+gold   all    3452 14.746   0.7204    0.6753 0.8767    1.0 0.0465    1.0
+ans    none   2254    0.0   0.5095    0.3212 0.7808    0.0           0.0
+ans    A      2254 14.442   0.7075    0.6677 0.8744 0.9769 0.0466 0.9743
+ans    A3     2254    3.9   0.6276    0.5515 0.8314 0.5278 0.0994 0.5613
+ans    B      2254  8.356   0.6834    0.6224 0.8611  0.838 0.0719 0.8703
+ans    C1     2254  1.196   0.5746    0.4468 0.8114 0.3194 0.1744 0.3019
+ans    C3     2254  4.027   0.6316    0.5581 0.8327 0.5417 0.0992  0.578
+ans    BC1    2254  8.697   0.6971    0.6491 0.8665 0.8935 0.0737 0.9281
+ans    all    2254 14.894   0.7136    0.6766 0.8767    1.0 0.0464    1.0
+all    none   3452    0.0   0.5143    0.3155 0.7808    0.0           0.0
+all    A      3452 14.287    0.715    0.6674 0.8744 0.9769 0.0469  0.978
+all    A3     3452  3.819   0.6382    0.5527 0.8314 0.5278 0.1054 0.5871
+all    B      3452  8.387    0.692    0.6257 0.8611  0.838 0.0718 0.8787
+all    C1     3452  1.172   0.5797    0.4429 0.8114 0.3194 0.1787 0.3056
+all    C3     3452  3.947   0.6417    0.5591 0.8327 0.5417 0.1047 0.6031
+all    BC1    3452  8.708   0.7056    0.6515 0.8665 0.8935 0.0736 0.9349
+all    all    3452 14.746   0.7204    0.6753 0.8767    1.0 0.0465    1.0
+10:20:51 ===== 4a) pf3 seq (정책 8개, 요청을 하나씩)
+seq {'none': 9.943, 'all': 10.337, 'rA': 10.202, 'rB': 10.316, 'rC1': 10.295, 'rC3': 10.171, 'lazy_need': 10.358, 'text_need': 6.117}
+seq {'none': 9.791, 'all': 9.912, 'rA': 9.904, 'rB': 10.069, 'rC1': 9.736, 'rC3': 9.827, 'lazy_need': 10.342, 'text_need': 5.945}
+seq {'none': 10.024, 'all': 10.296, 'rA': 10.34, 'rB': 10.476, 'rC1': 10.317, 'rC3': 10.339, 'lazy_need': 10.435, 'text_need': 6.204}
+10:22:30 ===== 4b) pf3 load (동시 요청 64, 상한 8)
+{'policy': 'none', 'qps': 678.6, 'mean_ms': 94.89, 'p99_ms': 156.42, 'fetch_calls_per_req': 0.995, 'fetched_pks_per_req': 9.95, 'need_share': 0.096, 'errors': 0}
+{'policy': 'all', 'qps': 498.4, 'mean_ms': 129.2, 'p99_ms': 267.13, 'fetch_calls_per_req': 0.993, 'fetched_pks_per_req': 24.7, 'need_share': 0.096, 'errors': 0}
+{'policy': 'rA', 'qps': 649.1, 'mean_ms': 99.2, 'p99_ms': 178.27, 'fetch_calls_per_req': 0.995, 'fetched_pks_per_req': 24.31, 'need_share': 0.096, 'errors': 0}
+{'policy': 'rB', 'qps': 679.1, 'mean_ms': 94.69, 'p99_ms': 152.14, 'fetch_calls_per_req': 0.996, 'fetched_pks_per_req': 18.28, 'need_share': 0.096, 'errors': 0}
+{'policy': 'rC1', 'qps': 691.6, 'mean_ms': 92.94, 'p99_ms': 156.14, 'fetch_calls_per_req': 0.995, 'fetched_pks_per_req': 11.14, 'need_share': 0.097, 'errors': 0}
+{'policy': 'rC3', 'qps': 705.9, 'mean_ms': 91.03, 'p99_ms': 144.4, 'fetch_calls_per_req': 0.996, 'fetched_pks_per_req': 13.95, 'need_share': 0.097, 'errors': 0}
+{'policy': 'lazy_need', 'qps': 682.4, 'mean_ms': 94.18, 'p99_ms': 149.91, 'fetch_calls_per_req': 1.091, 'fetched_pks_per_req': 11.46, 'need_share': 0.096, 'errors': 0}
+{'policy': 'text_need', 'qps': 961.6, 'mean_ms': 66.8, 'p99_ms': 133.93, 'fetch_calls_per_req': 0.094, 'fetched_pks_per_req': 1.47, 'need_share': 0.094, 'errors': 0}
+{'policy': 'all', 'qps': 630.9, 'mean_ms': 101.85, 'p99_ms': 187.64, 'fetch_calls_per_req': 0.996, 'fetched_pks_per_req': 24.81, 'need_share': 0.098, 'errors': 0}
+{'policy': 'rA', 'qps': 570.2, 'mean_ms': 113.21, 'p99_ms': 286.1, 'fetch_calls_per_req': 0.994, 'fetched_pks_per_req': 24.3, 'need_share': 0.098, 'errors': 0}
+{'policy': 'rB', 'qps': 684.4, 'mean_ms': 94.1, 'p99_ms': 178.44, 'fetch_calls_per_req': 0.995, 'fetched_pks_per_req': 18.3, 'need_share': 0.099, 'errors': 0}
+{'policy': 'rC1', 'qps': 710.2, 'mean_ms': 90.6, 'p99_ms': 148.03, 'fetch_calls_per_req': 0.995, 'fetched_pks_per_req': 11.15, 'need_share': 0.101, 'errors': 0}
+{'policy': 'rC3', 'qps': 689.8, 'mean_ms': 93.18, 'p99_ms': 161.95, 'fetch_calls_per_req': 0.996, 'fetched_pks_per_req': 13.98, 'need_share': 0.099, 'errors': 0}
+{'policy': 'lazy_need', 'qps': 693.3, 'mean_ms': 92.77, 'p99_ms': 149.59, 'fetch_calls_per_req': 1.095, 'fetched_pks_per_req': 11.51, 'need_share': 0.1, 'errors': 0}
+{'policy': 'text_need', 'qps': 996.6, 'mean_ms': 64.45, 'p99_ms': 124.21, 'fetch_calls_per_req': 0.098, 'fetched_pks_per_req': 1.52, 'need_share': 0.098, 'errors': 0}
+{'policy': 'none', 'qps': 724.2, 'mean_ms': 88.72, 'p99_ms': 135.75, 'fetch_calls_per_req': 0.996, 'fetched_pks_per_req': 9.96, 'need_share': 0.1, 'errors': 0}
+{'policy': 'rA', 'qps': 685.4, 'mean_ms': 93.81, 'p99_ms': 167.26, 'fetch_calls_per_req': 0.995, 'fetched_pks_per_req': 24.35, 'need_share': 0.1, 'errors': 0}
+{'policy': 'rB', 'qps': 706.3, 'mean_ms': 91.0, 'p99_ms': 156.25, 'fetch_calls_per_req': 0.996, 'fetched_pks_per_req': 18.31, 'need_share': 0.1, 'errors': 0}
+{'policy': 'rC1', 'qps': 707.9, 'mean_ms': 90.8, 'p99_ms': 151.85, 'fetch_calls_per_req': 0.995, 'fetched_pks_per_req': 11.15, 'need_share': 0.1, 'errors': 0}
+{'policy': 'rC3', 'qps': 680.4, 'mean_ms': 94.59, 'p99_ms': 162.31, 'fetch_calls_per_req': 0.996, 'fetched_pks_per_req': 13.99, 'need_share': 0.101, 'errors': 0}
+{'policy': 'lazy_need', 'qps': 689.2, 'mean_ms': 93.33, 'p99_ms': 148.01, 'fetch_calls_per_req': 1.095, 'fetched_pks_per_req': 11.52, 'need_share': 0.1, 'errors': 0}
+{'policy': 'text_need', 'qps': 996.2, 'mean_ms': 64.45, 'p99_ms': 128.28, 'fetch_calls_per_req': 0.098, 'fetched_pks_per_req': 1.53, 'need_share': 0.098, 'errors': 0}
+{'policy': 'none', 'qps': 704.3, 'mean_ms': 91.29, 'p99_ms': 152.77, 'fetch_calls_per_req': 0.995, 'fetched_pks_per_req': 9.95, 'need_share': 0.1, 'errors': 0}
+{'policy': 'all', 'qps': 676.2, 'mean_ms': 95.24, 'p99_ms': 169.55, 'fetch_calls_per_req': 0.995, 'fetched_pks_per_req': 24.8, 'need_share': 0.101, 'errors': 0}
+10:32:59 ===== 4c) pf2 seq (무작위 필요 비율)
+p=0.0 {'lazy_id': 8.436, 'prefetch': 8.737, 'lazy_text': 4.926}
+p=0.05 {'lazy_id': 8.21, 'prefetch': 8.365, 'lazy_text': 4.808}
+p=0.1 {'lazy_id': 8.432, 'prefetch': 8.422, 'lazy_text': 5.029}
+p=0.2 {'lazy_id': 8.843, 'prefetch': 8.485, 'lazy_text': 5.512}
+p=0.5 {'lazy_id': 9.783, 'prefetch': 8.232, 'lazy_text': 6.424}
+p=1.0 {'lazy_id': 11.977, 'prefetch': 8.743, 'lazy_text': 8.708}
+p=0.0 {'lazy_id': 8.333, 'prefetch': 8.657, 'lazy_text': 4.832}
+p=0.05 {'lazy_id': 8.791, 'prefetch': 8.954, 'lazy_text': 5.265}
+p=0.1 {'lazy_id': 8.534, 'prefetch': 8.423, 'lazy_text': 5.304}
+p=0.2 {'lazy_id': 8.623, 'prefetch': 8.298, 'lazy_text': 5.271}
+p=0.5 {'lazy_id': 9.742, 'prefetch': 8.293, 'lazy_text': 6.426}
+p=1.0 {'lazy_id': 11.767, 'prefetch': 8.46, 'lazy_text': 8.393}
+p=0.0 {'lazy_id': 9.19, 'prefetch': 9.56, 'lazy_text': 5.551}
+p=0.05 {'lazy_id': 9.395, 'prefetch': 9.285, 'lazy_text': 5.368}
+p=0.1 {'lazy_id': 8.6, 'prefetch': 8.828, 'lazy_text': 5.141}
+p=0.2 {'lazy_id': 8.878, 'prefetch': 8.359, 'lazy_text': 5.553}
+p=0.5 {'lazy_id': 10.057, 'prefetch': 8.263, 'lazy_text': 6.434}
+p=1.0 {'lazy_id': 11.676, 'prefetch': 8.623, 'lazy_text': 8.312}
+10:35:14 ===== 4d) pf2 load (동시 요청 64, 상한 8)
+{'policy': 'lazy_id', 'p': 0.0, 'qps': 674.5, 'mean_ms': 95.3, 'p99_ms': 157.38, 'fetch_calls_per_req': 0.995, 'need_share': 0.0, 'errors': 0}
+{'policy': 'prefetch', 'p': 0.0, 'qps': 438.5, 'mean_ms': 146.8, 'p99_ms': 314.62, 'fetch_calls_per_req': 0.993, 'need_share': 0.0, 'errors': 0}
+{'policy': 'lazy_text', 'p': 0.0, 'qps': 924.1, 'mean_ms': 69.46, 'p99_ms': 154.76, 'fetch_calls_per_req': 0.0, 'need_share': 0.0, 'errors': 0}
+{'policy': 'lazy_id', 'p': 0.1, 'qps': 578.0, 'mean_ms': 111.28, 'p99_ms': 197.96, 'fetch_calls_per_req': 1.092, 'need_share': 0.099, 'errors': 0}
+{'policy': 'prefetch', 'p': 0.1, 'qps': 616.7, 'mean_ms': 104.26, 'p99_ms': 186.98, 'fetch_calls_per_req': 0.995, 'need_share': 0.101, 'errors': 0}
+{'policy': 'lazy_text', 'p': 0.1, 'qps': 929.6, 'mean_ms': 69.05, 'p99_ms': 148.33, 'fetch_calls_per_req': 0.1, 'need_share': 0.101, 'errors': 0}
+{'policy': 'lazy_id', 'p': 0.5, 'qps': 525.9, 'mean_ms': 122.34, 'p99_ms': 203.24, 'fetch_calls_per_req': 1.492, 'need_share': 0.502, 'errors': 0}
+{'policy': 'prefetch', 'p': 0.5, 'qps': 572.3, 'mean_ms': 112.5, 'p99_ms': 243.4, 'fetch_calls_per_req': 0.994, 'need_share': 0.502, 'errors': 0}
+{'policy': 'lazy_text', 'p': 0.5, 'qps': 770.1, 'mean_ms': 83.45, 'p99_ms': 154.17, 'fetch_calls_per_req': 0.497, 'need_share': 0.499, 'errors': 0}
+{'policy': 'lazy_id', 'p': 1.0, 'qps': 453.4, 'mean_ms': 142.23, 'p99_ms': 238.33, 'fetch_calls_per_req': 1.985, 'need_share': 1.0, 'errors': 0}
+{'policy': 'prefetch', 'p': 1.0, 'qps': 587.5, 'mean_ms': 109.44, 'p99_ms': 202.7, 'fetch_calls_per_req': 0.995, 'need_share': 1.0, 'errors': 0}
+{'policy': 'lazy_text', 'p': 1.0, 'qps': 513.1, 'mean_ms': 125.39, 'p99_ms': 234.13, 'fetch_calls_per_req': 0.994, 'need_share': 1.0, 'errors': 0}
+{'policy': 'prefetch', 'p': 0.0, 'qps': 589.6, 'mean_ms': 109.22, 'p99_ms': 216.73, 'fetch_calls_per_req': 0.995, 'need_share': 0.0, 'errors': 0}
+{'policy': 'lazy_text', 'p': 0.0, 'qps': 764.0, 'mean_ms': 84.13, 'p99_ms': 220.15, 'fetch_calls_per_req': 0.0, 'need_share': 0.0, 'errors': 0}
+{'policy': 'lazy_id', 'p': 0.0, 'qps': 610.1, 'mean_ms': 105.49, 'p99_ms': 180.02, 'fetch_calls_per_req': 0.994, 'need_share': 0.0, 'errors': 0}
+{'policy': 'prefetch', 'p': 0.1, 'qps': 599.5, 'mean_ms': 107.32, 'p99_ms': 194.05, 'fetch_calls_per_req': 0.994, 'need_share': 0.106, 'errors': 0}
+{'policy': 'lazy_text', 'p': 0.1, 'qps': 647.6, 'mean_ms': 99.25, 'p99_ms': 265.48, 'fetch_calls_per_req': 0.105, 'need_share': 0.106, 'errors': 0}
+{'policy': 'lazy_id', 'p': 0.1, 'qps': 591.7, 'mean_ms': 108.7, 'p99_ms': 181.4, 'fetch_calls_per_req': 1.099, 'need_share': 0.105, 'errors': 0}
+{'policy': 'prefetch', 'p': 0.5, 'qps': 605.3, 'mean_ms': 106.27, 'p99_ms': 189.15, 'fetch_calls_per_req': 0.994, 'need_share': 0.502, 'errors': 0}
+{'policy': 'lazy_text', 'p': 0.5, 'qps': 580.5, 'mean_ms': 110.83, 'p99_ms': 256.29, 'fetch_calls_per_req': 0.499, 'need_share': 0.503, 'errors': 0}
+{'policy': 'lazy_id', 'p': 0.5, 'qps': 539.8, 'mean_ms': 119.27, 'p99_ms': 188.84, 'fetch_calls_per_req': 1.493, 'need_share': 0.502, 'errors': 0}
+{'policy': 'prefetch', 'p': 1.0, 'qps': 597.1, 'mean_ms': 107.67, 'p99_ms': 212.04, 'fetch_calls_per_req': 0.995, 'need_share': 1.0, 'errors': 0}
+{'policy': 'lazy_text', 'p': 1.0, 'qps': 619.8, 'mean_ms': 103.75, 'p99_ms': 196.86, 'fetch_calls_per_req': 0.995, 'need_share': 1.0, 'errors': 0}
+{'policy': 'lazy_id', 'p': 1.0, 'qps': 446.2, 'mean_ms': 144.94, 'p99_ms': 240.55, 'fetch_calls_per_req': 1.985, 'need_share': 1.0, 'errors': 0}
+{'policy': 'lazy_text', 'p': 0.0, 'qps': 788.1, 'mean_ms': 81.57, 'p99_ms': 185.37, 'fetch_calls_per_req': 0.0, 'need_share': 0.0, 'errors': 0}
+{'policy': 'lazy_id', 'p': 0.0, 'qps': 541.0, 'mean_ms': 119.41, 'p99_ms': 228.18, 'fetch_calls_per_req': 0.994, 'need_share': 0.0, 'errors': 0}
+{'policy': 'prefetch', 'p': 0.0, 'qps': 462.2, 'mean_ms': 139.48, 'p99_ms': 309.1, 'fetch_calls_per_req': 0.993, 'need_share': 0.0, 'errors': 0}
+{'policy': 'lazy_text', 'p': 0.1, 'qps': 587.1, 'mean_ms': 109.51, 'p99_ms': 290.51, 'fetch_calls_per_req': 0.1, 'need_share': 0.101, 'errors': 0}
+{'policy': 'lazy_id', 'p': 0.1, 'qps': 465.3, 'mean_ms': 138.41, 'p99_ms': 290.57, 'fetch_calls_per_req': 1.091, 'need_share': 0.099, 'errors': 0}
+{'policy': 'prefetch', 'p': 0.1, 'qps': 561.3, 'mean_ms': 114.62, 'p99_ms': 210.17, 'fetch_calls_per_req': 0.994, 'need_share': 0.101, 'errors': 0}
+{'policy': 'lazy_text', 'p': 0.5, 'qps': 690.7, 'mean_ms': 93.15, 'p99_ms': 191.06, 'fetch_calls_per_req': 0.5, 'need_share': 0.502, 'errors': 0}
+{'policy': 'lazy_id', 'p': 0.5, 'qps': 576.2, 'mean_ms': 111.84, 'p99_ms': 172.64, 'fetch_calls_per_req': 1.494, 'need_share': 0.503, 'errors': 0}
+{'policy': 'prefetch', 'p': 0.5, 'qps': 605.5, 'mean_ms': 106.2, 'p99_ms': 195.87, 'fetch_calls_per_req': 0.995, 'need_share': 0.503, 'errors': 0}
+{'policy': 'lazy_text', 'p': 1.0, 'qps': 608.7, 'mean_ms': 105.66, 'p99_ms': 186.42, 'fetch_calls_per_req': 0.995, 'need_share': 1.0, 'errors': 0}
+{'policy': 'lazy_id', 'p': 1.0, 'qps': 337.8, 'mean_ms': 191.07, 'p99_ms': 315.48, 'fetch_calls_per_req': 1.981, 'need_share': 1.0, 'errors': 0}
+{'policy': 'prefetch', 'p': 1.0, 'qps': 574.9, 'mean_ms': 111.92, 'p99_ms': 227.22, 'fetch_calls_per_req': 0.995, 'need_share': 1.0, 'errors': 0}
+target=milvus (mv-milvus)
+memory.current 2.99GiB  memory.high max  memory.max max
+  anon           2.51GiB
+  file           0.40GiB
+  shmem          0.00GiB
+  file_mapped    0.39GiB
+  inactive_file  0.10GiB
+  active_file    0.30GiB
+  events.high=0
+  events.max=0
+  events.oom=0
+  events.oom_kill=0
+10:50:59 done run_pf3
+10:50:59 cleanup: reset
+milvus reset
+released nq_seq {'state': <LoadState: NotLoad>}
+released fiqa_seq {'state': <LoadState: NotLoad>}
+target=milvus (mv-milvus)
+memory.current 1.02GiB  memory.high max  memory.max max
+  anon           0.94GiB
+  file           0.01GiB

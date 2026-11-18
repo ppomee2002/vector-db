@@ -1,0 +1,23 @@
+{
+ "ds": "fiqa",
+ "searched": 648,
+ "gold_eval": 648,
+ "ans_eval": 0,
+ "gold_any_top10": 0.6111,
+ "gold_any_all": 0.6111,
+ "gold_cov_top10": 0.2062,
+ "gold_cov_all": 0.3293,
+ "gold_full_top10": 0.1991,
+ "gold_full_all": 0.3981,
+ "p_nb_gold": 0.5108,
+ "p_nb_gold_rescue": 0.0,
+ "p_nb_gold_complete": 0.5108,
+ "timing_set": {
+  "source": "gold",
+  "queries": 648,
+  "need_share": 0.5108
+ },
+ "gold_ok": true,
+ "pk_text_same": 417,
+ "pk_text_diff": 0
+}

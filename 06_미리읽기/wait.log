@@ -1,0 +1,22 @@
+11-15 18:05:41 wait_run_pf 시작: 600초마다 확인, 연속 3번 조용하면 측정, 최대 6시간
+11-15 18:05:55 기다림:check_busy: 결과: 누가 쓰는 중으로 보임. 지금은 측정하지 마세요. / 다른 계정 python: vdb02         161238       01:58 python milvus_w12.py measure --layout P64 --qs unseen --window 0 --nq 100 
+11-15 18:16:09 기다림:check_busy: 결과: 누가 쓰는 중으로 보임. 지금은 측정하지 마세요. / 다른 계정 python: vdb02         161475       04:32 python milvus_w12.py measure --layout P64x --qs unseen --window 0 --nq 100 
+11-15 18:26:22 기다림:check_busy: 결과: 누가 쓰는 중으로 보임. 지금은 측정하지 마세요. / 다른 계정 python: vdb02         161650       07:08 python milvus_w12.py measure --layout HN --qs unseen --window 0 --nq 100 
+11-15 18:36:36 기다림:check_busy: 결과: 누가 쓰는 중으로 보임. 지금은 측정하지 마세요. / 다른 계정 python: vdb02         161861       01:59 python milvus_w12.py measure --layout rand --qs unseen --window 1 --nq 100 
+11-15 18:46:50 기다림:check_busy: 결과: 누가 쓰는 중으로 보임. 지금은 측정하지 마세요. / 다른 계정 python: vdb02         162049       04:11 python milvus_w12.py measure --layout P64 --qs unseen --window 1 --nq 100 
+11-15 18:57:04 기다림:check_busy: 결과: 누가 쓰는 중으로 보임. 지금은 측정하지 마세요. / 다른 계정 python: vdb02         162224       06:45 python milvus_w12.py measure --layout P64x --qs unseen --window 1 --nq 100 
+11-15 19:07:18 기다림:check_busy: 결과: 누가 쓰는 중으로 보임. 지금은 측정하지 마세요. / 다른 계정 python: vdb02         162422       01:36 python milvus_w12.py measure --layout doc --qs seen --window 0 --nq 100 
+11-15 19:17:31 기다림:check_busy: 결과: 누가 쓰는 중으로 보임. 지금은 측정하지 마세요. / 다른 계정 python: vdb02         162597       04:13 python milvus_w12.py measure --layout rand --qs seen --window 0 --nq 100 
+11-15 19:27:45 기다림:check_busy: 결과: 누가 쓰는 중으로 보임. 지금은 측정하지 마세요. / 다른 계정 python: vdb02         162772       06:41 python milvus_w12.py measure --layout P64 --qs seen --window 0 --nq 100 
+11-15 19:37:59 기다림:check_busy: 결과: 누가 쓰는 중으로 보임. 지금은 측정하지 마세요. / 다른 계정 python: vdb02         162970       01:41 python milvus_w12.py measure --layout HN --qs seen --window 0 --nq 100 
+11-15 19:48:13 기다림:check_busy: 결과: 누가 쓰는 중으로 보임. 지금은 측정하지 마세요. / 다른 계정 python: vdb02         163145       04:16 python milvus_w12.py measure --layout doc --qs seen --window 1 --nq 100 
+11-15 19:58:26 기다림:check_busy: 결과: 누가 쓰는 중으로 보임. 지금은 측정하지 마세요. / 다른 계정 python: vdb02         163320       06:49 python milvus_w12.py measure --layout rand --qs seen --window 1 --nq 100 
+11-15 20:08:40 기다림:check_busy: 결과: 누가 쓰는 중으로 보임. 지금은 측정하지 마세요. / 다른 계정 python: vdb02         163518       01:18 python milvus_w12.py measure --layout P64x --qs seen --window 1 --nq 100 
+11-15 20:18:54 기다림:check_busy: 결과: 누가 쓰는 중으로 보임. 지금은 측정하지 마세요. / 다른 계정 python: vdb02         163693       03:47 python milvus_w12.py measure --layout HN --qs seen --window 1 --nq 100 
+11-15 20:29:08 조용함 (1/3)
+11-15 20:39:22 조용함 (2/3)
+11-15 20:49:35 조용함 (3/3)
+11-15 20:49:35 측정 시작 (run_pf.sh, 로그 pf.log). 시작 때 다른 계정 프로세스:
+11-15 20:52:16 run_pf 끝 (종료 코드 0). pf.log 마지막 줄:   file           0.00GiB
+11-15 20:52:28 끝난 뒤 확인: 결과: 조용함. 측정해도 됩니다.
+11-15 20:52:28 측정 중에 다른 계정의 새 프로세스는 없었음

@@ -1,0 +1,77 @@
+== 지금 접속한 계정
+== 다른 계정의 프로세스 (CPU 순 상위 10개, %CPU는 시작 후 평균)
+  vdb02          99110  1-18:53:26  0.0 tmux new -s jihyeon
+  vdb02          99111  1-18:53:26  0.0 -bash
+  vdb02          99330  1-18:40:29  0.0 -bash
+== Milvus 활동 (10초 동안)
+  Milvus CPU 0.20코어 (기준 1.0)
+  요청 0.0건/초 (기준 5)
+== 올라가 있는 컬렉션 (참고: 올라가 있다고 지금 쓰는 중이라는 뜻은 아님)
+  (없음)
+== 관리자 스위치: 지금 걸린 제한과 최근 기록 (참고)
+  target=milvus (mv-milvus)
+  memory.current 1.91GiB  memory.high max  memory.max max
+    anon           0.59GiB
+    file           1.24GiB
+    shmem          0.00GiB
+    file_mapped    0.00GiB
+    inactive_file  1.23GiB
+    active_file    0.01GiB
+  2026-11-14 21:01:19 203.253.145.110 milvus reclaim file 0.38GiB -> 0.00GiB
+  2026-11-14 21:01:41 203.253.145.110 milvus reclaim file 0.38GiB -> 0.00GiB
+  2026-11-14 21:02:03 203.253.145.110 milvus reset
+  2026-11-15 17:43:06 203.253.145.110 milvus restart (begin)
+  2026-11-15 17:43:19 203.253.145.110 milvus restart done (re-applied mem=max iops=off); collections must be load()ed again
+==
+결과: 조용함. 측정해도 됩니다.
+20:49:48 start run_pf reps=3 backend=milvus
+20:49:50 switch: reset
+milvus reset
+loaded nq_seq in 5.4s
+nq_seq {'state': <LoadState: Loaded>} index mmap: False
+target=milvus (mv-milvus)
+memory.current 3.70GiB  memory.high max  memory.max max
+  anon           2.22GiB
+  file           1.37GiB
+  shmem          0.00GiB
+  file_mapped    0.39GiB
+  inactive_file  1.37GiB
+  active_file    0.01GiB
+  events.high=0
+  events.max=0
+  events.oom=0
+  events.oom_kill=0
+20:50:17 ===== pf_warm
+{'cond': 'pf_warm', 'rep': 1, 'S_p50': 6.764, 'T_p50': 6.845, 'A_p50': 5.039, 'B_p50': 5.313, 'N_p50': 5.173, 'prefetch_extra_ms': 0.274, 'breakeven_p': 0.053, 'skipped': 0}
+{'cond': 'pf_warm', 'rep': 2, 'S_p50': 6.955, 'T_p50': 6.989, 'A_p50': 5.082, 'B_p50': 5.278, 'N_p50': 5.253, 'prefetch_extra_ms': 0.196, 'breakeven_p': 0.037, 'skipped': 0}
+{'cond': 'pf_warm', 'rep': 3, 'S_p50': 6.748, 'T_p50': 6.785, 'A_p50': 5.146, 'B_p50': 5.311, 'N_p50': 5.189, 'prefetch_extra_ms': 0.165, 'breakeven_p': 0.032, 'skipped': 0}
+20:51:03 ===== pf_reclaim
+20:51:03 switch: reclaim
+milvus reclaim file 1.38GiB -> 0.00GiB
+{'cond': 'pf_reclaim', 'rep': 1, 'S_p50': 7.234, 'T_p50': 9.188, 'A_p50': 6.212, 'B_p50': 6.515, 'N_p50': 6.374, 'prefetch_extra_ms': 0.303, 'breakeven_p': 0.048, 'skipped': 0}
+20:51:21 switch: reclaim
+milvus reclaim file 0.33GiB -> 0.00GiB
+{'cond': 'pf_reclaim', 'rep': 2, 'S_p50': 6.874, 'T_p50': 8.646, 'A_p50': 6.009, 'B_p50': 6.417, 'N_p50': 6.262, 'prefetch_extra_ms': 0.408, 'breakeven_p': 0.065, 'skipped': 0}
+20:51:38 switch: reclaim
+milvus reclaim file 0.33GiB -> 0.00GiB
+{'cond': 'pf_reclaim', 'rep': 3, 'S_p50': 6.93, 'T_p50': 8.644, 'A_p50': 6.248, 'B_p50': 6.449, 'N_p50': 6.25, 'prefetch_extra_ms': 0.201, 'breakeven_p': 0.032, 'skipped': 0}
+target=milvus (mv-milvus)
+memory.current 2.66GiB  memory.high max  memory.max max
+  anon           2.26GiB
+  file           0.33GiB
+  shmem          0.00GiB
+  file_mapped    0.26GiB
+  inactive_file  0.00GiB
+  active_file    0.33GiB
+  events.high=0
+  events.max=0
+  events.oom=0
+  events.oom_kill=0
+20:51:56 done run_pf
+20:51:56 cleanup: reset
+milvus reset
+released nq_seq {'state': <LoadState: NotLoad>}
+target=milvus (mv-milvus)
+memory.current 0.75GiB  memory.high max  memory.max max
+  anon           0.69GiB
+  file           0.00GiB
