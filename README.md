@@ -1,4 +1,4 @@
-# C2_프리페칭_8페이지 (12주차 11/13~11/19, 임준: RAG-aware Prefetching)
+# C2_프리페칭_8페이지 (12주차 11/13~11/19)
 
 퀀타 서버 cap-vdb, Milvus 2.6.23, pymilvus 3.0.3, 데이터베이스 junlim. 시각은 한국 시간(KST)이다.
 CSV의 ts_utc 칸은 UTC, ts_kst 칸은 한국 시간이다. 로그(.log) 안의 시각은 서버 시계(UTC)다.
