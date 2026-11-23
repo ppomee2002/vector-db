@@ -1,0 +1,20 @@
+# C1 담당(김지현) 정확성 확인: 파일 저장소에서 읽기. Milvus는 검색(nq_seq)만 씀.
+# 계약 테스트:  python experiments/contract_test.py --run runs/c1_jihyeon_file.yaml --c1 layout_jihyeon --only c1,common
+#              (배치 바꾸기: --set c1.layout=rand,  읽기 방식: --set c1.fetch_mode=individual)
+c1:
+  impl: layout_jihyeon
+  backend: file
+  layout: doc
+  file_threads: 8            # 암묵적 기본 풀 금지. 정확성 확인 = 8
+  fetch_mode: batch
+
+run:
+  name: c1_jihyeon_file
+  purpose: correctness
+  query_set: nq_test_ans
+  n_queries: 10
+  max_queries: 10
+  evaluate: true
+  verify_search_doc_idx: true
+  milvus_allowed_load: [junlim/nq_seq]
+  allow_preloaded_targets: true   # 이미 Loaded인 nq_seq를 그대로 씀(load·release 안 함)

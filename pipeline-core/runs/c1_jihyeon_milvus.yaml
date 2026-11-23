@@ -1,0 +1,21 @@
+# C1 담당(김지현) 정확성 확인: 내 컬렉션 jihyeon/w13c1_doc(또는 rand)에서 본문 읽기. 검색은 nq_seq.
+# 계약 테스트:  python experiments/contract_test.py --run runs/c1_jihyeon_milvus.yaml --c1 layout_jihyeon --only c1,common --allow-load
+#              (--set c1.layout=rand / --set c1.batch_impl=get / --set c1.fetch_mode=individual)
+# w13c1_*는 평소 NotLoad → 실행기가 사용 중 검사 후 load하고 끝나면 내가 load한 것만 release.
+c1:
+  impl: layout_jihyeon
+  backend: milvus
+  layout: doc
+  fetch_mode: batch
+  batch_impl: query_pk_in
+
+run:
+  name: c1_jihyeon_milvus
+  purpose: correctness
+  query_set: nq_test_ans
+  n_queries: 10
+  max_queries: 10
+  evaluate: true
+  verify_search_doc_idx: true
+  milvus_allowed_load: [junlim/nq_seq, jihyeon/w13c1_doc, jihyeon/w13c1_rand]
+  allow_preloaded_targets: true   # nq_seq가 이미 Loaded면 그대로 씀
