@@ -1,0 +1,22 @@
+{
+ "top10": {
+  "mean_chunks_per_query": 10.0,
+  "gold_chunk_hit_rate": 0.806
+ },
+ "bc1": {
+  "mean_chunks_per_query": 18.19,
+  "gold_chunk_hit_rate": 0.842
+ },
+ "all1": {
+  "mean_chunks_per_query": 24.88,
+  "gold_chunk_hit_rate": 0.846
+ },
+ "ann30": {
+  "mean_chunks_per_query": 30.0,
+  "gold_chunk_hit_rate": 0.834
+ },
+ "ann100": {
+  "mean_chunks_per_query": 100.0,
+  "gold_chunk_hit_rate": 0.91
+ }
+}

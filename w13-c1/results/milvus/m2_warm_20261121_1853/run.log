@@ -1,0 +1,65 @@
+18:53:20 quiet check: {'proxy_req_per_s': 0.0, 'milvus_cpu_cores': 0.11, 'miss_MB_per_s': 0.0, 'quiet': True}
+18:53:24 warm-up: 모든 조건을 한 번씩 조회 (기록 안 함)
+18:54:27 rep 0 rand top10 one: 2.6s
+18:54:31 rep 0 rand ann100 one: 3.5s
+18:54:34 rep 0 rand ann30 one: 2.8s
+18:54:37 rep 0 rand all1 one: 2.9s
+18:54:39 rep 0 doc top10 one: 2.5s
+18:55:50 rep 0 rand ann30 each: 70.6s
+18:56:14 rep 0 rand top10 each: 24.1s
+18:56:17 rep 0 doc bc1 one: 2.8s
+18:56:56 rep 0 doc bc1 each: 39.3s
+19:00:47 rep 0 doc ann100 each: 230.2s
+19:01:46 rep 0 doc all1 each: 58.7s
+19:02:57 rep 0 doc ann30 each: 71.5s
+19:03:00 rep 0 doc all1 one: 2.7s
+19:06:58 rep 0 rand ann100 each: 238.2s
+19:07:01 rep 0 doc ann30 one: 2.8s
+19:07:59 rep 0 rand all1 each: 58.1s
+19:08:03 rep 0 doc ann100 one: 3.5s
+19:08:26 rep 0 doc top10 each: 22.4s
+19:09:09 rep 0 rand bc1 each: 43.7s
+19:09:12 rep 0 rand bc1 one: 2.6s
+19:09:36 rep 1 rand top10 each: 23.9s
+19:10:36 rep 1 doc all1 each: 59.6s
+19:11:47 rep 1 rand ann30 each: 71.2s
+19:15:42 rep 1 rand ann100 each: 235.1s
+19:19:29 rep 1 doc ann100 each: 226.2s
+19:19:31 rep 1 doc top10 one: 2.5s
+19:19:34 rep 1 rand ann30 one: 2.9s
+19:19:58 rep 1 doc top10 each: 23.8s
+19:20:57 rep 1 rand all1 each: 58.7s
+19:21:00 rep 1 doc ann30 one: 2.7s
+19:21:02 rep 1 rand top10 one: 2.5s
+19:21:45 rep 1 rand bc1 each: 42.9s
+19:21:48 rep 1 rand all1 one: 2.7s
+19:21:51 rep 1 rand bc1 one: 2.6s
+19:23:02 rep 1 doc ann30 each: 71.0s
+19:23:45 rep 1 doc bc1 each: 42.9s
+19:23:49 rep 1 doc ann100 one: 3.5s
+19:23:51 rep 1 doc bc1 one: 2.6s
+19:23:55 rep 1 rand ann100 one: 3.6s
+19:23:58 rep 1 doc all1 one: 2.8s
+19:25:05 rep 2 doc ann30 each: 67.0s
+19:25:08 rep 2 doc ann30 one: 2.4s
+19:26:10 rep 2 rand ann30 each: 62.0s
+19:26:13 rep 2 doc ann100 one: 3.2s
+19:29:54 rep 2 rand ann100 each: 221.2s
+19:30:51 rep 2 rand all1 each: 56.3s
+19:31:33 rep 2 rand bc1 each: 41.7s
+19:31:35 rep 2 doc top10 one: 2.5s
+19:32:18 rep 2 doc bc1 each: 43.0s
+19:36:10 rep 2 doc ann100 each: 231.9s
+19:36:13 rep 2 rand all1 one: 2.8s
+19:36:16 rep 2 doc all1 one: 2.6s
+19:36:19 rep 2 rand top10 one: 2.6s
+19:36:22 rep 2 rand bc1 one: 2.7s
+19:36:25 rep 2 rand ann30 one: 2.9s
+19:37:23 rep 2 doc all1 each: 58.1s
+19:37:46 rep 2 rand top10 each: 23.5s
+19:37:50 rep 2 rand ann100 one: 3.6s
+19:37:53 rep 2 doc bc1 one: 2.7s
+19:38:17 rep 2 doc top10 each: 23.9s
+19:38:19 released my collections
+19:38:19 M2 DONE -> /workspace/jihyeon/c1_w13/milvus/m2_warm_20261121_1853
+/workspace/jihyeon/c1_w13/milvus/m2_warm_20261121_1853
