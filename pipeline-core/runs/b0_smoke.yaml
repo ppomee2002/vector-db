@@ -1,20 +1,23 @@
-# B0 Smoke Test 실행 overlay. config.yaml의 같은 키를 덮어쓴다(키 목록과 기본값은 config.yaml의 c1/c2/c3.impl, run 블록).
+# B0 Smoke Test 실행 overlay (B0 호환 확인용: 검색 jaeeun/nq1m_sel + C1 file_ref). config.yaml의 같은 키를 덮어쓴다.
 # 실행: /workspace/jaeeun/venv/bin/python main.py --run runs/b0_smoke.yaml
-
-# 검색 컬렉션: 회의(D1) 전까지 총괄 소유 jaeeun/nq1m_sel 사용 (본문 필드 없음 → 본문은 C1 file_ref).
-# 회의 후 junlim/nq_seq로 옮길 때: 이 milvus 블록을 지우고(config.yaml 기본값이 junlim/nq_seq) run.milvus_allowed_load를 바꾼다.
+# 통합 기준은 D1 확정(nq_seq)에 따라 runs/correctness_milvus_query.yaml(검색·본문 모두 junlim/nq_seq). 이 파일은 기존 B0
+# 실행 경로와 설정이 그대로 동작하는지 확인하는 용도로 남긴다(nq1m_sel은 본문 필드가 없어 본문은 file_ref).
 milvus:
   search:
     database: jaeeun
     collection: nq1m_sel
 
-# c1/c2/c3.impl은 config.yaml 기본값(reference: file_ref / none_ref / serial_ref)을 그대로 쓴다.
-# 담당자 구현으로 바꿀 때: c2: {impl: <이름>} 처럼 여기서 덮어쓰거나 --set c2.impl=<이름>
+c1:
+  file_ref_threads: 8        # file_ref 전용 스레드 수(암묵적 기본값 없음, B0 정확성 확인 = 8)
+
+# c2/c3.impl은 config.yaml 기본값(none_ref / serial_ref). 담당자 구현: c2: {impl: <이름>} 또는 --set c2.impl=<이름>
 
 run:
   name: b0_smoke
+  purpose: correctness       # 정확성 확인(개수 기반). 예약 시간대는 필수 아님(적으면 확인)
   query_set: nq_test_ans
   n_queries: 10              # 고정 seed(experiment.seed=42) 순서의 앞 10개
   max_queries: 10            # 개수 기반 실행: 10개를 한 번씩 (C3 계약 max_queries)
+  evaluate: true             # 정답 문자열 포함률 + 원문 대조
   verify_search_doc_idx: true
   milvus_allowed_load: [jaeeun/nq1m_sel]

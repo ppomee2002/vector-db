@@ -1,0 +1,22 @@
+# 정확성 확인 = nq_seq B0: 검색·본문 모두 junlim/nq_seq(D1 확정) + C1 milvus_query_ref(B0 기본 Fetch, query pk in, 512개씩).
+# 질문 10개, 개수 기반(max_queries=10), 평가·원문 대조 켬. 부하 실험 아님.
+# 실행:  /workspace/jaeeun/venv/bin/python main.py --run runs/correctness_milvus_query.yaml
+# 계약 테스트: python experiments/contract_test.py --run runs/correctness_milvus_query.yaml --only c1,common --allow-load
+# MilvusGuard: nq_seq가 이미 Loaded면 기본 중단. 원래 NotLoad면 load → 실행 → release 직전 확인 후 release.
+# nq_seq의 mmap·인덱스 설정은 바꾸지 않는다(어댑터·실행기 모두 load/release/query/search만 호출).
+c1:
+  impl: milvus_query_ref
+  layout: seq
+  fetch_mode: batch
+  batch_impl: query_pk_in
+
+run:
+  name: correctness_milvus_query
+  purpose: correctness
+  query_set: nq_test_ans
+  n_queries: 10
+  max_queries: 10
+  evaluate: true             # 실제 원문 일치 확인 유지 (chunks.jsonl 대조)
+  verify_search_doc_idx: true
+  milvus_allowed_load: [junlim/nq_seq]
+  allow_preloaded_targets: true   # 정확성 확인에만(junlim 확인, 2026-11-23). 이미 Loaded인 nq_seq를 그대로 쓰고 load·release 안 함

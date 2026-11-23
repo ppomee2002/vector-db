@@ -1,0 +1,19 @@
+# 정확성 확인: 검색 junlim/nq_seq(D1 확정) + C1 file_ref(파일 저장소 seq). 질문 10개, 개수 기반, 평가·원문 대조 켬.
+# 실행:  /workspace/jaeeun/venv/bin/python main.py --run runs/correctness_file_ref.yaml
+# 계약 테스트(file_ref 쓰는 검사)의 기본 overlay로도 쓴다:
+#        python experiments/contract_test.py --run runs/correctness_file_ref.yaml --c2 <이름> --only c2,common
+# 주의: file_ref는 C3 비교에 쓰지 않는다(스레드 풀 상한이 숨은 동시성 상한이 됨, DESIGN.md 4절).
+c1:
+  impl: file_ref
+  file_ref_threads: 8        # 암묵적 기본값 없음. B0 정확성 확인 = 8
+
+run:
+  name: correctness_file_ref
+  purpose: correctness
+  query_set: nq_test_ans
+  n_queries: 10
+  max_queries: 10
+  evaluate: true             # 실제 원문 일치 확인 유지 (chunks.jsonl 대조)
+  verify_search_doc_idx: true
+  milvus_allowed_load: [junlim/nq_seq]   # D1·D12 확정(junlim 동의)
+  allow_preloaded_targets: true   # 정확성 확인에만(junlim 확인, 2026-11-23). 이미 Loaded인 nq_seq를 그대로 쓰고 load·release 안 함

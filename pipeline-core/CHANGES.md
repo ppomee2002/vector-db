@@ -79,3 +79,37 @@
 | 7 | main.py | `milvus_reset_log: "not collected"` 유지 | 결정 |
 | – | SMOKE.md | 1~3절 갱신, 5절 표에 해결 여부 표시(1~3, 5~7번 해결, `milvus.search` 값은 D1 미결, reset 기록은 유지) | 기록 |
 | – | 그대로 둔 것 | DESIGN.md, `modules/C1.py`·`C2.py`·`C3.py`(담당자용 빈 파일), 팀원 코드 | 지시 |
+
+## C3 검토 반영 (2026-11-23)
+- 근거: C3 담당자 검토 의견, C1 실험 조건(cold), junlim 동의(D1 nq_seq, D2 원본 참조·수정·이동 금지, D12 load 시간대).
+- 그대로 둔 것: `interfaces.py`(공통 계약), `modules/C1.py`·`C2.py`·`C3.py`, 기존 결과(`results/`)와 데이터셋, 팀원 코드. 변경 전 파일은 세션 scratchpad `before_c3_review/`에 백업.
+- 검사: 아래 표 끝과 SMOKE.md 6·7절.
+
+| # | 파일 | 변경 | 이유 |
+|---|---|---|---|
+| 1 | modules/run_meta.py `MilvusGuard` | 실행 전 대상 컬렉션 load 상태 기록(`initial_state`). 사용 중 검사에서 **대상 컬렉션 요청도 남의 요청**으로 셈(이전에는 대상 컬렉션 요청을 제외). 대상이 이미 Loaded면 기본 중단, `run.allow_preloaded_targets: true`일 때만 진행하고 load·release 안 함. Loading·상태 확인 불가·메트릭 조회 실패도 중단. load 직전에 상태를 다시 확인(그 사이 남이 load했으면 중단). release 대상 = 원래 NotLoad이고 이번 실행이 load한 것만(`release_safe`). release 직전 다시 표본(`run.release_check_s`)을 보고 대상 컬렉션 요청·Milvus 재시작(`process_start_time_seconds` 변화)·메트릭 실패가 있으면 release하지 않고 `release_report`에 이유와 수동 release 명령 기록. 이전 `release_all()`(무조건 release) 제거 | C3 검토: 실행 전 대상 요청을 내 것으로 오인, 원래 Loaded였던 컬렉션까지 release할 수 있었음 |
+| 1 | modules/run_meta.py | `check_reserved_window`(run.reserved_window, KST: `HH:MM-HH:MM` 매일·자정 넘김 가능, 또는 `YYYY-MM-DD HH:MM~YYYY-MM-DD HH:MM`). purpose=measure와 cold/cache_constrained는 필수, 밖이면 거부. `RunLock`(내 폴더 `locks/milvus_run.lock`, flock, 내 실행끼리만). 팀 공통 잠금은 만들지 않음(미결) | 합의된 팀 잠금이 없어서 시간대와 내 잠금만 |
+| 1 | main.py | 실행 순서: 실행 설정 검사(purpose, cache_condition, correctness는 max_queries 필수) → 예약 시간대 → 잠금 → md5(quick) → 어댑터(설정 누락이면 거부) → Guard preflight → `load_needed` → 실행 → finally `release_safe`. 실행 메타에 `reserved_window`, `run_lock`, `release_report`, `release_skipped`(수동 명령), `milvus_ops`. 종료 코드 6(자동 release 보류), 7(시간대·잠금·설정 거부) 추가. RUN_KEYS에 purpose, allow_preloaded_targets, reserved_window, release_check_s | 〃 |
+| 1 | experiments/test_milvus_guard.py (신규) | 가짜 Milvus 클라이언트·가짜 메트릭으로 26개 검사: 기존 Loaded 미release, 대상 요청 시 중단, 이미 Loaded 기본 중단/허용 시 진행·미release, NotLoad → load → release, release 직전 요청·메트릭 실패·재시작 시 보류, 시간대 밖 거부(자정 넘김·날짜 형식·형식 오류), 다른 컬렉션 load, Loading, load 직전 상태 변화, 허용 목록 밖 조회 금지, 잠금 중복 | 요구 단위 테스트 |
+| 1 | experiments/contract_test.py `--allow-load` | main.py와 같은 Guard 흐름(시간대, 잠금, preflight, load_needed, release_safe). Milvus C1을 `--allow-load` 없이 고르면 C1·공통 검사를 SKIP(이전에는 Milvus를 호출할 수 있었음) | 〃 |
+| 2 | modules/c1_milvus_query_reference.py (신규) | `c1.impl=milvus_query_ref`. "B0 기본 Fetch(최적화 없음). C1 기여 구현은 C1 담당자 어댑터". 실제 AsyncMilvusClient `query(filter="pk in [...]", output_fields=[pk, text])`, PK 512개씩(bench_v2 CHUNK_LIMIT과 같음), batch/individual, range·get은 오류. 생성자 (meta, cfg), chunk_id↔PK 변환은 어댑터 안(ChunkMeta.pk_of_chunk/chunk_of_pk[layout]), 본문은 Milvus text 필드 값, bytes_returned = 반환 본문 UTF-8 합, text·pk 필드 없으면 명확한 ValueError, `milvus_collections()` 선언, load/release·컬렉션 설정 변경 없음 | C3 공식 비교를 C1 구현 없이 진행 |
+| 2 | experiments/test_c1_milvus_query.py (신규) | 가짜 AsyncMilvusClient로 어댑터 로직 14개 검사 | 실제 Milvus를 못 쓰는 상황에서도 로직 확인 |
+| 2 | modules/c1_file_reference.py | `asyncio.to_thread`(기본 풀) 대신 전용 `ThreadPoolExecutor(c1.file_ref_threads)`. 값이 없으면 생성자 ValueError → 실행 거부. describe에 threads, 실행 메타 `c1_threads` | 기본 풀 = 숨은 동시성 상한 |
+| 2 | config.yaml `c1` | `file_ref_threads: null`(암묵적 기본값 없음), impl 주석에 milvus_query_ref 등록. `milvus.fetch.text_field: text`, `pk_field: pk` | 〃 |
+| 2 | experiments/contract_test.py | C1 동시 실행 검사 `test_c1_concurrent`: 겹치지 않는 chunk_id 묶음 16개로 fetch_text 동시 호출, 각 결과의 키·원문·bytes_returned·n_pks가 자기 요청과 맞는지, 섞이면 FAIL 한 줄. 사용법을 본인 폴더 clone 기준·`--run runs/correctness_*.yaml`로 변경 | 요구 |
+| 3 | modules/chunk_meta.py | md5_mode: full(별도 명령, 전 파일) / quick(일반 실행: 크기·수정 시각이 캐시와 같고 캐시 md5 == config면 통과, 바뀐 파일만 다시 계산) / off. cold/cache_constrained에서는 다시 계산하지 않고 중단. `quick_exclude` 파일(chunk_vecs, qrels_chunk) 제외. 캐시 `cache/md5_cache.json`(경로, 크기, mtime_ns, md5, 줄 수, 검사 시각). 실행 메타 `md5_check.mode`, 파일별 status, `full_verify`(마지막 전체 검사 시각, 24시간 초과 경고) | 매 실행 수 GB 읽기 제거 |
+| 3 | verify_md5.py (신규) | 전체 md5 별도 명령(하루 한 번). 내 실행 잠금을 잡고 실행, cold/cache_constrained 조건이면 거부 | 측정 실행과 분리 |
+| 3 | config.yaml `dataset.integrity` | cache, full_max_age_h 24, quick_exclude | 〃 |
+| 4 | main.py `summarize`, `execute` | `qps`는 그대로(예열 뒤 끝난 결과 / duration_s). `strict_qps` = 측정 구간 [warmup_s, warmup_s+duration_s] 안에서 끝난 결과 / duration_s, `n_strict`, `n_tail_after_window`, `strict_qps_basis` 추가(키 추가만, 기존 키 유지). 완료 시각은 실행기가 run_one을 감싸 기록 | C3 기존 결과와 비교 유지 + 엄격 지표 |
+| 5 | config.yaml `run` | `purpose: measure`, `evaluate: false`(성능 측정 기본). 원문 조회는 그대로 실제 수행(평가·본문 복사만 끔) | 성능 측정과 정확성 검증 분리 |
+| 5 | runs/correctness_file_ref.yaml, runs/correctness_milvus_query.yaml (신규), runs/b0_smoke.yaml | 정확성 확인 설정: purpose correctness, evaluate true, 10개 개수 기반, 원문 대조. file_ref 스레드 8. b0_smoke는 기존 B0(nq1m_sel + file_ref) 호환 확인용으로 유지하고 purpose·evaluate·스레드만 추가 | 〃 |
+| 6 | config.yaml `experiment` | `cache_condition` 선택지 warm / cold / cache_constrained(기본 warm) 주석, 기록·선택만 하고 캐시 제어는 관리자 설정·실행 스크립트 담당. `admin_cache_setting`, `io_valid_min_bytes`(1 MiB). run_meta 목록에 새 항목 | C1 cold 조건 |
+| 6 | main.py | 실행 메타 `storage_read_delta`(시간 기반이면 측정 구간 시작·끝에서 메트릭을 따로 찍음, data_type/location별), `cache_condition_evidence`(적용 조건, 관리자 설정, 저장소 읽기 차이, cold/cache_constrained 유효 판정 또는 "실제 I/O 없음"). summary.json에 `cache_condition` 요약 | 〃 |
+| 6 | DESIGN.md 9절 (신규) "실험 환경 구분" | warm / cold / cache_constrained 정의·용도, 둘은 다른 조건, 유효성 규칙, 예약 시간대·사용 중 아닐 때만 | 〃 |
+| 7 | DESIGN.md | 상태 문단, 3절(D1·D2 확정), 4절(B0 기본 Fetch, C3 공식 비교 = milvus_query_ref + warm·C1 대기 불필요, file_ref 미사용 이유, C1 Layout 비교 = C1 어댑터 + cold, QPS 정의, 성능·정확성 분리, Milvus 실행 안전 규칙), 6절(브랜치 pipeline-design, 본인 폴더 clone → 계약 테스트 → PR), 8절(D1·D2·D12 확정, 회의 확인 목록에서 제외, 미결: 팀 공통 잠금·Milvus 종료 원인·m3 clients=64 금지) | 요구 |
+| 7 | REVIEW_FOR_TEAM.md | 브랜치 이름 `pipeline-design`, "자기 어댑터를 붙이는 방법"을 본인 폴더 clone·PR 방식으로 다시 씀(총괄 폴더에 코드 넣는 지침 제거, 프롬프트에 "/workspace/jaeeun/pipeline-core에는 아무것도 쓰지 말 것"), 계약 테스트 명령에 `--run runs/correctness_*.yaml`·동시 실행 검사, C1·C3·junlim 표 갱신(C3 공식 비교, cold, strict_qps, D1·D2·D12 확정), 회의에 가져올 것·미결 항목(milvus.search 해결, 팀 잠금, Milvus 종료 원인, cold 관리자 설정), 단톡방 메시지의 브랜치 이름·동의 문장(`<링크>` 유지) | 〃 |
+| 7 | SMOKE.md | 2절(실행 명령, 정확성/성능 설정, 스레드, md5, 종료 코드 6·7), 3절(본인 폴더 clone·PR), 4절(nq_seq 확정 후 overlay), 5절 4번 해결(nq_seq 확정), 6절 검증 결과, 7절 nq_seq B0(실행하지 않은 이유와 실행 순서) | 〃 |
+| 7 | experiments/compare_top10.py (신규) | 두 results.jsonl의 같은 질문 상위 10개 일치율 | nq_seq B0 vs nq1m_sel B0 비교용 |
+| 검사 | – | py_compile 전체 통과, YAML 4개 파싱, 계약 테스트 PASS 94 / FAIL 0 / SKIP 4 / WARN 4, Guard 단위 26/26, Milvus 어댑터 가짜 클라이언트 14/14, 전체 md5 10/10. 실제 Milvus 실행(nq_seq 계약 테스트, nq_seq B0, nq1m_sel B0)은 `junlim/nq_seq`가 이미 Loaded라 Guard가 중단 → 실행 안 함 | SMOKE.md 6·7절 |
+| 추가 (15:43) | runs/correctness_milvus_query.yaml, runs/correctness_file_ref.yaml, main.py, experiments/contract_test.py, config.yaml 주석 | junlim 확인에 따라 정확성 확인 설정에만 `run.allow_preloaded_targets: true`. main.py는 purpose≠correctness에서 이 값이 켜져 있으면 거부(7). 계약 테스트는 `--allow-load` 없이도 이 설정 + 대상 Loaded일 때 load·release 없이 Milvus C1 검사(사용 중 검사는 그대로). 결과: 계약 테스트 PASS 21 / FAIL 0, nq_seq B0 오류 0·원문 100/100·포함률 6/10·nq1m_sel 대비 상위 10개 겹침 0.99 (SMOKE.md 7절) | 이미 Loaded인 nq_seq로 정확성 확인 |
+

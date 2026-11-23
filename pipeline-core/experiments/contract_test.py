@@ -1,22 +1,30 @@
 """계약 테스트: 등록한 어댑터가 interfaces.py 계약을 지키는지 검사한다.
 
-    cd /workspace/jaeeun/pipeline-core
-    /workspace/jaeeun/venv/bin/python experiments/contract_test.py --c2 <내 c2 이름>
-    /workspace/jaeeun/venv/bin/python experiments/contract_test.py --c1 <이름> --c2 <이름> --c3 <이름>
-    /workspace/jaeeun/venv/bin/python experiments/contract_test.py --results results/<run>/results.jsonl
+    cd <내 작업 폴더의 pipeline-core>
+    python experiments/contract_test.py --run runs/correctness_file_ref.yaml --c2 <내 c2 이름>
+    python experiments/contract_test.py --run runs/correctness_file_ref.yaml --c1 <이름> --c2 <이름> --c3 <이름>
+    python experiments/contract_test.py --run runs/correctness_milvus_query.yaml --only c1,common --allow-load   # Milvus C1
+    python experiments/contract_test.py --run runs/correctness_file_ref.yaml --results results/<run>/results.jsonl
 
 옵션
-  --run runs/b0_smoke.yaml  config overlay (기본: 없음 → config.yaml + reference 어댑터)
+  --run runs/correctness_file_ref.yaml  config overlay. config.yaml만으로는 c1.file_ref_threads가 null이라 file_ref 생성이
+                            거부(FAIL)된다(암묵적 기본값 없음). reference file_ref를 쓰는 검사는 이 overlay를 준다.
   --only c1,c2,c3,common    일부만 검사
   --require-policies BC1,all  이 정책에서 NotImplementedError면 FAIL (기본: SKIP으로 표시)
-  --allow-load              C1이 milvus_collections()를 선언한 경우, run.milvus_allowed_load 안에서만
-                            사용 중 검사 후 load하고 끝나면 release (Milvus 쓰는 C1용)
+  (--allow-load 없이) overlay가 run.purpose=correctness이고 run.allow_preloaded_targets=true면, 대상 컬렉션이 이미 Loaded일
+                            때에 한해 load·release 없이 그대로 쓴다(사용 중 검사는 그대로: 데이터 요청 0, 다른 컬렉션 load 0).
+  --allow-load              C1이 milvus_collections()를 선언한 경우 MilvusGuard 규칙으로만 Milvus를 쓴다(main.py와 같음):
+                            run.milvus_allowed_load 안, 예약 시간대(run.reserved_window) 확인, 내 실행 잠금, 사용 중 검사
+                            (대상 컬렉션 요청도 남의 것), 이미 Loaded면 중단(run.allow_preloaded_targets=true면 진행·release 안 함),
+                            원래 NotLoad였던 것만 load, 끝나면 release 직전 다시 확인 후 내가 load한 것만 release
 
 검사 내용 (출력: PASS / FAIL / SKIP / WARN, FAIL은 무엇이 왜 틀렸는지 한 줄)
   C2: list[int] 반환, 입력 R에 없는 것만, chunk_id 오름차순·중복 없음, 같은 문서 ±1만, none이면 빈 목록,
       all이면 ±1 후보 전부, 같은 입력에 같은 출력, 입력 불변. 작은 가짜 ChunkMeta + 실제 ChunkMeta.
   C1: (Mapping[int,str], FetchStats) 반환, 요청한 chunk_id가 모두 키(남는 키 없음), 본문이 chunks.jsonl 원문과 일치,
       FetchStats 필수 필드, 키가 PK가 아니라 chunk_id, range 모드는 오류.
+      동시 실행 검사: 서로 겹치지 않는 chunk_id 묶음 16개로 fetch_text를 동시에 호출해 각 결과가 자기 요청의 chunk_id·원문·
+      bytes_returned와 정확히 맞는지(섞이면 FAIL, 이유 한 줄).
   C3: 모든 결과에 queue_wait/total/service, service = total − queue_wait, is_warmup 구간 구분,
       duration이 지나면 멈춤, 결과 수·질문 키가 실제 실행한 질문과 일치, 고정 순서 순환, 동시 실행 상한.
   공통: 가짜 검색 + 선택한 C1/C2/C3로 run_one 실행 → stage_ms 키 ⊆ STAGE_KEYS, hits 순위 보존,
@@ -319,6 +327,99 @@ def test_c1(rep: Report, name: str, cfg: dict, meta: ChunkMeta):
         rep.add("INFO", comp, "fetch 시간", f"{len(ms)}회 중앙값 {ms[len(ms)//2]:.2f} ms (참고)")
 
 
+CONCURRENT_N = 16
+
+
+def concurrent_groups(meta: ChunkMeta, n_groups: int = CONCURRENT_N, seed: int = 5) -> list[list[int]]:
+    """서로 겹치지 않는 chunk_id 묶음. 크기·위치가 제각각(연속 구간, 흩어진 것, 1개짜리, 문서 경계, 마지막 chunk)."""
+    N = meta.n_chunks
+    rng = random.Random(seed)
+    used: set[int] = set()
+    groups = []
+    for i in range(n_groups):
+        while True:
+            if i % 4 == 0:
+                a = rng.randrange(0, N - 40)
+                g = list(range(a, a + rng.randint(5, 30)))
+            elif i % 4 == 1:
+                g = sorted(rng.sample(range(N), rng.randint(3, 25)))
+            elif i % 4 == 2:
+                g = [rng.randrange(N)]
+            else:
+                g = sorted(set(clustered_R(rng, N, rng.randint(8, 18))))
+            if i == n_groups - 1:
+                g = sorted(set(g) | {N - 1})
+            if not used & set(g):
+                break
+        used |= set(g)
+        rng.shuffle(g)          # 요청 순서는 정렬되어 있지 않을 수 있음
+        groups.append(g)
+    return groups
+
+
+async def _c1_concurrent(adapter, groups, mode, bi):
+    async def one(i, ids):
+        await asyncio.sleep(0.001 * (i % 3))   # 시작 시점을 엇갈리게
+        return await adapter.fetch_text(list(ids), mode=mode, batch_impl=bi)
+    try:
+        return await asyncio.gather(*(one(i, g) for i, g in enumerate(groups)), return_exceptions=True)
+    finally:
+        f = getattr(adapter, "aclose", None)
+        if f:
+            await f()
+
+
+def test_c1_concurrent(rep: Report, name: str, cfg: dict, meta: ChunkMeta):
+    comp = f"C1:{name}"
+    try:
+        adapter = registry.build("c1", name, meta, cfg)
+    except Exception as e:  # noqa: BLE001
+        rep.add("FAIL", comp, "동시 실행 생성", f"__init__(meta, cfg) 실패: {type(e).__name__}: {e}")
+        return
+    groups = concurrent_groups(meta)
+    mode, bi = cfg["c1"]["fetch_mode"], cfg["c1"]["batch_impl"]
+    t = time.perf_counter()
+    res = asyncio.run(_c1_concurrent(adapter, groups, mode, bi))
+    sec = time.perf_counter() - t
+    orig = read_chunks_jsonl(cfg["dataset"]["files"]["chunks"]["path"], {c for g in groups for c in g})
+    owner = {c: i for i, g in enumerate(groups) for c in g}
+    viol = []
+    for i, (g, r) in enumerate(zip(groups, res)):
+        tag = f"요청 #{i}(n={len(g)})"
+        if isinstance(r, BaseException):
+            viol.append(f"{tag}: 동시 호출 중 예외 {type(r).__name__}: {r}")
+            continue
+        if not (isinstance(r, tuple) and len(r) == 2):
+            viol.append(f"{tag}: (Mapping, FetchStats)가 아님")
+            continue
+        texts, st = r
+        keys = {int(k) for k in texts.keys()}
+        other = sorted(k for k in keys - set(g) if k in owner)
+        if other:
+            viol.append(f"{tag}: 다른 요청(#{owner[other[0]]})의 chunk_id {other[:3]}가 섞임")
+            continue
+        extra = sorted(keys - set(g))
+        if extra:
+            viol.append(f"{tag}: 요청하지 않은 키 {extra[:3]}")
+        miss = sorted(set(g) - keys)
+        if miss:
+            viol.append(f"{tag}: 자기 chunk_id {len(miss)}개 없음 {miss[:3]}")
+        bad = [c for c in g if c in texts and texts[c] != orig[c]]
+        if bad:
+            src = [owner.get(next((k for k, v in orig.items() if v == texts[bad[0]]), -1), "?")]
+            viol.append(f"{tag}: 원문과 다른 본문 chunk {bad[:3]} (본문 출처 요청 #{src[0]})")
+        if isinstance(st, FetchStats) and isinstance(st.bytes_returned, int):
+            exp = sum(len(v.encode("utf-8")) for v in texts.values() if isinstance(v, str))
+            if st.bytes_returned != exp:
+                viol.append(f"{tag}: bytes_returned {st.bytes_returned} != 자기 결과 UTF-8 합 {exp} (통계가 섞였을 수 있음)")
+            if st.n_pks != len(set(g)):
+                viol.append(f"{tag}: n_pks {st.n_pks} != 자기 요청 {len(set(g))}개 (통계가 섞였을 수 있음)")
+        elif not isinstance(st, FetchStats):
+            viol.append(f"{tag}: FetchStats가 아님")
+    rep.check(comp, f"동시 실행 {len(groups)}개 (mode={mode})", viol,
+              f"{len(groups)}개 동시 호출, chunk {sum(map(len, groups))}개, 결과·원문·통계 모두 자기 요청과 일치 ({sec*1e3:.0f} ms)")
+
+
 # ---------------------------------------------------------------------------
 # C3
 # ---------------------------------------------------------------------------
@@ -539,25 +640,81 @@ def main(argv=None) -> int:
         print(f"# 실제 ChunkMeta 로드 {time.perf_counter() - t:.1f}s (md5 생략: main.py 실행 때 검사)")
 
     guard = None
+    lock = None
     try:
-        if args.allow_load and only & {"c1", "common"}:
-            from modules.run_meta import MilvusGuard
-            c1tmp = registry.build("c1", names["c1"], meta, cfg)
-            targets = list(getattr(c1tmp, "milvus_collections", lambda: [])())
-            if targets:
-                run = cfg["run"]
-                guard = MilvusGuard(cfg["milvus"]["uri"], run.get("metrics_url", "http://localhost:9091/metrics"),
-                                    run.get("milvus_allowed_load", []))
-                free, act = guard.preflight(targets, sample_s=10)
-                if not free:
-                    rep.add("FAIL", "milvus", "사용 중", " / ".join(act["busy_reasons"]))
+        if only & {"c1", "common"}:
+            try:
+                c1tmp = registry.build("c1", names["c1"], meta, cfg)
+                targets = list(getattr(c1tmp, "milvus_collections", lambda: [])())
+                f = getattr(c1tmp, "aclose", None)
+                if f:
+                    asyncio.run(f())
+            except Exception:  # noqa: BLE001 - 생성 실패는 test_c1에서 FAIL로 보고
+                targets = []
+            run = cfg["run"]
+            preloaded_mode = (bool(targets) and not args.allow_load and bool(run.get("allow_preloaded_targets"))
+                              and run.get("purpose") == "correctness")
+            if targets and not args.allow_load and not preloaded_mode:
+                rep.add("SKIP", "milvus", f"C1 {names['c1']}가 Milvus {targets}를 씀",
+                        "--allow-load 없이는 Milvus를 호출하지 않음 → C1·공통 검사 생략 "
+                        "(이미 Loaded인 컬렉션을 쓰려면 정확성 확인 overlay에 run.allow_preloaded_targets: true)")
+                only -= {"c1", "common"}
+            elif preloaded_mode:
+                # 이미 Loaded인 컬렉션을 그대로 쓴다: load·release 하지 않음. 사용 중 검사(데이터 요청 0, 다른 컬렉션 load 0)는 그대로
+                from modules.run_meta import NOTLOAD, MilvusGuard, RunLock
+                lock = RunLock(ROOT / "locks" / "milvus_run.lock")
+                try:
+                    lock.acquire({"run": "contract_test(preloaded)"})
+                except BlockingIOError as e:
+                    lock = None
+                    rep.add("FAIL", "milvus", "잠금", str(e))
                     return 1
-                for c in targets:
-                    guard.load(c)
+                g = MilvusGuard(cfg["milvus"]["uri"], run["metrics_url"], run["milvus_allowed_load"], allow_preloaded=True)
+                bad = [t for t in targets if t not in g.allowed]
+                if bad:
+                    rep.add("FAIL", "milvus", "허용 목록", f"run.milvus_allowed_load에 없는 컬렉션 {bad}")
+                    return 1
+                free, act = g.preflight(targets, sample_s=float(run.get("preflight_sample_s", 10)))
+                print(f"# Milvus 실행 전 상태: {act['target_load_state']}, 서버 load 수 {act.get('loaded_collection_num')}, "
+                      f"데이터 요청 {act.get('req_delta_data')}")
+                notload = [t for t, st in act["target_load_state"].items() if st == NOTLOAD]
+                if not free or notload:
+                    why = act["busy_reasons"] + ([f"{notload}가 NotLoad → load가 필요하므로 --allow-load로 실행"] if notload else [])
+                    rep.add("FAIL", "milvus", "사용 중 또는 Loaded 아님 → Milvus 검사 안 함", " / ".join(why))
+                    return 1
+                rep.add("INFO", "milvus", "이미 Loaded인 컬렉션 사용", f"{targets}: load·release 하지 않음 (allow_preloaded_targets)")
+            elif targets:
+                from modules.run_meta import MilvusGuard, RunLock, check_reserved_window
+                ok, win = check_reserved_window(run, cfg["experiment"]["cache_condition"])
+                if not ok:
+                    rep.add("FAIL", "milvus", "예약 시간대", win["reason"])
+                    return 1
+                lock = RunLock(ROOT / "locks" / "milvus_run.lock")
+                try:
+                    lock.acquire({"run": "contract_test"})
+                except BlockingIOError as e:
+                    lock = None
+                    rep.add("FAIL", "milvus", "잠금", str(e))
+                    return 1
+                guard = MilvusGuard(cfg["milvus"]["uri"], run["metrics_url"], run["milvus_allowed_load"],
+                                    allow_preloaded=bool(run.get("allow_preloaded_targets", False)))
+                bad = [t for t in targets if t not in guard.allowed]
+                if bad:
+                    rep.add("FAIL", "milvus", "허용 목록", f"run.milvus_allowed_load에 없는 컬렉션 {bad}")
+                    guard = None
+                    return 1
+                free, act = guard.preflight(targets, sample_s=float(run.get("preflight_sample_s", 10)))
+                print(f"# Milvus 실행 전 상태: {act['target_load_state']}, 서버 load 수 {act.get('loaded_collection_num')}")
+                if not free:
+                    rep.add("FAIL", "milvus", "사용 중 또는 확인 불가 → Milvus 검사 안 함", " / ".join(act["busy_reasons"]))
+                    guard = None
+                    return 1
+                guard.load_needed()
         if "c2" in only:
             test_c2(rep, names["c2"], cfg, meta, require)
         if "c1" in only:
             test_c1(rep, names["c1"], cfg, meta)
+            test_c1_concurrent(rep, names["c1"], cfg, meta)
         if "c3" in only:
             test_c3(rep, names["c3"], cfg, meta)
         if "common" in only:
@@ -566,7 +723,13 @@ def main(argv=None) -> int:
             test_results_file(rep, args.results, cfg)
     finally:
         if guard is not None:
-            print("# release:", guard.release_all() or "ok")
+            for r in guard.release_safe(sample_s=float(cfg["run"].get("release_check_s", 10))):
+                print(f"# release: {r['collection']} → {r['action']} ({r['reason']})")
+                if r.get("manual_cmd"):
+                    print(f"#   수동 release 명령: {r['manual_cmd']}")
+                    rep.add("WARN", "milvus", f"{r['collection']} 자동 release 보류", r["reason"])
+        if lock is not None:
+            lock.release()
 
     c = rep.counts()
     print(f"\n# 결과: PASS {c['PASS']} / FAIL {c['FAIL']} / SKIP {c['SKIP']} / WARN {c['WARN']}")

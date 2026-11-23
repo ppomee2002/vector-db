@@ -1,12 +1,13 @@
 # 공통 명세 설정값 (계약 v1 후보, 2026-11-23 회의 후 고정). 이 파일만으로 서버에 연결되거나 실험이 실행되지는 않음.
-# 경로·컬렉션 정보 출처: CHECK.md (2026-11-22 조회). "소유자 동의 대기" 항목은 회의(D12)에서 확인.
+# 경로·컬렉션 정보 출처: CHECK.md (2026-11-22 조회). D1(nq_seq)·D2(원본 참조)·D12(load 시간대)는 확정(junlim 동의, 2026-11-23).
+# jihyeon(w13c1_doc·rand)과 관리자 설정(cold)은 아직 확인 대기.
 dataset:
   name: NQ
   chunks: 1000000
   chunking: 64word
   docs: 27133
   embed_model: sentence-transformers/all-MiniLM-L6-v2   # dim 384
-  # 원본은 복사하지 않고 참조(D2). 실행 시작 시 길이와 md5 자동 검사. junlim 수정·이동 금지 동의 대기.
+  # 원본은 복사하지 않고 참조(D2, 확정: junlim 동의 2026-11-23, 수정·이동 금지). 실행 시작 시 길이와 md5 검사(integrity 참고).
   root: /workspace/junlim/data_nq                  # 소유자 junlim (vdb03)
   files:
     chunks:     {path: /workspace/junlim/data_nq/chunks.jsonl, md5: aca9a920015623875a4ce7fe0ac7c502}  # junlim, 1,000,000줄
@@ -22,6 +23,11 @@ dataset:
   # md5: 전 파일 고정. chunks·gold·flags는 CHECK.md(11-22) 값, 나머지 7개는 B0 smoke 첫 실행(2026-11-23 11:26 KST,
   # results/b0_smoke_20261123_112611/run_meta.json)에서 계산해 채움. 실행 시작 시 모두 검사하고 다르면 중단.
   # md5: null인 파일을 새로 추가하면 첫 실행 때 계산해 실행 메타에 기록한다.
+  integrity:                                       # md5 검사 방식 (C3 검토 반영, modules/chunk_meta.py)
+    cache: cache/md5_cache.json                    # (경로, 크기, 수정 시각 ns, md5) 캐시. 내 폴더 안
+    full_max_age_h: 24                             # 전체 md5는 하루 한 번: verify_md5.py (측정과 분리, cold 직전 금지)
+    quick_exclude: [chunk_vecs, qrels_chunk]       # 파이프라인이 쓰지 않는 파일 → 일반 실행 검사 제외, 전체 검사에만 포함
+    # 일반 실행(main.py)은 크기·수정 시각만 확인하고, 바뀐 파일만 md5를 다시 계산한다(cold/cache_constrained면 중단).
   # 주의: /workspace/junlim/gold_w100/ 은 100단어용(섞지 말 것), /workspace/junlim/data/ 는 FiQA.
   file_store:                                      # 파일 경로 C1·블록 수 계산용 (Milvus 경로 아님)
     seq:  {data: /workspace/jaeeun/sel_fetch/data/chunk_store_seq.bin, offset: /workspace/jaeeun/sel_fetch/data/chunk_store_off.npy}   # jaeeun
@@ -33,22 +39,24 @@ dataset:
 milvus:
   version_target: 2.6.23
   uri: http://localhost:19530
-  # D1: 기본 A = junlim/nq_seq (검색 + 본문). 상태: 제안(소유자 동의 대기, junlim)
-  # 동의를 못 받으면 대안 C: search = jaeeun/nq1m_sel, fetch = jihyeon/w13c1_doc (본문은 jihyeon 동의 필요)
-  # D(새로 적재)는 Milvus 저장소 디스크 확인 전까지 보류.
+  # D1: A = junlim/nq_seq (검색 + 본문). 상태: 확정(junlim 동의, 2026-11-23). nq_seq의 mmap·인덱스 설정은 바꾸지 않는다.
+  # (대안 C: search = jaeeun/nq1m_sel, fetch = jihyeon/w13c1_doc 는 쓰지 않음. B0 호환 확인용 runs/b0_smoke.yaml만 nq1m_sel)
   search:
     database: junlim
-    collection: nq_seq          # HNSW IP M=16 efC=200, pk == chunk_id. 대안 C: jaeeun / nq1m_sel
+    collection: nq_seq          # HNSW IP M=16 efC=200, pk == chunk_id
   fetch:
     database: junlim
-    collection: nq_seq          # text VARCHAR(4096), text mmap on. 대안 C: jihyeon / w13c1_doc
+    collection: nq_seq          # text VARCHAR(4096), text mmap on
     layout: seq
+    text_field: text            # 기본 Milvus Fetch(c1.impl=milvus_query_ref)가 읽는 필드. 없으면 오류
+    pk_field: pk
   c1_compare:                   # C1 배치 비교 전용(본문 조회만, 가짜 8차원 벡터라 검색 금지). 제안(소유자 동의 대기, jihyeon)
     database: jihyeon
     doc:  {collection: w13c1_doc,  layout: doc,  pk_map: identity}
     rand: {collection: w13c1_rand, layout: rand, pk_map: /workspace/jihyeon/c1_w13/milvus_meta/pk_rand.npy}   # chunk_id → pk
-  # load/release 시간표: 회의에서 확정(D12). 점검 당시 모든 컬렉션 NotLoad. 남의 컬렉션의 mmap·인덱스 설정은 바꾸지 않음.
-  load_schedule: TO_BE_CONFIRMED
+  # load/release 시간대: D12 확정(junlim 동의, 2026-11-23). 실행마다 run.reserved_window(KST)에 적고 그 밖에서는 측정 실행 거부.
+  # 남의 컬렉션의 mmap·인덱스 설정은 바꾸지 않음. 팀 공통 잠금은 미결(지금은 내 폴더 잠금 파일만).
+  load_schedule: "D12 확정 (junlim 동의, 2026-11-23). 실행별 시간대는 run.reserved_window"
 
 ann:
   index: HNSW
@@ -71,7 +79,10 @@ c2:
   # 대조군(D8)은 실험 계층에서 생성: 질문별로 수를 맞춘 ANN Top-(10+k), R3(같은 ±1 이웃 후보 안 무작위, seed 20개). 토큰 수는 보고만.
 
 c1:
-  impl: file_ref                # 구현 이름. 기본 = reference(파일 저장소 seq, chunk별 pread). 담당자 구현 등록 후 교체
+  impl: file_ref                # 구현 이름. reference: file_ref(파일 저장소 seq, chunk별 pread) / milvus_query_ref(B0 기본 Milvus
+                                # Fetch, query pk in, 512개씩). C3 공식 비교는 milvus_query_ref. C1 Layout 비교는 C1 담당 어댑터
+  file_ref_threads: null        # file_ref 전용 스레드 수. 암묵적 기본값 없음: 실행 설정(overlay)에 반드시 적을 것, null이면 실행 거부.
+                                # B0 정확성 확인 설정은 8. 실행 메타 c1_threads에 기록
   layout: seq                   # 실제 물리 배치를 가리킴(seq / doc / rand). 단순 ON/OFF 아님
   fetch_mode: batch             # individual / batch. range는 1차 제외(D7)
   batch_impl: query_pk_in       # D6: query(filter="pk in [...]"). get(ids)는 C1 비교 항목
@@ -117,16 +128,22 @@ query_sets:                     # 질문 키 = (query_set, q_idx)
 
 run:                            # 실행 설정 (main.py). 실행별 값은 runs/*.yaml overlay나 --set으로 덮어씀
   name: run                     # 결과 폴더 이름 앞부분: results/<name>_<KST 시각>/
+  purpose: measure              # measure(성능 측정: 예약 시간대 필수) / correctness(정확성 확인: max_queries 정수 필수)
   query_set: nq_test_ans        # nq_test_real / nq_test_ans / c2x_test
   n_queries: null               # null = query_set 전체(experiment.seed 순서). 정수면 앞 n개
   max_queries: null             # null = 시간 기반(warmup_s + duration_s). 정수면 그 수만큼 실행(품질 평가용, C3 계약)
   warmup_s: null                # null = c3.warmup_s
   duration_s: null              # null = c3.duration_s
-  evaluate: true                # 정답 문자열 포함률 (본문은 메모리에서만 쓰고 결과 파일에 넣지 않음)
+  evaluate: false               # 성능 측정 기본 false(평가·본문 복사만 끔, 원문 조회는 실제로 함). 정확성 확인은 runs/correctness_*.yaml에서 true
   text_check_n: 200             # chunks.jsonl 원문과 대조할 본문 수 (샘플)
   verify_search_doc_idx: false  # 검색 결과 doc_idx를 ChunkMeta와 대조 (스모크용)
-  milvus_allowed_load: []       # load/release를 허용할 "<db>/<collection>". 비어 있으면 load 안 함(시간표 D12)
-  preflight_sample_s: 10        # load 전 사용 중 검사 표본 시간(초)
+  milvus_allowed_load: []       # 조회·load·release를 허용할 "<db>/<collection>". 비어 있으면 아무것도 안 함(시간표 D12)
+  allow_preloaded_targets: false  # 대상 컬렉션이 이미 Loaded면 기본 중단. true면 진행하되 load·release하지 않음(남의 load로 봄).
+                                  # purpose=correctness에서만 허용(측정 실행에서 켜면 거부). junlim 확인 2026-11-23
+  reserved_window: null         # 예약 시간대(KST) "14:00-16:00" 또는 "2026-11-23 14:00~2026-11-23 16:00".
+                                # purpose=measure와 cold/cache_constrained는 필수(밖이면 거부), correctness는 적었을 때만 확인
+  preflight_sample_s: 10        # load 전 사용 중 검사 표본 시간(초). 대상 컬렉션 요청도 남의 요청으로 봄
+  release_check_s: 10           # release 직전 확인 표본 시간(초). 대상 컬렉션 요청·재시작·메트릭 실패면 release 보류(수동 명령 보고)
   metrics_url: http://localhost:9091/metrics
   out_dir: results
 
@@ -139,7 +156,11 @@ experiment:
   smoke_queries: 10
   warmup: true
   repetitions: 3
-  cache_condition: warm         # 물리 I/O 주장은 cold 조건 또는 파일 경로에서만(D11)
+  cache_condition: warm         # warm(기본) / cold / cache_constrained. 기록과 선택만 한다: 실제 캐시 제어(캐시 비우기,
+                                # 캐시 예산 제한)는 관리자 설정과 실행 스크립트가 담당. 정의·유효성 규칙은 DESIGN.md "실험 환경 구분".
+                                # 물리 I/O 주장은 cold·cache_constrained(유효 판정) 또는 파일 경로에서만(D11)
+  admin_cache_setting: null     # cold/cache_constrained에서 관리자가 적용한 설정 내용(문자열). 실행 메타 cache_condition_evidence에 기록
+  io_valid_min_bytes: 1048576   # cold/cache_constrained 유효 조건: 측정 구간 저장소 읽기(cache_cell_access_miss_bytes 차이) > 이 값
   run_meta:                     # 실행마다 기록
     - measured_at_kst           # 측정 시작·종료 시각
     - load_state                # 모든 컬렉션의 load 상태 (측정 전후)
@@ -148,4 +169,9 @@ experiment:
     - md5_check                 # 원본 파일 길이·md5 검사 결과
     - other_user_activity       # 다른 사용자 프로세스, Milvus CPU·요청 수
     - milvus_metrics_delta      # 구간 단위 Milvus 저장소 읽기 메트릭 차이 (질문 단위 값으로 쓰지 않음)
+    - storage_read_delta        # 측정 구간(시간 기반) 저장소 읽기 메트릭 차이
+    - cache_condition_evidence  # 적용한 캐시 조건, 관리자 설정, 저장소 읽기 차이, 유효 판정
+    - reserved_window           # 예약 시간대 확인 결과
+    - release_report            # 컬렉션별 release 여부와 이유, 보류 시 수동 release 명령
+    - c1_threads                # file_ref 스레드 수(스레드 풀 쓰는 C1)
     - top10_consistency         # C2 비교: search_topk 40 상위 10개와 search_topk 10 결과의 일치 여부 (D9, 첫 실행)
