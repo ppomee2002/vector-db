@@ -1,0 +1,20 @@
+# B0 Smoke Test 실행 overlay. config.yaml의 같은 키를 덮어쓴다(키 목록과 기본값은 config.yaml의 c1/c2/c3.impl, run 블록).
+# 실행: /workspace/jaeeun/venv/bin/python main.py --run runs/b0_smoke.yaml
+
+# 검색 컬렉션: 회의(D1) 전까지 총괄 소유 jaeeun/nq1m_sel 사용 (본문 필드 없음 → 본문은 C1 file_ref).
+# 회의 후 junlim/nq_seq로 옮길 때: 이 milvus 블록을 지우고(config.yaml 기본값이 junlim/nq_seq) run.milvus_allowed_load를 바꾼다.
+milvus:
+  search:
+    database: jaeeun
+    collection: nq1m_sel
+
+# c1/c2/c3.impl은 config.yaml 기본값(reference: file_ref / none_ref / serial_ref)을 그대로 쓴다.
+# 담당자 구현으로 바꿀 때: c2: {impl: <이름>} 처럼 여기서 덮어쓰거나 --set c2.impl=<이름>
+
+run:
+  name: b0_smoke
+  query_set: nq_test_ans
+  n_queries: 10              # 고정 seed(experiment.seed=42) 순서의 앞 10개
+  max_queries: 10            # 개수 기반 실행: 10개를 한 번씩 (C3 계약 max_queries)
+  verify_search_doc_idx: true
+  milvus_allowed_load: [jaeeun/nq1m_sel]
