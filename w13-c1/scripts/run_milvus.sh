@@ -7,6 +7,8 @@
 #   bash run_milvus.sh quick     M1 쿼리 5개 + M2 쿼리 50개로 점검
 #   bash run_milvus.sh m1        M1 콜드 조회 본 실험 (쿼리 100개, 1시간 안팎)
 #   bash run_milvus.sh m2        M2 웜 조회 본 실험 (쿼리 500개 x 3회)
+#   RESULTS=<results.jsonl> bash run_milvus.sh m1p        파이프라인 Chunk 집합 cold 비교 (쿼리 100개 x 12조건, 2시간 안팎)
+#   RESULTS=<results.jsonl> bash run_milvus.sh m1p-quick  같은 것을 쿼리 3개로 점검
 #   bash run_milvus.sh release   내 컬렉션 메모리에서 내리기
 #   bash run_milvus.sh drop      내 컬렉션(w13c1_*) 삭제
 # 오래 걸리는 m1, m2는 tmux에서:
@@ -43,6 +45,8 @@ case "${1:-}" in
   quick) run m1 --quick; run m2 --quick ;;
   m1) run m1 ;;
   m2) run m2 ;;
+  m1p) run m1p --results "${RESULTS:?RESULTS=<results.jsonl 경로>를 앞에 붙여주세요}" ;;
+  m1p-quick) run m1p --quick --results "${RESULTS:?RESULTS=<results.jsonl 경로>를 앞에 붙여주세요}" ;;
   drop) $PY c1_milvus.py drop --yes 2>&1 | tee "$WORK/logs/milvus_drop_$STAMP.log" ;;
-  *) sed -n '2,15p' "$0"; exit 1 ;;
+  *) sed -n '2,18p' "$0"; exit 1 ;;
 esac

@@ -1,0 +1,11 @@
+{
+ "top10": {
+  "mean_chunks_per_query": 10.0
+ },
+ "bc1": {
+  "mean_chunks_per_query": 19.32
+ },
+ "all1": {
+  "mean_chunks_per_query": 24.79
+ }
+}

@@ -1,0 +1,758 @@
+{
+ "measured_at_kst": {
+  "start": "2026-11-23T20:50:49+09:00",
+  "end": "2026-11-23T20:51:03+09:00"
+ },
+ "argv": [
+  "main.py",
+  "--run",
+  "runs/b0_100_jihyeon.yaml"
+ ],
+ "pid": 297759,
+ "settings": {
+  "dataset": "NQ_1M_64word",
+  "query_set": "nq_test_ans",
+  "search_collection": "junlim/nq_seq",
+  "fetch_collection": "junlim/nq_seq",
+  "layout": "seq",
+  "search_topk": 10,
+  "context_topk": 10,
+  "ann_ef": 64,
+  "neighbor_policy": "none",
+  "fetch_mode": "batch",
+  "batch_impl": "query_pk_in",
+  "scheduler_mode": "m3",
+  "clients": 64,
+  "concurrency_cap": 8
+ },
+ "impl": {
+  "c1": "milvus_query_ref",
+  "c2": "none_ref",
+  "c3": "serial_ref"
+ },
+ "overlay": {
+  "c1": {
+   "impl": "milvus_query_ref"
+  },
+  "run": {
+   "name": "b0_100_jihyeon",
+   "purpose": "correctness",
+   "query_set": "nq_test_ans",
+   "n_queries": 100,
+   "max_queries": 100,
+   "evaluate": true,
+   "verify_search_doc_idx": true,
+   "milvus_allowed_load": [
+    "junlim/nq_seq"
+   ],
+   "allow_preloaded_targets": true
+  }
+ },
+ "config_merged": {
+  "dataset": {
+   "name": "NQ",
+   "chunks": 1000000,
+   "chunking": "64word",
+   "docs": 27133,
+   "embed_model": "sentence-transformers/all-MiniLM-L6-v2",
+   "root": "/workspace/junlim/data_nq",
+   "files": {
+    "chunks": {
+     "path": "/workspace/junlim/data_nq/chunks.jsonl",
+     "md5": "aca9a920015623875a4ce7fe0ac7c502"
+    },
+    "doc_idx": {
+     "path": "/workspace/junlim/data_nq/doc_idx.npy",
+     "md5": "3f79e043f45ea5fb75011b4e0ce6a364"
+    },
+    "pk_seq": {
+     "path": "/workspace/junlim/data_nq/pk_seq.npy",
+     "md5": "db6977c5c80070191ddd340c8a4b3175"
+    },
+    "chunk_vecs": {
+     "path": "/workspace/junlim/data_nq/chunk_vecs.npy",
+     "md5": "97bcdc9a371b0725c651ef3ed6c78706"
+    },
+    "queries": {
+     "path": "/workspace/junlim/data_nq/queries.jsonl",
+     "md5": "928acd35f9f65c5d2f04e5b0721044b6"
+    },
+    "query_vecs": {
+     "path": "/workspace/junlim/data_nq/query_vecs.npy",
+     "md5": "b03bfe8a092269aa2cc3f0cc7f2e6377"
+    },
+    "gold": {
+     "path": "/workspace/junlim/pf3_out/nq_gold.jsonl",
+     "md5": "95ae90dcccc0401660da7ce922edaa6b"
+    },
+    "flags": {
+     "path": "/workspace/junlim/pf3_out/nq_flags.npy",
+     "md5": "5d007e77ac924dbd1602d1a8fa848fd3"
+    },
+    "qrels_chunk": {
+     "path": "/workspace/jaeeun/sel_fetch/data/qrels_chunk.tsv",
+     "md5": "f8d2753f1addb62bfc22fb77589a1b05"
+    },
+    "chunk_meta": {
+     "path": "/workspace/jaeeun/sel_fetch/data/chunk_meta.npz",
+     "md5": "450e85b96eda5de963e3dac4c76a2df3"
+    }
+   },
+   "integrity": {
+    "cache": "cache/md5_cache.json",
+    "full_max_age_h": 24,
+    "quick_exclude": [
+     "chunk_vecs",
+     "qrels_chunk"
+    ]
+   },
+   "file_store": {
+    "seq": {
+     "data": "/workspace/jaeeun/sel_fetch/data/chunk_store_seq.bin",
+     "offset": "/workspace/jaeeun/sel_fetch/data/chunk_store_off.npy"
+    },
+    "doc": {
+     "data": "/workspace/jihyeon/c1_w13/store/doc.bin",
+     "offset": "/workspace/jihyeon/c1_w13/store/doc_off.npy"
+    },
+    "rand": {
+     "data": "/workspace/jihyeon/c1_w13/store/rand.bin",
+     "offset": "/workspace/jihyeon/c1_w13/store/rand_off.npy"
+    },
+    "length": "/workspace/jihyeon/c1_w13/store/len.npy",
+    "block": 4096
+   }
+  },
+  "milvus": {
+   "version_target": "2.6.23",
+   "uri": "http://localhost:19530",
+   "search": {
+    "database": "junlim",
+    "collection": "nq_seq"
+   },
+   "fetch": {
+    "database": "junlim",
+    "collection": "nq_seq",
+    "layout": "seq",
+    "text_field": "text",
+    "pk_field": "pk"
+   },
+   "c1_compare": {
+    "database": "jihyeon",
+    "doc": {
+     "collection": "w13c1_doc",
+     "layout": "doc",
+     "pk_map": "identity"
+    },
+    "rand": {
+     "collection": "w13c1_rand",
+     "layout": "rand",
+     "pk_map": "/workspace/jihyeon/c1_w13/milvus_meta/pk_rand.npy"
+    }
+   },
+   "load_schedule": "D12 확정 (junlim 동의, 2026-11-23). 실행별 시간대는 run.reserved_window"
+  },
+  "ann": {
+   "index": "HNSW",
+   "metric": "IP",
+   "search_topk": 10,
+   "context_topk": 10,
+   "ef": 64,
+   "c2_compare": {
+    "search_topk": 40,
+    "context_topk": 10,
+    "ef": 64,
+    "check_top10_consistency": true
+   }
+  },
+  "c2": {
+   "impl": "none_ref",
+   "policy": "none",
+   "integration_policy": "BC1",
+   "neighbor_window": 1
+  },
+  "c1": {
+   "impl": "milvus_query_ref",
+   "file_ref_threads": null,
+   "layout": "seq",
+   "fetch_mode": "batch",
+   "batch_impl": "query_pk_in",
+   "compare": {
+    "layouts": [
+     "doc",
+     "rand"
+    ],
+    "batch_impls": [
+     "query_pk_in",
+     "get"
+    ],
+    "fetch_modes": [
+     "batch",
+     "individual"
+    ]
+   }
+  },
+  "c3": {
+   "impl": "serial_ref",
+   "mode": "m3",
+   "clients": 64,
+   "clients_aux": 16,
+   "cap": 8,
+   "warmup_s": 5,
+   "duration_s": 20,
+   "repetitions": 3,
+   "order": "interleaved",
+   "c2_policy": "BC1",
+   "legacy_check": {
+    "c2_policy": "all",
+    "modes": [
+     "m3",
+     "m7"
+    ],
+    "clients": 64,
+    "repetitions": 1
+   }
+  },
+  "query_sets": {
+   "nq_test_real": {
+    "queries": "/workspace/junlim/data_nq/queries.jsonl",
+    "vectors": "/workspace/junlim/data_nq/query_vecs.npy",
+    "q_idx": [
+     0,
+     3451
+    ],
+    "use": "성능 측정. 고정 seed 순서로 순환 (기존 C3의 pseudo 포함 무작위 복원 추출과 다름)"
+   },
+   "nq_test_ans": {
+    "queries": "/workspace/junlim/data_nq/queries.jsonl",
+    "vectors": "/workspace/junlim/data_nq/query_vecs.npy",
+    "gold": "/workspace/junlim/pf3_out/nq_gold.jsonl",
+    "count": 2254,
+    "use": "품질 주 평가"
+   },
+   "c2x_test": {
+    "queries": "/workspace/jaeeun/sel_fetch_c2x/results/test_queries.jsonl",
+    "vectors": "/workspace/jaeeun/sel_fetch/data/q_train_minilm.npy",
+    "count": 2000,
+    "use": "C2 대조군의 독립 검증용 보조. q_idx가 0부터 다시 시작하는 다른 번호 체계"
+   }
+  },
+  "run": {
+   "name": "b0_100_jihyeon",
+   "purpose": "correctness",
+   "query_set": "nq_test_ans",
+   "n_queries": 100,
+   "max_queries": 100,
+   "warmup_s": 5,
+   "duration_s": 20,
+   "evaluate": true,
+   "text_check_n": 200,
+   "verify_search_doc_idx": true,
+   "milvus_allowed_load": [
+    "junlim/nq_seq"
+   ],
+   "allow_preloaded_targets": true,
+   "reserved_window": null,
+   "preflight_sample_s": 10,
+   "release_check_s": 10,
+   "metrics_url": "http://localhost:9091/metrics",
+   "out_dir": "results"
+  },
+  "metrics": {
+   "quality": [
+    "answer_string_hit_rate",
+    "fetched_chunks",
+    "fetched_bytes"
+   ],
+   "performance": [
+    "qps",
+    "p50_ms",
+    "p95_ms",
+    "p99_ms",
+    "stage_ms",
+    "n_requests",
+    "error_rate"
+   ]
+  },
+  "experiment": {
+   "seed": 42,
+   "smoke_queries": 10,
+   "warmup": true,
+   "repetitions": 3,
+   "cache_condition": "warm",
+   "admin_cache_setting": null,
+   "io_valid_min_bytes": 1048576,
+   "run_meta": [
+    "measured_at_kst",
+    "load_state",
+    "milvus_reset_log",
+    "swap_used",
+    "md5_check",
+    "other_user_activity",
+    "milvus_metrics_delta",
+    "storage_read_delta",
+    "cache_condition_evidence",
+    "reserved_window",
+    "release_report",
+    "c1_threads",
+    "top10_consistency"
+   ]
+  }
+ },
+ "milvus_reset_log": "not collected (관리자 스위치 조회는 ssh 필요, CHECK.md 참고)",
+ "reserved_window": {
+  "reserved_window": null,
+  "purpose": "correctness",
+  "cache_condition": "warm",
+  "required": false,
+  "now_kst": "2026-11-23T20:50:49+09:00",
+  "status": "시간대 없음 (정확성 확인 실행이라 허용)"
+ },
+ "run_lock": {
+  "path": "/workspace/jihyeon/vector-db/pipeline-core/locks/milvus_run.lock",
+  "scope": "내 실행끼리만(팀 공통 잠금 아님, 미결)"
+ },
+ "md5_check": {
+  "md5": {
+   "chunks": {
+    "path": "/workspace/junlim/data_nq/chunks.jsonl",
+    "how": "quick→recomputed (캐시 없음)",
+    "got": "aca9a920015623875a4ce7fe0ac7c502",
+    "size": 445687794,
+    "sec": 1.16,
+    "lines": 1000000,
+    "lines_ok": true,
+    "status": "checked",
+    "expected": "aca9a920015623875a4ce7fe0ac7c502",
+    "ok": true
+   },
+   "doc_idx": {
+    "path": "/workspace/junlim/data_nq/doc_idx.npy",
+    "how": "quick→recomputed (캐시 없음)",
+    "got": "3f79e043f45ea5fb75011b4e0ce6a364",
+    "size": 8000128,
+    "sec": 0.01,
+    "status": "checked",
+    "expected": "3f79e043f45ea5fb75011b4e0ce6a364",
+    "ok": true
+   },
+   "pk_seq": {
+    "path": "/workspace/junlim/data_nq/pk_seq.npy",
+    "how": "quick→recomputed (캐시 없음)",
+    "got": "db6977c5c80070191ddd340c8a4b3175",
+    "size": 8000128,
+    "sec": 0.01,
+    "status": "checked",
+    "expected": "db6977c5c80070191ddd340c8a4b3175",
+    "ok": true
+   },
+   "chunk_vecs": {
+    "path": "/workspace/junlim/data_nq/chunk_vecs.npy",
+    "status": "excluded (일반 실행 제외, 전체 검사에만 포함)",
+    "last_verified_kst": null
+   },
+   "queries": {
+    "path": "/workspace/junlim/data_nq/queries.jsonl",
+    "how": "quick→recomputed (캐시 없음)",
+    "got": "928acd35f9f65c5d2f04e5b0721044b6",
+    "size": 10753605,
+    "sec": 0.02,
+    "status": "checked",
+    "expected": "928acd35f9f65c5d2f04e5b0721044b6",
+    "ok": true
+   },
+   "query_vecs": {
+    "path": "/workspace/junlim/data_nq/query_vecs.npy",
+    "how": "quick→recomputed (캐시 없음)",
+    "got": "b03bfe8a092269aa2cc3f0cc7f2e6377",
+    "size": 158902400,
+    "sec": 0.25,
+    "status": "checked",
+    "expected": "b03bfe8a092269aa2cc3f0cc7f2e6377",
+    "ok": true
+   },
+   "gold": {
+    "path": "/workspace/junlim/pf3_out/nq_gold.jsonl",
+    "how": "quick→recomputed (캐시 없음)",
+    "got": "95ae90dcccc0401660da7ce922edaa6b",
+    "size": 939173,
+    "sec": 0.0,
+    "status": "checked",
+    "expected": "95ae90dcccc0401660da7ce922edaa6b",
+    "ok": true
+   },
+   "flags": {
+    "path": "/workspace/junlim/pf3_out/nq_flags.npy",
+    "how": "quick→recomputed (캐시 없음)",
+    "got": "5d007e77ac924dbd1602d1a8fa848fd3",
+    "size": 1000128,
+    "sec": 0.0,
+    "status": "checked",
+    "expected": "5d007e77ac924dbd1602d1a8fa848fd3",
+    "ok": true
+   },
+   "qrels_chunk": {
+    "path": "/workspace/jaeeun/sel_fetch/data/qrels_chunk.tsv",
+    "status": "excluded (일반 실행 제외, 전체 검사에만 포함)",
+    "last_verified_kst": null
+   },
+   "chunk_meta": {
+    "path": "/workspace/jaeeun/sel_fetch/data/chunk_meta.npz",
+    "how": "quick→recomputed (캐시 없음)",
+    "got": "450e85b96eda5de963e3dac4c76a2df3",
+    "size": 16000762,
+    "sec": 0.03,
+    "status": "checked",
+    "expected": "450e85b96eda5de963e3dac4c76a2df3",
+    "ok": true
+   }
+  },
+  "length": {
+   "doc_idx": {
+    "len": 1000000,
+    "expected": 1000000,
+    "ok": true
+   },
+   "chunk_idx": {
+    "len": 1000000,
+    "expected": 1000000,
+    "ok": true
+   },
+   "nbytes": {
+    "len": 1000000,
+    "expected": 1000000,
+    "ok": true
+   },
+   "flags": {
+    "len": 1000000,
+    "expected": 1000000,
+    "ok": true
+   },
+   "pk_seq": {
+    "len": 1000000,
+    "expected": 1000000,
+    "ok": true
+   },
+   "file_store.seq.offset(n+1)": {
+    "len": 1000001,
+    "expected": 1000001,
+    "ok": true
+   }
+  },
+  "consistency": {
+   "n_docs": {
+    "uniq": 27133,
+    "expected": 27133,
+    "ok": true
+   },
+   "chunk_meta.doc_idx == doc_idx": true,
+   "pk_seq identity": true,
+   "seq diff(offset) == nbytes": true
+  },
+  "mode": "quick",
+  "cache": "/workspace/jihyeon/vector-db/pipeline-core/cache/md5_cache.json",
+  "full_verify": {
+   "last_full_verify_kst": null,
+   "max_age_h": 24.0,
+   "stale": true,
+   "warning": "전체 md5 검사가 없거나 오래됨 → 측정과 분리해서 verify_md5.py 실행 (cold 직전에는 하지 말 것)"
+  },
+  "layouts": [
+   "seq"
+  ]
+ },
+ "chunk_meta_load_s": 1.5,
+ "queries": {
+  "query_set": "nq_test_ans",
+  "seed": 42,
+  "n_keys": 100,
+  "keys_head": [
+   [
+    "nq_test_ans",
+    1175
+   ],
+   [
+    "nq_test_ans",
+    691
+   ],
+   [
+    "nq_test_ans",
+    1276
+   ],
+   [
+    "nq_test_ans",
+    1550
+   ],
+   [
+    "nq_test_ans",
+    1843
+   ],
+   [
+    "nq_test_ans",
+    1499
+   ],
+   [
+    "nq_test_ans",
+    3134
+   ],
+   [
+    "nq_test_ans",
+    2103
+   ],
+   [
+    "nq_test_ans",
+    2925
+   ],
+   [
+    "nq_test_ans",
+    958
+   ],
+   [
+    "nq_test_ans",
+    1332
+   ],
+   [
+    "nq_test_ans",
+    1357
+   ],
+   [
+    "nq_test_ans",
+    3051
+   ],
+   [
+    "nq_test_ans",
+    1638
+   ],
+   [
+    "nq_test_ans",
+    1407
+   ],
+   [
+    "nq_test_ans",
+    10
+   ],
+   [
+    "nq_test_ans",
+    594
+   ],
+   [
+    "nq_test_ans",
+    1069
+   ],
+   [
+    "nq_test_ans",
+    798
+   ],
+   [
+    "nq_test_ans",
+    95
+   ]
+  ],
+  "info": {
+   "vectors_shape": [
+    103452,
+    384
+   ],
+   "qidx_file": {
+    "path": "/workspace/jihyeon/vector-db/pipeline-core/data/nq_test_ans_qidx.txt",
+    "md5": "906ceacee8a7870d47d3633a4c06178d",
+    "status": "verified"
+   }
+  }
+ },
+ "adapters": {
+  "c1": {
+   "impl": "milvus_query_ref",
+   "source": "milvus:junlim/nq_seq",
+   "layout": "seq",
+   "text_field": "text",
+   "pk_field": "pk",
+   "chunk_limit": 512,
+   "note": "B0 기본 Fetch(최적화 없음). C1 기여 구현은 C1 담당자 어댑터"
+  },
+  "c2": {
+   "impl": "none_ref",
+   "note": "reference, 담당자 구현으로 교체 (none만 지원)"
+  },
+  "c3": {
+   "impl": "serial_ref",
+   "note": "reference, 담당자 구현으로 교체 (동시성 없음)"
+  }
+ },
+ "c1_threads": "n/a (스레드 풀을 쓰지 않는 C1)",
+ "fetch_source": {
+  "c1_impl": "milvus_query_ref",
+  "source": "milvus:junlim/nq_seq",
+  "settings_fetch_collection": "junlim/nq_seq",
+  "matches_settings": true
+ },
+ "milvus_targets": [
+  "junlim/nq_seq"
+ ],
+ "load_state": {
+  "before": {
+   "junlim/nq_seq": "Loaded"
+  },
+  "server_loaded_before": 1.0,
+  "allow_preloaded_targets": true,
+  "after_load": {
+   "junlim/nq_seq": "Loaded"
+  },
+  "after_release": {
+   "junlim/nq_seq": "Loaded"
+  },
+  "server_loaded_after_run": 1.0
+ },
+ "other_user_activity": {
+  "before": {
+   "at_kst": "2026-11-23T20:51:00+09:00",
+   "sample_s": 10.0,
+   "milvus_start_time": 1795408165.91,
+   "milvus_restarted_in_sample": false,
+   "loaded_collection_num": 1.0,
+   "milvus_cpu_cores": 0.105,
+   "milvus_rss_gib": 2.528,
+   "req_delta_data": {},
+   "req_delta_other": {},
+   "other_user_processes": [
+    {
+     "user": "vdb01",
+     "pcpu": 1.6,
+     "etime": "11:37:15",
+     "comm": "claude"
+    },
+    {
+     "user": "vdb01",
+     "pcpu": 1.2,
+     "etime": "01:28:22",
+     "comm": "claude"
+    }
+   ],
+   "swap": {
+    "swap_total_mib": 8191,
+    "swap_used_mib": 7434,
+    "mem_available_mib": 173431
+   },
+   "target_load_state": {
+    "junlim/nq_seq": "Loaded"
+   },
+   "my_load_state": {
+    "junlim/nq_seq": "Loaded"
+   },
+   "allow_preloaded_targets": true,
+   "busy_reasons": []
+  },
+  "after": {
+   "at_kst": "2026-11-23T20:51:03+09:00",
+   "sample_s": 1.0,
+   "milvus_start_time": 1795408165.91,
+   "milvus_restarted_in_sample": false,
+   "loaded_collection_num": 1.0,
+   "milvus_cpu_cores": 0.17,
+   "milvus_rss_gib": 2.526,
+   "req_delta_data": {},
+   "req_delta_other": {},
+   "other_user_processes": [
+    {
+     "user": "vdb01",
+     "pcpu": 1.6,
+     "etime": "11:37:18",
+     "comm": "claude"
+    },
+    {
+     "user": "vdb01",
+     "pcpu": 1.2,
+     "etime": "01:28:25",
+     "comm": "claude"
+    }
+   ],
+   "swap": {
+    "swap_total_mib": 8191,
+    "swap_used_mib": 7434,
+    "mem_available_mib": 173408
+   }
+  }
+ },
+ "swap_used": {
+  "before": {
+   "swap_total_mib": 8191,
+   "swap_used_mib": 7434,
+   "mem_available_mib": 173431
+  },
+  "after": {
+   "swap_total_mib": 8191,
+   "swap_used_mib": 7434,
+   "mem_available_mib": 173408
+  }
+ },
+ "search": {
+  "collection": "junlim/nq_seq",
+  "uri": "http://localhost:19530",
+  "anns_field": "vec",
+  "verify_doc_idx": true
+ },
+ "top10_consistency": "n/a (search_topk=10, context_topk=10)",
+ "c3_call": {
+  "mode": "m3",
+  "clients": 64,
+  "cap": 8,
+  "warmup_s": 5.0,
+  "duration_s": 20.0,
+  "max_queries": 100
+ },
+ "wall_s": 1.4389497363008559,
+ "storage_read_delta": {
+  "basis": "run_many 전체",
+  "cache_cell_access_miss_bytes": 0.0,
+  "by_type_location": {},
+  "milvus_restarted": false
+ },
+ "milvus_metrics_delta": {
+  "note": "서버 전체 값. 질문 단위로 쓰지 않음(D11)",
+  "cache_cell_access_miss_bytes": 0.0,
+  "note2": "run_many 전체 구간(예열 포함). 측정 구간 값은 storage_read_delta",
+  "my_search_requests": 100.0,
+  "milvus_cpu_s": 2.8900000000003274
+ },
+ "release_report": [
+  {
+   "collection": "junlim/nq_seq",
+   "action": "not_released",
+   "initial_state": "Loaded",
+   "reason": "실행 전부터 Loaded(또는 확인 불가)였던 컬렉션 → 자동 release 대상 아님, 그대로 둠",
+   "manual_cmd": null
+  }
+ ],
+ "milvus_ops": [
+  {
+   "op": "initial_state",
+   "state": {
+    "junlim/nq_seq": "Loaded"
+   },
+   "at_kst": "2026-11-23T20:50:50+09:00"
+  },
+  {
+   "op": "preflight",
+   "ok": true,
+   "reasons": [],
+   "at_kst": "2026-11-23T20:51:00+09:00"
+  },
+  {
+   "op": "skip_load",
+   "collection": "junlim/nq_seq",
+   "initial_state": "Loaded",
+   "at_kst": "2026-11-23T20:51:00+09:00",
+   "note": "원래 NotLoad가 아님 → load하지 않고 release 대상에서도 제외"
+  }
+ ],
+ "cache_condition_evidence": {
+  "applied": "warm",
+  "admin_setting": null,
+  "storage_read_delta_bytes": 0.0,
+  "storage_read_basis": "run_many 전체",
+  "storage_read_by_type_location": {},
+  "io_valid_min_bytes": 1048576.0,
+  "valid": null,
+  "verdict": "warm: 저장소 읽기 유효성 판정 대상 아님(기록만)"
+ }
+}

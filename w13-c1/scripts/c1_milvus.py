@@ -5,6 +5,8 @@
 #   python c1_milvus.py probe            2만 행 테스트 컬렉션으로 콜드 조회 시 메트릭이 움직이는지 확인 후 삭제
 #   python c1_milvus.py load             w13c1_doc, w13c1_rand 컬렉션 만들기 (각 100만 행)
 #   python c1_milvus.py m1 [--nq 100]    콜드 조회 (쿼리마다 release/load)
+#   python c1_milvus.py m1p --results <results.jsonl> [--nq 100]
+#                                        파이프라인 결과의 Chunk 집합으로 콜드 조회 (query(pk in) / get, 한 번에 / 개별)
 #   python c1_milvus.py m2 [--nq 500]    웜 조회 (한 번 load, 3회 반복)
 #   python c1_milvus.py release          내 컬렉션 메모리에서 내리기
 #   python c1_milvus.py drop --yes       내 컬렉션(w13c1_*) 삭제
@@ -181,18 +183,25 @@ def reload(c, name):
     time.sleep(1)
 
 
-def fetch(c, name, pks):
-    r = c.get(mine(name), ids=[int(p) for p in pks], output_fields=["chunk_id", "text"])
+def fetch(c, name, pks, impl="get"):
+    """impl: get = get(ids) (w13 M1·M2와 같음) / query = query(filter="pk in [...]") (파이프라인 B0와 같음)"""
+    pks = [int(p) for p in pks]
+    if impl == "get":
+        r = c.get(mine(name), ids=pks, output_fields=["chunk_id", "text"])
+    elif impl == "query":
+        r = c.query(mine(name), filter=f"pk in [{','.join(map(str, pks))}]", output_fields=["chunk_id", "text"])
+    else:
+        raise ValueError(impl)
     return {int(x["chunk_id"]): x["text"] for x in r}
 
 
-def run_fetch(c, name, pk_of, parts):
+def run_fetch(c, name, pk_of, parts, impl="get"):
     """parts: 요청 단위로 나눈 chunk_id 목록들. 반환: (요청 수, 지연 ms, 결과 dict)"""
     got = {}
     t = time.perf_counter()
     for ids in parts:
         if ids:
-            got.update(fetch(c, name, pk_of[np.array(ids, np.int64)]))
+            got.update(fetch(c, name, pk_of[np.array(ids, np.int64)], impl))
     return sum(1 for p in parts if p), (time.perf_counter() - t) * 1e3, got
 
 
@@ -272,6 +281,95 @@ def cmd_m1(a):
     env = json.load(open_read(os.path.join(R, "env.json"))); env["finished_at_kst"] = now_kst()
     env["quiet_check_after"] = quiet_check(); write_json(os.path.join(R, "env.json"), env)
     log("M1 DONE ->", R); print(R)
+
+
+# ---------------------------------------------------------------- M1P: 파이프라인 결과의 Chunk 집합으로 cold 비교
+def m1p_conditions():
+    """(layout, 읽는 범위, 요청 방식, 조회 방식). 배치마다 6개, 모두 12개."""
+    c = []
+    for lay in LAYOUTS:
+        c += [(lay, s, "one", "query") for s in ("top10", "bc1", "all1")]   # 파이프라인 기본: 한 번에, query(pk in)
+        c += [(lay, "all1", "one", "get")]                                  # w13 M1(get)과 이어 보기
+        c += [(lay, s, "each", "query") for s in ("top10", "all1")]         # 개별 읽기 (chunk마다 요청)
+    return c
+
+
+def sets_from_results(path, doc, nq):
+    """파이프라인 results.jsonl에서 질문별 top-10(context_ids, 순위 순)을 읽고 이웃 정책을 적용한다.
+    이웃 규칙은 임준 pf3_rules.py 사본(nbr_rules) = 파이프라인 C2와 같은 규칙. 오류·예열 결과는 뺀다."""
+    import nbr_rules
+    qs, sets, skipped = [], {"top10": [], "bc1": [], "all1": []}, 0
+    with open_read(path, encoding="utf-8") as f:
+        for line in f:
+            r = json.loads(line)
+            if r.get("error") or r.get("is_warmup") or len(r.get("context_ids") or []) == 0:
+                skipped += 1
+                continue
+            R = [int(x) for x in r["context_ids"]]
+            qs.append((r["query_set"], int(r["q_idx"])))
+            sets["top10"].append(R)
+            sets["bc1"].append(R + nbr_rules.select("BC1", R, doc))
+            sets["all1"].append(R + nbr_rules.select("all", R, doc))
+            if nq and len(qs) >= nq:
+                break
+    return qs, sets, skipped
+
+
+def cmd_m1p(a):
+    if not a.results or not os.path.exists(a.results):
+        sys.exit("--results <파이프라인 results.jsonl 경로>가 필요합니다")
+    nq = 3 if a.quick else a.nq
+    stamp = time.strftime("%Y%m%d_%H%M")
+    R = out_dir("milvus", f"m1p_cold_{stamp}" + ("_quick" if a.quick else ""))
+    texts, doc, _ = read_chunks()
+    qs, sets, skipped = sets_from_results(a.results, doc, nq)
+    if not qs:
+        sys.exit("results.jsonl에서 쓸 수 있는 질문이 없습니다")
+    write_json(os.path.join(R, "read_sets.json"), {k: {"mean_chunks_per_query": round(float(np.mean([len(x) for x in v])), 2)}
+                                                  for k, v in sets.items()})
+    pks = {lay: np.load(os.path.join(META, f"pk_{lay}.npy")) for lay in LAYOUTS}
+    c = client()
+    conds = m1p_conditions()
+    q0, waited = wait_quiet(a.wait_quiet_min)
+    log("quiet check:", q0)
+    write_json(os.path.join(R, "env.json"), {
+        "started_at_kst": now_kst(), "host": socket.gethostname(), "db": DB,
+        "kind": "M1P cold: pipeline results.jsonl chunk sets, release/load before every fetch",
+        "n_queries": len(qs), "skipped_results": skipped, "conditions": conds,
+        "results_input": file_info(a.results), "neighbor_rule": "nbr_rules.py (= junlim pf3_rules.py, md5 2754643f)",
+        "quiet_check_before": q0, "waited_min": waited, "meta": json.load(open_read(os.path.join(META, "meta.json")))})
+    f = open(safe_path(os.path.join(R, "per_query.csv")), "w", newline="")
+    w = csv.writer(f)
+    w.writerow(["q_idx", "layout", "read_set", "mode", "impl", "n_chunks", "n_requests", "lat_ms", "miss_bytes", "hit_bytes",
+                "cell_loads", "storage_ops", "storage_bytes", "proxy_req", "ok"])
+    t0 = time.time(); total = len(qs) * len(conds); k = 0
+    try:
+        for qi, (qset, q) in enumerate(qs):
+            order = conds[:]; random.Random(qi).shuffle(order)
+            for lay, s, mode, impl in order:
+                k += 1
+                name = PREFIX + lay
+                ids = sets[s][qi]; top = sets["top10"][qi]
+                reload(c, name)
+                m0 = metrics()
+                nreq, lat, got = run_fetch(c, name, pks[lay], parts_for(mode, top, ids), impl)
+                time.sleep(0.3)
+                d = delta(m0, metrics())
+                w.writerow([q, lay, s, mode, impl, len(ids), nreq, round(lat, 2), int(d["internal_cache_cell_access_miss_bytes_total"]),
+                            int(d["internal_cache_cell_access_hit_bytes_total"]), int(d["internal_cache_load_latency_microseconds_count"]),
+                            int(d["internal_storage_op_count"]), int(d["internal_storage_kv_size_sum"]),
+                            int(d["milvus_proxy_req_count"]), int(check_texts(got, ids, texts))])
+            f.flush()
+            el = time.time() - t0
+            log(f"query {qi + 1}/{len(qs)} done ({k}/{total} fetches, {el / 60:.1f} min, left ~{el / k * (total - k) / 60:.0f} min)")
+    finally:
+        f.close()
+        for lay in LAYOUTS:
+            c.release_collection(mine(PREFIX + lay))
+        log("released my collections")
+    env = json.load(open_read(os.path.join(R, "env.json"))); env["finished_at_kst"] = now_kst()
+    env["quiet_check_after"] = quiet_check(); write_json(os.path.join(R, "env.json"), env)
+    log("M1P DONE ->", R); print(R)
 
 
 def cmd_m2(a):
@@ -383,7 +481,8 @@ def cmd_drop(a):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", choices=["check", "probe", "load", "m1", "m2", "release", "drop"])
+    ap.add_argument("cmd", choices=["check", "probe", "load", "m1", "m1p", "m2", "release", "drop"])
+    ap.add_argument("--results", default=None, help="m1p: 파이프라인 results.jsonl 경로 (읽기만)")
     ap.add_argument("--nq", type=int, default=None)
     ap.add_argument("--reps", type=int, default=3)
     ap.add_argument("--quick", action="store_true")
@@ -391,8 +490,8 @@ def main():
     ap.add_argument("--wait-quiet-min", type=int, default=30)
     a = ap.parse_args()
     if a.nq is None:
-        a.nq = {"m1": 100, "m2": 500}.get(a.cmd, 100)
-    {"check": cmd_check, "probe": cmd_probe, "load": cmd_load, "m1": cmd_m1, "m2": cmd_m2,
+        a.nq = {"m1": 100, "m1p": 100, "m2": 500}.get(a.cmd, 100)
+    {"check": cmd_check, "probe": cmd_probe, "load": cmd_load, "m1": cmd_m1, "m1p": cmd_m1p, "m2": cmd_m2,
      "release": cmd_release, "drop": cmd_drop}[a.cmd](a)
 
 
