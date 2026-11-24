@@ -73,6 +73,7 @@ ann:
 
 c2:
   impl: none_ref                # 구현 이름(modules/registry). 기본 = reference(none만). 담당자 구현 등록 후 교체
+                                # 선택지: bc1_v1 (modules/c2_bc1.py, pf3_rules.select 이식, none/BC1/all). 쓸 때 --set c2.impl=bc1_v1
   policy: none                  # 기본(B0). none / BC1 / all
   integration_policy: BC1       # 통합 주 결과 조건
   neighbor_window: 1            # 같은 문서 ±1

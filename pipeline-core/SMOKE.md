@@ -150,3 +150,42 @@ D1이 확정되어 config.yaml 기본값(`milvus.search`·`milvus.fetch` = `junl
 | 다른 질문 | q958만 10위가 다름: nq_seq 798971(점수 0.5473) vs nq1m_sel 44957. 두 컬렉션의 HNSW 그래프가 달라서 생긴 근사 검색 차이로 봄(같은 M=16/efC=200, ef 64). 이 질문의 정답 문자열이 44957에 있어 포함률이 1개 차이(7 → 6) | 결과 파일 비교 |
 
 참고 수치(질문 10개, 성능 해석 금지): total p50 21.7 ms / p95 57.3 ms, search p50 15.4 ms, fetch p50 5.95 ms.
+
+## 8. C2 정확성 확인 (2026-11-24 16:41~16:43 KST)
+
+- 목적: 성능 비교가 아니라 C2 어댑터 `bc1_v1`(`modules/c2_bc1.py`, 원래 C2 담당 팀원의 `pf3_rules.select` 이식)가 파이프라인 안에서 제대로 동작하는지 확인. 팀원들과 같은 방식(계약 테스트 + 자기 옵션만 켠 정확성 확인 실행).
+- 설정 `runs/c2_correctness.yaml`: purpose correctness, `nq_test_ans` 앞 100개(seed 42 순서, 첫 3개 q_idx 1175, 691, 1276), `max_queries=100`, evaluate true, 검색·본문 `junlim/nq_seq`(search_topk 10 / context_topk 10 / ef 64), C1 `milvus_query_ref`, C3 `serial_ref`, `allow_preloaded_targets: true`. C2 정책만 `--set c2.policy=none|BC1|all`로 바꿔 세 번 실행.
+- Milvus: 세 번 모두 실행 전 nq_seq **NotLoad**, 서버 load 수 0, 10초 표본 데이터 요청 0 → MilvusGuard가 load(5.0초) → 실행 → release 직전 확인 후 release(원래 NotLoad, 이번 실행이 load한 것만). 끝난 뒤 서버 load 수 0. mmap·인덱스 설정은 건드리지 않음. 부하 실험 아님.
+- 결과: `results/c2_correctness_none_20261124_164142/`, `results/c2_correctness_BC1_20261124_164220/`, `results/c2_correctness_all_20261124_164251/` (로그 `logs/c2_correctness_{none,BC1,all}.log`)
+
+| 정책 | 오류 | 결과 검사 위반 | 원문 대조 (표본) | 추가 chunk/질문 평균 (최소~최대) | 읽은 chunk 평균 | 최종 Context 토큰 평균 (중앙값) | 반환 본문 평균 | 정답 문자열 포함률 |
+|---|---|---|---|---|---|---|---|---|
+| none | 0/100 | 0 | 200/200 일치 | 0 | 10.00 | 862 (857) | 3,925 B | 76/100 = 0.76 |
+| BC1 | 0/100 | 0 | 200/200 일치 | **9.32** (2~20) | 19.32 | 1,664 (1,703) | 7,604 B | 88/100 = 0.88 |
+| all | 0/100 | 0 | 200/200 일치 | **14.79** (8~20) | 24.79 | 2,138 (2,157) | 9,774 B | 90/100 = 0.90 |
+
+- 토큰 수: c2x와 같은 정의(GPT-2 BPE, 미리 계산한 `/workspace/jaeeun/sel_fetch_c2x/results/chunk_tokens_gpt2.npy`)로 `fetched_ids`의 토큰 합. 참고로만 보고(D8).
+- 원문 대조: `run.text_check_n=200` 표본을 `chunks.jsonl`과 대조(none은 전체 1,000개 중 200, BC1·all도 200 표본).
+
+**추가 확인 (결과 파일 사후 분석, scratchpad 스크립트)**
+
+| 항목 | 결과 |
+|---|---|
+| 파이프라인의 `neighbor_ids` == 같은 `context_ids`에 원본 `pf3_rules.select`를 적용한 값 | 세 정책 모두 100/100 일치 |
+| `fetched_ids` == sorted(context ∪ 이웃) (한 번에 Fetch) | 세 정책 모두 100/100 |
+| 세 정책의 검색 결과(context_ids)가 같은지 | 100/100 같음 (정책만 바뀜) |
+| 검색 결과 == 기존 C2 저장 hits(`/workspace/junlim/pf3_out/hits_nq.jsonl`, 같은 질문) | 100/100 순서까지 같음 |
+| 읽은 집합 포함 관계 none ⊆ BC1 ⊆ all | 100/100 |
+| 정책을 넓혔을 때 정답을 잃은 질문 (none→BC1, BC1→all) | 0, 0 |
+
+**기존 C2 결과와 경향 비교** (`pf3_quality_nq.csv`, ANN Top-10, 원래 C2 담당 팀원 결과)
+
+| 정책 | 추가 chunk: 기존 전체 3,452 / ans 2,254 | 추가 chunk: 이번 100 | 같은 100개 질문에 저장 hits로 다시 계산 | 정답 문자열 포함률: 기존(ans) / 이번 100 |
+|---|---|---|---|---|
+| none | 0 / 0 | 0 | 0 | 0.781 / 0.76 |
+| BC1 | 8.708 / 8.697 | 9.32 | 9.32 | 0.867 / 0.88 |
+| all | 14.746 / 14.894 | 14.79 | 14.79 | 0.877 / 0.90 |
+
+- 경향 일치: 추가 chunk 수 none < BC1 < all, BC1 ≈ all의 약 60%, 포함률 none → BC1에서 크게 오르고 BC1 → all은 소폭. BC1의 9.32가 8.7보다 큰 것은 이 100개 질문의 표본 차이다(같은 100개 질문을 저장된 기존 hits로 다시 계산해도 9.32로 정확히 같음).
+- 전체 3,452개 동일성은 계약 밖 오프라인 검사 `experiments/test_c2_equivalence.py`로 따로 확인(none/BC1/all 평균 0 / 8.7083 / 14.7457, 원본과 출력 완전 일치).
+- 참고 수치(질문 100개, serial, 성능 해석 금지): qps 69.6 / 73.9 / 67.9 (none / BC1 / all).

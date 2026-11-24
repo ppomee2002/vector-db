@@ -126,3 +126,18 @@
 | experiments/test_search_layout.py (신규) | 가짜 AsyncMilvusClient·가짜 Guard/메트릭으로 `main.main()` 전체 경로(실제 FileChunkMetaLoader → 실제 MilvusSearchAdapter → C2 none_ref → C1 milvus_query_ref → serial C3 → 결과 검사)를 c1.layout = seq/doc/rand로 실행. 종료 코드 0·오류 0·검색 pk 항등·C1 요청 pk == `pk_of_chunk[layout]` 확인. `--old-main <수정 전 main.py>`로 doc/rand에서 버그 재현 확인 |
 
 - 검사: py_compile 전체 통과. 새 테스트 PASS 18 / FAIL 0(현재 코드 seq·doc·rand 통과, 수정 전 main.py는 seq 통과·doc/rand에서 질문 3개 모두 `search: KeyError: 'seq'`, 종료 코드 5). 계약 테스트(`--run runs/correctness_file_ref.yaml`) PASS 85 / FAIL 0 / SKIP 4 / WARN 4(수정 전과 같음, 94는 `--results` 포함 수치). MilvusGuard 26/26, C1 Milvus 가짜 클라이언트 14/14.
+
+## C2 어댑터 추가 (2026-11-24, A단계)
+- 근거: 총괄(C2 담당)이 `/workspace/jaeeun/pipeline-c2`(작업용 복사본)에서 작성한 C2 어댑터. 원래 C2 담당 팀원의 `pf3_rules.select`(브랜치 `w12-c2-prefetching`)를 로직 변경 없이 옮겨 계약에 맞게 감쌈.
+- 먼저 GitHub `pipeline-design`(커밋 `0ae0e38`)과 맞춤: GitHub에만 있던 `modules/c1_jihyeon.py`, `modules/c3_m7.py`, `experiments/test_c1_jihyeon.py`, `runs/b0_100_jihyeon.yaml`, `runs/c1_jihyeon_file.yaml`, `runs/c1_jihyeon_milvus.yaml`을 그대로 복사(내용 수정 없음). 양쪽에 있는 파일 중 내용이 다른 것은 없었음. 서버에만 있는 것은 `CHECK.md`.
+- 그대로 둔 것: `interfaces.py`, `main.py`, 팀원 어댑터(c1_jihyeon.py, c3_m7.py), pipeline-c2의 다른 파일(main.py 등, pipeline-core 쪽이 더 최신). config.yaml은 통째로 덮어쓰지 않음. 변경 전 config.yaml·SMOKE.md·CHANGES.md는 세션 scratchpad `before_c2/`에 백업.
+
+| 파일 | 변경 |
+|---|---|
+| modules/c2_bc1.py (신규, pipeline-c2에서 가져옴) | `@register("c2", "bc1_v1")`. 생성자 (meta, cfg), doc_idx·flags는 ChunkMeta에서. 정책 none / BC1 / all만, 입력 R에 없는 같은 문서 ±1 이웃을 chunk_id 오름차순 `list[int]`로 반환. `nbrs`·`_cut_nbrs`·`select`는 원본 글자 그대로. `neighbor_window != 1`이면 거부, 범위 밖 chunk_id는 ValueError |
+| experiments/test_c2_equivalence.py (신규, pipeline-c2에서 가져옴) | 원본 `pf3_rules.select`와 어댑터 출력 동일성 검사(질문 3,452개 × none/BC1/all, 경계 경우 52개, 가짜 데이터, 원본 코드 블록 글자 일치, `pf3_quality_nq.csv` extra_pks 대조). Milvus 안 씀 |
+| config.yaml `c2.impl` | 주석 한 줄만 추가: 선택지 `bc1_v1`. **기본값은 `none_ref` 그대로** |
+| runs/c2_correctness.yaml (신규) | C2 정확성 확인 설정(nq_seq, C1 milvus_query_ref, C3 serial_ref, nq_test_ans 100개, max_queries 100, evaluate true, allow_preloaded_targets true). 정책은 `--set c2.policy=` |
+| SMOKE.md 8절 (신규) | C2 정확성 확인 결과 |
+
+- 검사(pipeline-core에서 다시 실행): 계약 테스트 `--c2 bc1_v1 --only c2,common --require-policies BC1,all` **PASS 55 / FAIL 0 / SKIP 0 / WARN 0**(fake·real × BC1·all 30개 포함, `logs/contract_c2_bc1_v1.log`), 공통 검사 policy=BC1·all 각 PASS 9 / FAIL 0(`logs/contract_common_bc1_v1_{BC1,all}.log`), 동일성 검사 FAIL 0(`logs/test_c2_equivalence.log`), py_compile·YAML 파싱 통과. 실제 실행 none/BC1/all 각 100개 오류 0·결과 검사 위반 0·원문 대조 200/200(SMOKE.md 8절).

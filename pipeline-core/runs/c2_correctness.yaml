@@ -1,0 +1,34 @@
+# C2 담당(총괄) 정확성 확인: C2 어댑터 bc1_v1(modules/c2_bc1.py)만 켜고 나머지는 기본(C1 milvus_query_ref, C3 serial_ref).
+# 검색·본문 모두 junlim/nq_seq. 질문 nq_test_ans 앞 100개(seed 42 순서), 개수 기반(max_queries=100), 평가·원문 대조 켬. 부하 실험 아님.
+# 성능 비교가 아니라 C2 어댑터가 파이프라인 안에서 제대로 동작하는지 확인하는 용도.
+# 검색은 기본 search_topk 10 / context_topk 10 / ef 64 (기존 C2 결과 pf3_quality_nq.csv의 ANN Top-10 기준과 같은 입력).
+# 실행 (정책만 바꿔 세 번):
+#   /workspace/jaeeun/venv/bin/python main.py --run runs/c2_correctness.yaml --set c2.policy=none --set run.name=c2_correctness_none
+#   /workspace/jaeeun/venv/bin/python main.py --run runs/c2_correctness.yaml --set c2.policy=BC1  --set run.name=c2_correctness_BC1
+#   /workspace/jaeeun/venv/bin/python main.py --run runs/c2_correctness.yaml --set c2.policy=all  --set run.name=c2_correctness_all
+# 계약 테스트: python experiments/contract_test.py --run runs/correctness_file_ref.yaml --c2 bc1_v1 --only c2,common --require-policies BC1,all
+# MilvusGuard: nq_seq가 이미 Loaded면 그대로 쓰고 load·release 안 함. NotLoad면 사용 중 검사 후 load → 실행 → release 직전 확인 후
+# 이번 실행이 load한 것만 release. nq_seq의 mmap·인덱스 설정은 바꾸지 않는다.
+c1:
+  impl: milvus_query_ref
+  layout: seq
+  fetch_mode: batch
+  batch_impl: query_pk_in
+
+c2:
+  impl: bc1_v1
+  policy: none               # 실행할 때 --set c2.policy=none / BC1 / all
+
+c3:
+  impl: serial_ref
+
+run:
+  name: c2_correctness
+  purpose: correctness
+  query_set: nq_test_ans
+  n_queries: 100
+  max_queries: 100
+  evaluate: true             # 정답 문자열 포함률 + chunks.jsonl 원문 대조
+  verify_search_doc_idx: true
+  milvus_allowed_load: [junlim/nq_seq]
+  allow_preloaded_targets: true   # 정확성 확인에만. 이미 Loaded면 그대로 쓰고 load·release 안 함
