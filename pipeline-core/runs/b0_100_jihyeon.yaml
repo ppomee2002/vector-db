@@ -1,0 +1,15 @@
+# B0 질문 100개 (C1 cold 비교의 입력 Chunk 집합을 만들기 위한 실행, 김지현).
+# correctness_milvus_query.yaml과 같고 질문 수만 100개. 이미 Loaded인 nq_seq를 load·release 없이 씀.
+c1:
+  impl: milvus_query_ref
+
+run:
+  name: b0_100_jihyeon
+  purpose: correctness
+  query_set: nq_test_ans
+  n_queries: 100
+  max_queries: 100
+  evaluate: true
+  verify_search_doc_idx: true
+  milvus_allowed_load: [junlim/nq_seq]
+  allow_preloaded_targets: true
