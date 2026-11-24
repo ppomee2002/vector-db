@@ -141,3 +141,8 @@
 | SMOKE.md 8절 (신규) | C2 정확성 확인 결과 |
 
 - 검사(pipeline-core에서 다시 실행): 계약 테스트 `--c2 bc1_v1 --only c2,common --require-policies BC1,all` **PASS 55 / FAIL 0 / SKIP 0 / WARN 0**(fake·real × BC1·all 30개 포함, `logs/contract_c2_bc1_v1.log`), 공통 검사 policy=BC1·all 각 PASS 9 / FAIL 0(`logs/contract_common_bc1_v1_{BC1,all}.log`), 동일성 검사 FAIL 0(`logs/test_c2_equivalence.log`), py_compile·YAML 파싱 통과. 실제 실행 none/BC1/all 각 100개 오류 0·결과 검사 위반 0·원문 대조 200/200(SMOKE.md 8절).
+
+## 통합 실험 B1·B2 (2026-11-24 17:34~17:58 KST)
+- 계획 `PLAN_integ.md`(실험 전 고정), 결과 `RESULTS_integ.md`. 예약 시간대 `2026-11-24 17:34~2026-11-24 21:34`.
+- 새 파일: `runs/b1_c2_compare.yaml`, `runs/b2_integ.yaml`, `experiments/b1_c2_controls.py`(D8 대조군 ANN Top-(10+k)·R3, 전체 상위 10개 일치 검사, paired bootstrap), `experiments/b2_driver.py`(조건 순서 교차 15회, 실패·시간대 끝이면 중단), `experiments/b2_analyze.py`(A/A 범위·기여 몫·판정).
+- 그대로 둔 것: interfaces.py, main.py, config.yaml, 모든 어댑터(c1_jihyeon.py, c3_m7.py, c2_bc1.py, reference).
