@@ -271,7 +271,10 @@ def _main_locked(cfg, run, settings, impls, cache_cond, out, meta_out, dump_meta
     #    전체 md5는 별도 명령(verify_md5.py, 하루 한 번). cold/cache_constrained에서는 다시 계산도 하지 않고 중단.
     t = time.perf_counter()
     loader = FileChunkMetaLoader(cfg, md5_mode="quick", cache_condition=cache_cond)
-    meta = loader.load(layouts=(settings.layout,))
+    # 검색 어댑터(modules/search_milvus.py)는 항상 chunk_of_pk["seq"]로 검색 결과 pk를 chunk_id로 바꾸고,
+    # C1은 c1.layout(seq/doc/rand)의 매핑을 쓴다 → 둘 다 로드한다(순서 유지, 중복 제거).
+    # PR #3(지현) 지적: 예전에는 (settings.layout,)만 로드해서 c1.layout=doc/rand면 검색 단계에서 KeyError('seq').
+    meta = loader.load(layouts=tuple(dict.fromkeys(("seq", settings.layout))))
     meta_out["md5_check"] = loader.report
     meta_out["chunk_meta_load_s"] = round(time.perf_counter() - t, 1)
     ql = QueryLoader(cfg)

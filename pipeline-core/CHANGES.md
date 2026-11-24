@@ -113,3 +113,16 @@
 | 검사 | – | py_compile 전체 통과, YAML 4개 파싱, 계약 테스트 PASS 94 / FAIL 0 / SKIP 4 / WARN 4, Guard 단위 26/26, Milvus 어댑터 가짜 클라이언트 14/14, 전체 md5 10/10. 실제 Milvus 실행(nq_seq 계약 테스트, nq_seq B0, nq1m_sel B0)은 `junlim/nq_seq`가 이미 Loaded라 Guard가 중단 → 실행 안 함 | SMOKE.md 6·7절 |
 | 추가 (15:43) | runs/correctness_milvus_query.yaml, runs/correctness_file_ref.yaml, main.py, experiments/contract_test.py, config.yaml 주석 | junlim 확인에 따라 정확성 확인 설정에만 `run.allow_preloaded_targets: true`. main.py는 purpose≠correctness에서 이 값이 켜져 있으면 거부(7). 계약 테스트는 `--allow-load` 없이도 이 설정 + 대상 Loaded일 때 load·release 없이 Milvus C1 검사(사용 중 검사는 그대로). 결과: 계약 테스트 PASS 21 / FAIL 0, nq_seq B0 오류 0·원문 100/100·포함률 6/10·nq1m_sel 대비 상위 10개 겹침 0.99 (SMOKE.md 7절) | 이미 Loaded인 nq_seq로 정확성 확인 |
 
+
+## PR #3 지적 반영: 검색용 seq 매핑 로드 (2026-11-24)
+- 근거: C1 담당 지현 님이 PR #3에서 찾은 공통 실행기 버그. main.py가 ChunkMeta를 `layouts=(settings.layout,)`(c1.layout 하나)로만 로드하는데, 검색 어댑터는 항상 `chunk_of_pk["seq"]`를 써서 c1.layout=doc/rand면 검색 단계에서 `KeyError: 'seq'`(pipeline이 질문별 error로 기록 → 결과 검사 위반, 종료 코드 5). 계약 테스트 공통 검사는 가짜 검색이라 못 잡았음.
+- 그대로 둔 것: `interfaces.py`, `modules/C1.py`·`C2.py`·`C3.py`, 검색 어댑터 로직. Milvus 사용 안 함. 변경 전 파일은 세션 scratchpad `before_pr3/`에 백업.
+
+| 파일 | 변경 |
+|---|---|
+| main.py | `loader.load(layouts=tuple(dict.fromkeys(("seq", settings.layout))))`: 검색용 seq + C1용 배치를 둘 다 로드 |
+| experiments/contract_test.py | 실제 ChunkMeta 로드도 같은 방식(seq + c1.layout) |
+| modules/search_milvus.py | `"seq"` 고정 이유 주석: 검색 컬렉션 nq_seq·nq1m_sel은 pk == chunk_id인 문서 순(seq) 배치, c1.layout은 C1 본문 컬렉션 배치일 뿐. 로직 변경 없음 |
+| experiments/test_search_layout.py (신규) | 가짜 AsyncMilvusClient·가짜 Guard/메트릭으로 `main.main()` 전체 경로(실제 FileChunkMetaLoader → 실제 MilvusSearchAdapter → C2 none_ref → C1 milvus_query_ref → serial C3 → 결과 검사)를 c1.layout = seq/doc/rand로 실행. 종료 코드 0·오류 0·검색 pk 항등·C1 요청 pk == `pk_of_chunk[layout]` 확인. `--old-main <수정 전 main.py>`로 doc/rand에서 버그 재현 확인 |
+
+- 검사: py_compile 전체 통과. 새 테스트 PASS 18 / FAIL 0(현재 코드 seq·doc·rand 통과, 수정 전 main.py는 seq 통과·doc/rand에서 질문 3개 모두 `search: KeyError: 'seq'`, 종료 코드 5). 계약 테스트(`--run runs/correctness_file_ref.yaml`) PASS 85 / FAIL 0 / SKIP 4 / WARN 4(수정 전과 같음, 94는 `--results` 포함 수치). MilvusGuard 26/26, C1 Milvus 가짜 클라이언트 14/14.

@@ -52,6 +52,9 @@ class MilvusSearchAdapter:
             search_params={"metric_type": "IP", "params": {"ef": ef}},
         )
         hits = []
+        # 배치를 "seq"로 고정하는 이유: 검색 컬렉션(nq_seq, nq1m_sel)은 pk == chunk_id인 문서 순(seq) 배치다.
+        # c1.layout(doc/rand)은 C1 본문 컬렉션의 배치일 뿐 검색 컬렉션과 무관하다. 그래서 실행기는 c1.layout과
+        # 상관없이 ChunkMeta에 "seq"를 항상 로드한다(main.py, PR #3). 검색 컬렉션을 다른 배치로 바꾸면 여기와 로드를 같이 고칠 것.
         chunk_of = self.meta.chunk_of_pk["seq"]
         for rank, h in enumerate(res[0]):
             pk = int(h["id"] if "id" in h else h[self.pk_field])  # pymilvus 3: PK 필드 이름(pk)으로 옴

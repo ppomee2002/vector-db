@@ -636,7 +636,8 @@ def main(argv=None) -> int:
     meta = None
     if only & {"c1", "c2", "common"}:
         t = time.perf_counter()
-        meta = FileChunkMetaLoader(cfg, check_md5=False).load(layouts=(cfg["c1"]["layout"],))
+        # main.py와 같이 검색용 seq + C1용 c1.layout을 둘 다 로드 (PR #3 지적 반영)
+        meta = FileChunkMetaLoader(cfg, check_md5=False).load(layouts=tuple(dict.fromkeys(("seq", cfg["c1"]["layout"]))))
         print(f"# 실제 ChunkMeta 로드 {time.perf_counter() - t:.1f}s (md5 생략: main.py 실행 때 검사)")
 
     guard = None
