@@ -1,0 +1,88 @@
+{
+ "n_results": 9456,
+ "n_warmup": 1862,
+ "n_measured": 7594,
+ "n_error": 0,
+ "error_rate": 0.0,
+ "qps": 379.7,
+ "qps_basis": "duration_s",
+ "strict_qps": 378.9,
+ "n_strict": 7578,
+ "n_tail_after_window": 16,
+ "strict_qps_basis": "측정 구간 [warmup_s, warmup_s+duration_s] 안에서 끝난 결과 수 / duration_s",
+ "stage_ms": {
+  "search": {
+   "p50": 10.601171990856528,
+   "p95": 66.89749108627439,
+   "p99": 96.42674770206203
+  },
+  "c2_select": {
+   "p50": 0.0013899989426136017,
+   "p95": 0.0033551827073097147,
+   "p99": 0.004862016066908832
+  },
+  "fetch": {
+   "p50": 8.69840057566762,
+   "p95": 64.86769076436757,
+   "p99": 94.96738316956908
+  },
+  "queue_wait": {
+   "p50": 0.0007594935595989227,
+   "p95": 0.0017420854419469818,
+   "p99": 0.002261577174067496
+  },
+  "total": {
+   "p50": 20.928389159962535,
+   "p95": 84.89356483332799,
+   "p99": 152.9325570911168
+  },
+  "service": {
+   "p50": 20.9276566747576,
+   "p95": 84.89269379060701,
+   "p99": 152.9320813389494
+  }
+ },
+ "fetched_chunks_mean": 10.0,
+ "fetch_n_requests_mean": 1.0,
+ "fetched_bytes_mean": 3944.8032657361073,
+ "cache_condition": {
+  "applied": "warm",
+  "valid": null,
+  "verdict": "warm: 저장소 읽기 유효성 판정 대상 아님(기록만)",
+  "storage_read_delta_bytes": 0.0
+ },
+ "checks": {
+  "key": {
+   "n_violation": 0,
+   "examples": []
+  },
+  "stage_keys": {
+   "n_violation": 0,
+   "examples": []
+  },
+  "hits_rank": {
+   "n_violation": 0,
+   "examples": []
+  },
+  "ids": {
+   "n_violation": 0,
+   "examples": []
+  },
+  "fetch_stats": {
+   "n_violation": 0,
+   "examples": []
+  },
+  "c3_timing": {
+   "n_violation": 0,
+   "examples": []
+  },
+  "policy_none": {
+   "n_violation": 0,
+   "examples": []
+  },
+  "errors": {
+   "n_violation": 0,
+   "examples": []
+  }
+ }
+}

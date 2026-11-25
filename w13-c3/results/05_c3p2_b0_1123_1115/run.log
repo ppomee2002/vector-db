@@ -1,0 +1,143 @@
+== 지금 접속한 계정
+== 다른 계정의 프로세스 (CPU 순 상위 10개, %CPU는 시작 후 평균)
+  vdb01         290583       52:44  1.7 claude
+  vdb01         253897    11:01:37  1.6 claude
+  vdb01         166684  7-10:59:20  0.6 ugrep (인자 생략)
+  vdb01         233048    19:11:03  0.6 claude
+  vdb01         290384       58:35  0.0 sshd: (인자 생략)
+  vdb01         166463  7-11:05:20  0.0 tmux (인자 생략)
+  vdb01         290424       57:20  0.0 -bash
+  vdb01         290385       58:35  0.0 -bash
+  vdb02          99110  9-09:19:12  0.0 tmux (인자 생략)
+  vdb01         211865  1-01:38:33  0.0 -bash
+== Milvus 활동 (10초 동안)
+  Milvus CPU 0.14코어 (기준 1.0)
+  요청 0.0건/초 (기준 5)
+== 올라가 있는 컬렉션 (참고: 올라가 있다고 지금 쓰는 중이라는 뜻은 아님)
+  (없음)
+== 관리자 스위치: 지금 걸린 제한과 최근 기록 (참고)
+  target=milvus (mv-milvus)
+  memory.current 0.49GiB  memory.high max  memory.max max
+    anon           0.32GiB
+    file           0.13GiB
+    shmem          0.00GiB
+    file_mapped    0.09GiB
+    inactive_file  0.00GiB
+    active_file    0.13GiB
+  2026-11-23 02:43:08 <switch-host> milvus reset
+  2026-11-23 03:03:10 <switch-host> milvus reset
+  2026-11-23 04:26:40 <switch-host> milvus reset
+  2026-11-23 04:29:25 <switch-host> milvus restart (begin)
+  2026-11-23 04:29:37 <switch-host> milvus restart done (re-applied mem=max iops=off); collections must be load()ed again
+==
+결과: 조용함. 측정해도 됩니다.
+11:15:35 start run_c3p2 sess=/workspace/junlim/c3p2_runs/1123_1115 window=2026-11-23 20:15~2026-11-23 21:15 c2=none_ref/none clients=16 cap=8 dry=0
+a23c548f  /workspace/junlim/run_c3p2.sh
+2d381784  /workspace/junlim/rec_c3p2.py
+f4407f75  /workspace/junlim/judge_c3p2.py
+67562c27  /workspace/junlim/c3_contract2/pipeline-core/main.py
+734b71ae  /workspace/junlim/c3_contract2/pipeline-core/modules/c3_m7_junlim.py
+target=milvus (mv-milvus)
+memory.current 0.49GiB  memory.high max  memory.max max
+  anon           0.32GiB
+  file           0.13GiB
+  shmem          0.00GiB
+  file_mapped    0.09GiB
+  inactive_file  0.00GiB
+  active_file    0.13GiB
+  events.high=0
+  events.max=0
+  events.oom=0
+  events.oom_kill=0
+io.max: 
+floor for mem: 0.82GiB
+11:15:36 ===== c_serial: python main.py --set run.name=c_serial --set run.out_dir=/workspace/junlim/c3p2_runs/1123_1115/out --set run.reserved_window="2026-11-23 20:15~2026-11-23 21:15" --set run.milvus_allowed_load=[junlim/nq_seq] --set run.n_queries=null --set c1.impl=milvus_query_ref --set c2.impl=none_ref --set c2.policy=none --set c3.clients=16 --set c3.cap=8 --set experiment.cache_condition=warm --set run.purpose=correctness --set run.query_set=nq_test_real --set run.max_queries=3452 --set run.evaluate=true --set run.text_check_n=100000 --set c3.impl=serial_ref --set c3.mode=m3
+{"n_results": 3452, "n_measured": 3452, "n_error": 0, "qps": 80.80406080321855, "strict_qps": null, "answer_hit": {"n_eval": 2254, "n_hit": 1760, "hit_rate": 0.7808340727595386}, "text_check": {"n_checked": 34520, "n_mismatch": 0, "mismatch_examples": [], "source": "/workspace/junlim/data_nq/chunks.jsonl"}}
+  checks: {'key': 0, 'stage_keys': 0, 'hits_rank': 0, 'ids': 0, 'fetch_stats': 0, 'c3_timing': 0, 'policy_none': 0, 'errors': 0}
+[2026-11-23T20:16:50+09:00] done → /workspace/junlim/c3p2_runs/1123_1115/out/c_serial_20261123_201537
+11:16:51 c_serial 종료 코드 0
+11:16:52 ===== c_m3: python main.py --set run.name=c_m3 --set run.out_dir=/workspace/junlim/c3p2_runs/1123_1115/out --set run.reserved_window="2026-11-23 20:15~2026-11-23 21:15" --set run.milvus_allowed_load=[junlim/nq_seq] --set run.n_queries=null --set c1.impl=milvus_query_ref --set c2.impl=none_ref --set c2.policy=none --set c3.clients=16 --set c3.cap=8 --set experiment.cache_condition=warm --set run.purpose=correctness --set run.query_set=nq_test_real --set run.max_queries=3452 --set run.evaluate=true --set run.text_check_n=100000 --set c3.impl=m7_junlim --set c3.mode=m3
+{"n_results": 3452, "n_measured": 3452, "n_error": 0, "qps": 381.3185877318739, "strict_qps": null, "answer_hit": {"n_eval": 2254, "n_hit": 1760, "hit_rate": 0.7808340727595386}, "text_check": {"n_checked": 34520, "n_mismatch": 0, "mismatch_examples": [], "source": "/workspace/junlim/data_nq/chunks.jsonl"}}
+  checks: {'key': 0, 'stage_keys': 0, 'hits_rank': 0, 'ids': 0, 'fetch_stats': 0, 'c3_timing': 0, 'policy_none': 0, 'errors': 0}
+[2026-11-23T20:17:33+09:00] done → /workspace/junlim/c3p2_runs/1123_1115/out/c_m3_20261123_201652
+11:17:34 c_m3 종료 코드 0
+11:17:35 ===== c_m7: python main.py --set run.name=c_m7 --set run.out_dir=/workspace/junlim/c3p2_runs/1123_1115/out --set run.reserved_window="2026-11-23 20:15~2026-11-23 21:15" --set run.milvus_allowed_load=[junlim/nq_seq] --set run.n_queries=null --set c1.impl=milvus_query_ref --set c2.impl=none_ref --set c2.policy=none --set c3.clients=16 --set c3.cap=8 --set experiment.cache_condition=warm --set run.purpose=correctness --set run.query_set=nq_test_real --set run.max_queries=3452 --set run.evaluate=true --set run.text_check_n=100000 --set c3.impl=m7_junlim --set c3.mode=m7
+{"n_results": 3452, "n_measured": 3452, "n_error": 0, "qps": 389.2092947884245, "strict_qps": null, "answer_hit": {"n_eval": 2254, "n_hit": 1760, "hit_rate": 0.7808340727595386}, "text_check": {"n_checked": 34520, "n_mismatch": 0, "mismatch_examples": [], "source": "/workspace/junlim/data_nq/chunks.jsonl"}}
+  checks: {'key': 0, 'stage_keys': 0, 'hits_rank': 0, 'ids': 0, 'fetch_stats': 0, 'c3_timing': 0, 'policy_none': 0, 'errors': 0}
+[2026-11-23T20:18:14+09:00] done → /workspace/junlim/c3p2_runs/1123_1115/out/c_m7_20261123_201735
+11:18:15 c_m7 종료 코드 0
+# C3 단독 효과 판정 (judge_c3p2.py, 설계 v3 + v3.1 V5) — /workspace/junlim/c3p2_runs/1123_1115
+## 1단계 정확성 (c)
+- c_serial: 결과 3452, 오류 0, checks 위반 0, text_check 0/34520 → 통과
+- c_m3: 결과 3452, 오류 0, checks 위반 0, text_check 0/34520 → 통과
+- c_m7: 결과 3452, 오류 0, checks 위반 0, text_check 0/34520 → 통과
+  - (기록) c_serial vs c_m3: 같은 질문 3452개 중 hits 같음 3452, fetched_ids 같음 3452
+  - (기록) c_serial vs c_m7: 같은 질문 3452개 중 hits 같음 3452, fetched_ids 같음 3452
+- **1단계 PASS**
+11:18:16 ===== p1_m3: python main.py --set run.name=p1_m3 --set run.out_dir=/workspace/junlim/c3p2_runs/1123_1115/out --set run.reserved_window="2026-11-23 20:15~2026-11-23 21:15" --set run.milvus_allowed_load=[junlim/nq_seq] --set run.n_queries=null --set c1.impl=milvus_query_ref --set c2.impl=none_ref --set c2.policy=none --set c3.clients=16 --set c3.cap=8 --set experiment.cache_condition=warm --set run.purpose=measure --set run.query_set=nq_test_real --set run.max_queries=null --set run.evaluate=false --set c3.impl=m7_junlim --set c3.mode=m3
+{"n_results": 9456, "n_measured": 7594, "n_error": 0, "qps": 379.7, "strict_qps": 378.9}
+  checks: {'key': 0, 'stage_keys': 0, 'hits_rank': 0, 'ids': 0, 'fetch_stats': 0, 'c3_timing': 0, 'policy_none': 0, 'errors': 0}
+[2026-11-23T20:19:10+09:00] done → /workspace/junlim/c3p2_runs/1123_1115/out/p1_m3_20261123_201816
+11:19:12 p1_m3 종료 코드 0
+11:19:12 ===== p2_m7: python main.py --set run.name=p2_m7 --set run.out_dir=/workspace/junlim/c3p2_runs/1123_1115/out --set run.reserved_window="2026-11-23 20:15~2026-11-23 21:15" --set run.milvus_allowed_load=[junlim/nq_seq] --set run.n_queries=null --set c1.impl=milvus_query_ref --set c2.impl=none_ref --set c2.policy=none --set c3.clients=16 --set c3.cap=8 --set experiment.cache_condition=warm --set run.purpose=measure --set run.query_set=nq_test_real --set run.max_queries=null --set run.evaluate=false --set c3.impl=m7_junlim --set c3.mode=m7
+{"n_results": 9888, "n_measured": 7951, "n_error": 0, "qps": 397.55, "strict_qps": 397.15}
+  checks: {'key': 0, 'stage_keys': 0, 'hits_rank': 0, 'ids': 0, 'fetch_stats': 0, 'c3_timing': 0, 'policy_none': 0, 'errors': 0}
+[2026-11-23T20:20:07+09:00] done → /workspace/junlim/c3p2_runs/1123_1115/out/p2_m7_20261123_201913
+11:20:08 p2_m7 종료 코드 0
+11:20:08 ===== p3_m7: python main.py --set run.name=p3_m7 --set run.out_dir=/workspace/junlim/c3p2_runs/1123_1115/out --set run.reserved_window="2026-11-23 20:15~2026-11-23 21:15" --set run.milvus_allowed_load=[junlim/nq_seq] --set run.n_queries=null --set c1.impl=milvus_query_ref --set c2.impl=none_ref --set c2.policy=none --set c3.clients=16 --set c3.cap=8 --set experiment.cache_condition=warm --set run.purpose=measure --set run.query_set=nq_test_real --set run.max_queries=null --set run.evaluate=false --set c3.impl=m7_junlim --set c3.mode=m7
+{"n_results": 9920, "n_measured": 7974, "n_error": 0, "qps": 398.7, "strict_qps": 398.3}
+  checks: {'key': 0, 'stage_keys': 0, 'hits_rank': 0, 'ids': 0, 'fetch_stats': 0, 'c3_timing': 0, 'policy_none': 0, 'errors': 0}
+[2026-11-23T20:21:03+09:00] done → /workspace/junlim/c3p2_runs/1123_1115/out/p3_m7_20261123_202009
+11:21:04 p3_m7 종료 코드 0
+11:21:05 ===== p4_m3: python main.py --set run.name=p4_m3 --set run.out_dir=/workspace/junlim/c3p2_runs/1123_1115/out --set run.reserved_window="2026-11-23 20:15~2026-11-23 21:15" --set run.milvus_allowed_load=[junlim/nq_seq] --set run.n_queries=null --set c1.impl=milvus_query_ref --set c2.impl=none_ref --set c2.policy=none --set c3.clients=16 --set c3.cap=8 --set experiment.cache_condition=warm --set run.purpose=measure --set run.query_set=nq_test_real --set run.max_queries=null --set run.evaluate=false --set c3.impl=m7_junlim --set c3.mode=m3
+{"n_results": 9594, "n_measured": 7734, "n_error": 0, "qps": 386.7, "strict_qps": 385.9}
+  checks: {'key': 0, 'stage_keys': 0, 'hits_rank': 0, 'ids': 0, 'fetch_stats': 0, 'c3_timing': 0, 'policy_none': 0, 'errors': 0}
+[2026-11-23T20:21:59+09:00] done → /workspace/junlim/c3p2_runs/1123_1115/out/p4_m3_20261123_202105
+11:22:00 p4_m3 종료 코드 0
+11:22:01 ===== p5_m3: python main.py --set run.name=p5_m3 --set run.out_dir=/workspace/junlim/c3p2_runs/1123_1115/out --set run.reserved_window="2026-11-23 20:15~2026-11-23 21:15" --set run.milvus_allowed_load=[junlim/nq_seq] --set run.n_queries=null --set c1.impl=milvus_query_ref --set c2.impl=none_ref --set c2.policy=none --set c3.clients=16 --set c3.cap=8 --set experiment.cache_condition=warm --set run.purpose=measure --set run.query_set=nq_test_real --set run.max_queries=null --set run.evaluate=false --set c3.impl=m7_junlim --set c3.mode=m3
+{"n_results": 9783, "n_measured": 7890, "n_error": 0, "qps": 394.5, "strict_qps": 393.7}
+  checks: {'key': 0, 'stage_keys': 0, 'hits_rank': 0, 'ids': 0, 'fetch_stats': 0, 'c3_timing': 0, 'policy_none': 0, 'errors': 0}
+[2026-11-23T20:22:56+09:00] done → /workspace/junlim/c3p2_runs/1123_1115/out/p5_m3_20261123_202201
+11:22:56 p5_m3 종료 코드 0
+11:22:57 ===== p6_m7: python main.py --set run.name=p6_m7 --set run.out_dir=/workspace/junlim/c3p2_runs/1123_1115/out --set run.reserved_window="2026-11-23 20:15~2026-11-23 21:15" --set run.milvus_allowed_load=[junlim/nq_seq] --set run.n_queries=null --set c1.impl=milvus_query_ref --set c2.impl=none_ref --set c2.policy=none --set c3.clients=16 --set c3.cap=8 --set experiment.cache_condition=warm --set run.purpose=measure --set run.query_set=nq_test_real --set run.max_queries=null --set run.evaluate=false --set c3.impl=m7_junlim --set c3.mode=m7
+{"n_results": 9932, "n_measured": 8018, "n_error": 0, "qps": 400.9, "strict_qps": 400.5}
+  checks: {'key': 0, 'stage_keys': 0, 'hits_rank': 0, 'ids': 0, 'fetch_stats': 0, 'c3_timing': 0, 'policy_none': 0, 'errors': 0}
+[2026-11-23T20:23:52+09:00] done → /workspace/junlim/c3p2_runs/1123_1115/out/p6_m7_20261123_202257
+11:23:53 p6_m7 종료 코드 0
+11:23:53 2단계 끝
+# C3 단독 효과 판정 (judge_c3p2.py, 설계 v3 + v3.1 V5) — /workspace/junlim/c3p2_runs/1123_1115
+## 1단계 정확성 (c)
+- c_serial: 결과 3452, 오류 0, checks 위반 0, text_check 0/34520 → 통과
+- c_m3: 결과 3452, 오류 0, checks 위반 0, text_check 0/34520 → 통과
+- c_m7: 결과 3452, 오류 0, checks 위반 0, text_check 0/34520 → 통과
+  - (기록) c_serial vs c_m3: 같은 질문 3452개 중 hits 같음 3452, fetched_ids 같음 3452
+  - (기록) c_serial vs c_m7: 같은 질문 3452개 중 hits 같음 3452, fetched_ids 같음 3452
+- **1단계 PASS**
+## 2단계 성능 (설계 v3)
+- V1 참고: wait 로그 없음 → run_meta other_user_activity만 확인
+- V1 다른 계정 새 python 작업: 없음
+- (참고, 판정 불변) 기록기 2초 기록 중 실행 도중 새로 나타난 다른 계정 python(uid:pid): 없음
+- V2 fork 실패: 없음
+- V3 6번 실행 정상: 예
+- V4 OOM 증가: 없음
+- V5 스위치 제한이 걸린 status: 없음 (실행 9개 앞뒤)
+
+| 실행 | qps | strict_qps | total p50 | p95 | p99 | queue_wait p50 | 오류 |
+|---|---|---|---|---|---|---|---|
+| p1_m3 | 379.7 | 378.9 | 20.9 | 84.9 | 152.9 | 0.0 | 0 |
+| p2_m7 | 397.6 | 397.1 | 29.3 | 77.4 | 143.8 | 14.4 | 0 |
+| p3_m7 | 398.7 | 398.3 | 28.8 | 72.1 | 147.7 | 14.2 | 0 |
+| p4_m3 | 386.7 | 385.9 | 20.2 | 91.3 | 170.8 | 0.0 | 0 |
+| p5_m3 | 394.5 | 393.7 | 19.9 | 86.0 | 130.3 | 0.0 | 0 |
+| p6_m7 | 400.9 | 400.5 | 29.1 | 74.5 | 123.7 | 14.2 | 0 |
+
+- 쌍별 r = m7/m3: 1.047, 1.031, 1.016 (r 최솟값 1.016)
+- 같은 조건 3회 범위 최대 14.8 QPS, 쌍별 |차이| 최소 6.4 QPS → **흔들림 큼**
+- 차이가 없어도 3쌍이 우연히 한 방향으로 모일 확률은 양쪽 합쳐 1/4(쌍 독립 가정).
+- m3가 먼저인 쌍이 2개: 처리량이 시간에 따라 계속 떨어지면 m3에 약간 유리(m7 판정에 보수적).
+- 실행마다 MilvusGuard가 nq_seq를 새로 load, 예열 5초. 측정 중 메모리·CPU 기록은 rec.csv(판정에 안 씀).
+- B0(C2 none)면 예비 결과. C3 주 결과는 BC1 위(D5). clients 16은 D4의 보조 조건.
+
+**판정: 상한 8 쪽으로 3쌍 일치** (r 최솟값 1.016)
+11:23:53 cleanup: 스위치 status 기록
+11:23:54 (nq_seq release는 main.py MilvusGuard 몫. 종료 코드 6이면 run.log의 수동 명령 확인)

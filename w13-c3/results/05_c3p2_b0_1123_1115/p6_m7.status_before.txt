@@ -1,0 +1,14 @@
+target=milvus (mv-milvus)
+memory.current 0.68GiB  memory.high max  memory.max max
+  anon           0.59GiB
+  file           0.03GiB
+  shmem          0.00GiB
+  file_mapped    0.01GiB
+  inactive_file  0.01GiB
+  active_file    0.02GiB
+  events.high=0
+  events.max=0
+  events.oom=0
+  events.oom_kill=0
+io.max: 
+floor for mem: 1.09GiB

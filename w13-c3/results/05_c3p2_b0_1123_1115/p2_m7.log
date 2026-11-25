@@ -1,0 +1,9 @@
+[2026-11-23T20:19:13+09:00] out=/workspace/junlim/c3p2_runs/1123_1115/out/p2_m7_20261123_201913
+  impl={'c1': 'milvus_query_ref', 'c2': 'none_ref', 'c3': 'm7_junlim'}  search=junlim/nq_seq  topk=10/10 ef=64  purpose=measure  cache_condition=warm
+  ChunkMeta ok (0.1s, md5 quick), keys=3452 head=[('nq_test_real', 409), ('nq_test_real', 125), ('nq_test_real', 343)]
+  preflight ok: server loaded=0.0, data req=0, before={'junlim/nq_seq': 'NotLoad'}
+  load: [{'op': 'load', 'collection': 'junlim/nq_seq', 'at_kst': '2026-11-23T20:19:29+09:00', 'sec': 5.2}]
+  release: junlim/nq_seq → released (원래 NotLoad, 이번 실행이 load, release 직전 다른 요청 없음)
+{"n_results": 9888, "n_measured": 7951, "n_error": 0, "qps": 397.55, "strict_qps": 397.15}
+  checks: {'key': 0, 'stage_keys': 0, 'hits_rank': 0, 'ids': 0, 'fetch_stats': 0, 'c3_timing': 0, 'policy_none': 0, 'errors': 0}
+[2026-11-23T20:20:07+09:00] done → /workspace/junlim/c3p2_runs/1123_1115/out/p2_m7_20261123_201913
