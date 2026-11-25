@@ -1,0 +1,240 @@
+== 지금 접속한 계정
+== 다른 계정의 프로세스 (CPU 순 상위 10개, %CPU는 시작 후 평균)
+  vdb01         253897    02:28:58  3.7 claude
+  vdb01         231755    10:52:14  0.7 claude (인자 생략)
+  vdb01         233048    10:38:24  0.7 claude
+  vdb01         166684  7-02:26:41  0.6 ugrep (인자 생략)
+  vdb01         166463  7-02:32:41  0.0 tmux (인자 생략)
+  vdb02          99110  9-00:46:33  0.0 tmux (인자 생략)
+  vdb01         211865    17:05:54  0.0 -bash
+  vdb02          99111  9-00:46:33  0.0 -bash
+  vdb01         166464  7-02:32:41  0.0 -bash
+  vdb02          99330  9-00:33:36  0.0 -bash
+== Milvus 활동 (10초 동안)
+  Milvus CPU 0.11코어 (기준 1.0)
+  요청 0.0건/초 (기준 5)
+== 올라가 있는 컬렉션 (참고: 올라가 있다고 지금 쓰는 중이라는 뜻은 아님)
+  (없음)
+== 관리자 스위치: 지금 걸린 제한과 최근 기록 (참고)
+  target=milvus (mv-milvus)
+  memory.current 0.93GiB  memory.high max  memory.max max
+    anon           0.73GiB
+    file           0.12GiB
+    shmem          0.00GiB
+    file_mapped    0.09GiB
+    inactive_file  0.00GiB
+    active_file    0.12GiB
+  2026-11-22 12:42:22 <switch-host> milvus reset
+  2026-11-22 13:12:27 <switch-host> milvus reset
+  2026-11-22 13:25:24 <switch-host> milvus reset
+  2026-11-22 15:35:29 <switch-host> milvus reset
+  2026-11-22 15:53:57 <switch-host> milvus reset
+==
+결과: 조용함. 측정해도 됩니다.
+02:42:56 start run_c3a_real2 backend=milvus out=/workspace/junlim/c3a_out_real2 n=64 dur=20 warm=5 ereps=3 qset=real nsub=10000 anchor=A/k8
+554335bb  bench_c3a.py
+731e9862  analyze_c3a.py
+58d771b9  bench_v2.py
+39907cfe  run_c3a_real2.sh
+eddd67ef  judge_c3a_real2.py
+SELFTEST PASS
+02:43:08 switch: reset
+milvus reset
+02:43:08 ===== nq_seq 준비
+loaded nq_seq in 4.8s
+nq_seq {'state': <LoadState: Loaded>} index mmap: False
+target=milvus (mv-milvus)
+memory.current 2.95GiB  memory.high max  memory.max max
+  anon           2.35GiB
+  file           0.50GiB
+  shmem          0.00GiB
+  file_mapped    0.48GiB
+  inactive_file  0.00GiB
+  active_file    0.50GiB
+  events.high=0
+  events.max=0
+  events.oom=0
+  events.oom_kill=0
+02:43:35 ===== 질문별 PK 목록 만들기 (설정 A로 검색, 측정 아님) + 캐시 데우기
+prep: 3452 queries (qset=real, query_vecs 103452)
+  prep 1000/3452 (11s)
+  prep 2000/3452 (23s)
+  prep 3000/3452 (35s)
+2026-11-23 02:44:25,135 [ERROR][_log_rpc_error]: RPC error: [search], <MilvusException: (code=2000, message=failed to search: failed to search/query delegator 6 for channel by-dev-rootcoord-dml_1_470370890250205289v0: fail to search on QueryNode 6: worker(6) query failed: N6milvus21ExecOperatorExceptionE :Operator::GetOutput failed for [Operator:PhyVectorSearchNode, plan node id: 5417358] :  => failed to search: config={{"ef":64,"k":100,"metric_type":"IP","span_id":"56fd053c896c60f4","trace_flags":0,"trace_id":"4f26f1adbd8719d3904195ce8467409e"}} out of range in json: ef(64) should be larger than k(100) at ../../../internal/core/src/index/VectorMemIndex.cpp:755
+Stack trace: : segcore error[segcoreCode=2001])>, <elapsed:9054.9ms>
+Traceback:
+Traceback (most recent call last):
+  File "/workspace/junlim/venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 518, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/junlim/venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 565, in handler
+    return func(self, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/junlim/venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 456, in handler
+    raise e from e
+  File "/workspace/junlim/venv/lib/python3.12/site-packages/pymilvus/decorators.py", line 419, in handler
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/junlim/venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 1504, in search
+    return self._execute_search(
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/junlim/venv/lib/python3.12/site-packages/pymilvus/client/grpc_handler.py", line 1389, in _execute_search
+    check_status(response.status)
+  File "/workspace/junlim/venv/lib/python3.12/site-packages/pymilvus/client/utils.py", line 77, in check_status
+    raise MilvusException.from_status(status)
+pymilvus.exceptions.MilvusException: <MilvusException: (code=2000, message=failed to search: failed to search/query delegator 6 for channel by-dev-rootcoord-dml_1_470370890250205289v0: fail to search on QueryNode 6: worker(6) query failed: N6milvus21ExecOperatorExceptionE :Operator::GetOutput failed for [Operator:PhyVectorSearchNode, plan node id: 5417358] :  => failed to search: config={{"ef":64,"k":100,"metric_type":"IP","span_id":"56fd053c896c60f4","trace_flags":0,"trace_id":"4f26f1adbd8719d3904195ce8467409e"}} out of range in json: ef(64) should be larger than k(100) at ../../../internal/core/src/index/VectorMemIndex.cpp:755
+Stack trace: : segcore error[segcoreCode=2001])>
+ (decorators.py:472)
+prep {'ds': 'nq', 'qset': 'real', 'queries': 3452, 'query_vecs': 103452, 'expand': 1, 'setting': {'limit': 10, 'ef': 64}, 'pks_mean': 24.75, 'pks_min': 11, 'pks_max': 30, 'seconds': 39.9, 'version': 'pymilvus 3.0.3 / server 2.6.23', 'ef64_limit100': 'rejected: MilvusException()'}
+02:44:25 ===== 요청 하나씩: 같은 질문으로 설정 A/B/C를 번갈아 (3회 × 400질문)
+{'version': 'pymilvus 3.0.3 / server 2.6.23', 'ds': 'nq', 'rep': 1, 'setting': 'A', 'limit': 10, 'ef': 64, 'reqs': 400, 'search_ms_mean': 6.293, 'search_ms_p50': 6.24, 'search_ms_p95': 7.226, 'fetch_ms_mean': 4.886, 'fetch_ms_p50': 4.831, 'total_ms_mean': 11.178, 'top10_same': 1.0}
+{'version': 'pymilvus 3.0.3 / server 2.6.23', 'ds': 'nq', 'rep': 1, 'setting': 'B', 'limit': 10, 'ef': 100, 'reqs': 400, 'search_ms_mean': 6.645, 'search_ms_p50': 6.6, 'search_ms_p95': 7.629, 'fetch_ms_mean': 5.266, 'fetch_ms_p50': 4.848, 'total_ms_mean': 11.911, 'top10_same': 0.9933}
+{'version': 'pymilvus 3.0.3 / server 2.6.23', 'ds': 'nq', 'rep': 1, 'setting': 'C', 'limit': 100, 'ef': 100, 'reqs': 400, 'search_ms_mean': 7.436, 'search_ms_p50': 7.106, 'search_ms_p95': 8.638, 'fetch_ms_mean': 5.054, 'fetch_ms_p50': 5.048, 'total_ms_mean': 12.491, 'top10_same': 0.9933}
+{'version': 'pymilvus 3.0.3 / server 2.6.23', 'ds': 'nq', 'rep': 2, 'setting': 'A', 'limit': 10, 'ef': 64, 'reqs': 400, 'search_ms_mean': 6.376, 'search_ms_p50': 6.272, 'search_ms_p95': 7.243, 'fetch_ms_mean': 5.21, 'fetch_ms_p50': 4.947, 'total_ms_mean': 11.586, 'top10_same': 1.0}
+{'version': 'pymilvus 3.0.3 / server 2.6.23', 'ds': 'nq', 'rep': 2, 'setting': 'B', 'limit': 10, 'ef': 100, 'reqs': 400, 'search_ms_mean': 6.649, 'search_ms_p50': 6.609, 'search_ms_p95': 7.699, 'fetch_ms_mean': 4.994, 'fetch_ms_p50': 4.937, 'total_ms_mean': 11.643, 'top10_same': 0.9962}
+{'version': 'pymilvus 3.0.3 / server 2.6.23', 'ds': 'nq', 'rep': 2, 'setting': 'C', 'limit': 100, 'ef': 100, 'reqs': 400, 'search_ms_mean': 7.797, 'search_ms_p50': 7.151, 'search_ms_p95': 8.517, 'fetch_ms_mean': 5.085, 'fetch_ms_p50': 4.987, 'total_ms_mean': 12.881, 'top10_same': 0.9962}
+{'version': 'pymilvus 3.0.3 / server 2.6.23', 'ds': 'nq', 'rep': 3, 'setting': 'A', 'limit': 10, 'ef': 64, 'reqs': 400, 'search_ms_mean': 3.685, 'search_ms_p50': 3.487, 'search_ms_p95': 4.962, 'fetch_ms_mean': 2.781, 'fetch_ms_p50': 2.733, 'total_ms_mean': 6.465, 'top10_same': 1.0}
+{'version': 'pymilvus 3.0.3 / server 2.6.23', 'ds': 'nq', 'rep': 3, 'setting': 'B', 'limit': 10, 'ef': 100, 'reqs': 400, 'search_ms_mean': 3.747, 'search_ms_p50': 3.687, 'search_ms_p95': 4.957, 'fetch_ms_mean': 2.744, 'fetch_ms_p50': 2.759, 'total_ms_mean': 6.49, 'top10_same': 0.9952}
+{'version': 'pymilvus 3.0.3 / server 2.6.23', 'ds': 'nq', 'rep': 3, 'setting': 'C', 'limit': 100, 'ef': 100, 'reqs': 400, 'search_ms_mean': 4.073, 'search_ms_p50': 3.976, 'search_ms_p95': 5.527, 'fetch_ms_mean': 2.846, 'fetch_ms_p50': 2.728, 'total_ms_mean': 6.919, 'top10_same': 0.9952}
+02:45:08 ===== 탐색: 설정 3개 × k 4개 × 3회 (회차마다 설정 순서와 k 순서를 돌림, run_c3a.sh와 같음) + 기준 설정 3+1번
+02:45:08 ===== 기준 설정 A k=8 (anchor rep 0)
+{'phase': 'anchor', 'rep': 0, 'setting': 'A', 'cap': 8, 'qps': 489.8, 'p99_ms': 316.804, 'wait_ms_mean': 115.708, 'search_ms_mean': 8.904, 'fetch_ms_mean': 7.082, 'errors': 0, 'r_iops': 1, 'milvus_cores': 6.89, 'loadavg1_end': 3.91}
+02:45:35 mem: memory.current 3.00GiB memory.high max memory.max max  anon 2.39GiB  file 0.51GiB  events.oom=0  events.oom_kill=0 
+{'phase': 'explore', 'rep': 1, 'setting': 'A', 'cap': 6, 'qps': 548.9, 'p99_ms': 244.067, 'wait_ms_mean': 106.733, 'search_ms_mean': 5.853, 'fetch_ms_mean': 4.811, 'errors': 0, 'r_iops': 0, 'milvus_cores': 6.31, 'loadavg1_end': 4.6}
+02:46:02 mem: memory.current 2.98GiB memory.high max memory.max max  anon 2.37GiB  file 0.51GiB  events.oom=0  events.oom_kill=0 
+{'phase': 'explore', 'rep': 1, 'setting': 'A', 'cap': 8, 'qps': 603.9, 'p99_ms': 209.774, 'wait_ms_mean': 93.758, 'search_ms_mean': 7.159, 'fetch_ms_mean': 5.67, 'errors': 0, 'r_iops': 0, 'milvus_cores': 6.82, 'loadavg1_end': 5.81}
+02:46:28 mem: memory.current 3.01GiB memory.high max memory.max max  anon 2.40GiB  file 0.51GiB  events.oom=0  events.oom_kill=0 
+{'phase': 'explore', 'rep': 1, 'setting': 'A', 'cap': 12, 'qps': 421.3, 'p99_ms': 299.678, 'wait_ms_mean': 125.293, 'search_ms_mean': 15.621, 'fetch_ms_mean': 12.19, 'errors': 0, 'r_iops': 0, 'milvus_cores': 6.95, 'loadavg1_end': 8.77}
+02:46:55 mem: memory.current 3.02GiB memory.high max memory.max max  anon 2.41GiB  file 0.51GiB  events.oom=0  events.oom_kill=0 
+{'phase': 'explore', 'rep': 1, 'setting': 'A', 'cap': 16, 'qps': 362.3, 'p99_ms': 396.764, 'wait_ms_mean': 136.121, 'search_ms_mean': 23.849, 'fetch_ms_mean': 19.345, 'errors': 0, 'r_iops': 0, 'milvus_cores': 7.03, 'loadavg1_end': 11.91}
+02:47:23 mem: memory.current 3.04GiB memory.high max memory.max max  anon 2.42GiB  file 0.51GiB  events.oom=0  events.oom_kill=0 
+{'phase': 'explore', 'rep': 1, 'setting': 'B', 'cap': 6, 'qps': 530.1, 'p99_ms': 245.238, 'wait_ms_mean': 110.439, 'search_ms_mean': 6.247, 'fetch_ms_mean': 4.791, 'errors': 0, 'r_iops': 0, 'milvus_cores': 6.6, 'loadavg1_end': 9.96}
+02:47:50 mem: memory.current 2.99GiB memory.high max memory.max max  anon 2.38GiB  file 0.51GiB  events.oom=0  events.oom_kill=0 
+{'phase': 'explore', 'rep': 1, 'setting': 'B', 'cap': 8, 'qps': 495.3, 'p99_ms': 290.548, 'wait_ms_mean': 114.195, 'search_ms_mean': 8.962, 'fetch_ms_mean': 6.791, 'errors': 0, 'r_iops': 0, 'milvus_cores': 6.91, 'loadavg1_end': 9.4}
+02:48:16 mem: memory.current 3.00GiB memory.high max memory.max max  anon 2.39GiB  file 0.51GiB  events.oom=0  events.oom_kill=0 
+{'phase': 'explore', 'rep': 1, 'setting': 'B', 'cap': 12, 'qps': 377.7, 'p99_ms': 362.543, 'wait_ms_mean': 139.561, 'search_ms_mean': 16.881, 'fetch_ms_mean': 14.2, 'errors': 0, 'r_iops': 0, 'milvus_cores': 7.03, 'loadavg1_end': 6.69}
+02:48:43 mem: memory.current 3.01GiB memory.high max memory.max max  anon 2.40GiB  file 0.51GiB  events.oom=0  events.oom_kill=0 
+{'phase': 'explore', 'rep': 1, 'setting': 'B', 'cap': 16, 'qps': 376.9, 'p99_ms': 296.453, 'wait_ms_mean': 129.606, 'search_ms_mean': 23.221, 'fetch_ms_mean': 18.23, 'errors': 0, 'r_iops': 0, 'milvus_cores': 7.04, 'loadavg1_end': 4.69}
+02:49:11 mem: memory.current 3.03GiB memory.high max memory.max max  anon 2.41GiB  file 0.51GiB  events.oom=0  events.oom_kill=0 
+{'phase': 'explore', 'rep': 1, 'setting': 'C', 'cap': 6, 'qps': 528.0, 'p99_ms': 202.504, 'wait_ms_mean': 110.792, 'search_ms_mean': 6.456, 'fetch_ms_mean': 4.678, 'errors': 0, 'r_iops': 0, 'milvus_cores': 6.46, 'loadavg1_end': 7.06}
+02:49:38 mem: memory.current 3.01GiB memory.high max memory.max max  anon 2.40GiB  file 0.51GiB  events.oom=0  events.oom_kill=0 
+{'phase': 'explore', 'rep': 1, 'setting': 'C', 'cap': 8, 'qps': 545.8, 'p99_ms': 196.773, 'wait_ms_mean': 103.829, 'search_ms_mean': 8.235, 'fetch_ms_mean': 6.001, 'errors': 0, 'r_iops': 0, 'milvus_cores': 6.72, 'loadavg1_end': 7.41}
+02:50:04 mem: memory.current 3.03GiB memory.high max memory.max max  anon 2.42GiB  file 0.51GiB  events.oom=0  events.oom_kill=0 
+{'phase': 'explore', 'rep': 1, 'setting': 'C', 'cap': 12, 'qps': 379.8, 'p99_ms': 312.156, 'wait_ms_mean': 139.056, 'search_ms_mean': 18.033, 'fetch_ms_mean': 12.806, 'errors': 0, 'r_iops': 0, 'milvus_cores': 6.9, 'loadavg1_end': 4.96}
+02:50:31 mem: memory.current 3.03GiB memory.high max memory.max max  anon 2.43GiB  file 0.51GiB  events.oom=0  events.oom_kill=0 
+{'phase': 'explore', 'rep': 1, 'setting': 'C', 'cap': 16, 'qps': 326.7, 'p99_ms': 379.534, 'wait_ms_mean': 150.177, 'search_ms_mean': 27.617, 'fetch_ms_mean': 19.8, 'errors': 0, 'r_iops': 0, 'milvus_cores': 6.91, 'loadavg1_end': 3.21}
+02:50:58 mem: memory.current 3.11GiB memory.high max memory.max max  anon 2.49GiB  file 0.51GiB  events.oom=0  events.oom_kill=0 
+02:50:59 ===== 기준 설정 A k=8 (anchor rep 1)
+{'phase': 'anchor', 'rep': 1, 'setting': 'A', 'cap': 8, 'qps': 444.5, 'p99_ms': 279.442, 'wait_ms_mean': 127.352, 'search_ms_mean': 9.733, 'fetch_ms_mean': 7.838, 'errors': 0, 'r_iops': 0, 'milvus_cores': 6.88, 'loadavg1_end': 2.3}
+02:51:25 mem: memory.current 3.09GiB memory.high max memory.max max  anon 2.47GiB  file 0.51GiB  events.oom=0  events.oom_kill=0 
+{'phase': 'explore', 'rep': 2, 'setting': 'B', 'cap': 8, 'qps': 542.5, 'p99_ms': 256.274, 'wait_ms_mean': 104.631, 'search_ms_mean': 8.127, 'fetch_ms_mean': 6.257, 'errors': 0, 'r_iops': 0, 'milvus_cores': 6.86, 'loadavg1_end': 1.51}
+02:51:52 mem: memory.current 3.11GiB memory.high max memory.max max  anon 2.50GiB  file 0.51GiB  events.oom=0  events.oom_kill=0 
+{'phase': 'explore', 'rep': 2, 'setting': 'B', 'cap': 12, 'qps': 361.4, 'p99_ms': 364.722, 'wait_ms_mean': 146.198, 'search_ms_mean': 18.179, 'fetch_ms_mean': 14.263, 'errors': 0, 'r_iops': 0, 'milvus_cores': 6.97, 'loadavg1_end': 6.0}
+02:52:19 mem: memory.current 3.10GiB memory.high max memory.max max  anon 2.49GiB  file 0.51GiB  events.oom=0  events.oom_kill=0 
+{'phase': 'explore', 'rep': 2, 'setting': 'B', 'cap': 16, 'qps': 347.9, 'p99_ms': 387.699, 'wait_ms_mean': 141.013, 'search_ms_mean': 25.257, 'fetch_ms_mean': 19.804, 'errors': 0, 'r_iops': 0, 'milvus_cores': 7.1, 'loadavg1_end': 5.49}
+02:52:46 mem: memory.current 3.10GiB memory.high max memory.max max  anon 2.48GiB  file 0.51GiB  events.oom=0  events.oom_kill=0 
+{'phase': 'explore', 'rep': 2, 'setting': 'B', 'cap': 6, 'qps': 484.5, 'p99_ms': 276.503, 'wait_ms_mean': 120.902, 'search_ms_mean': 6.857, 'fetch_ms_mean': 5.25, 'errors': 0, 'r_iops': 0, 'milvus_cores': 6.8, 'loadavg1_end': 7.05}
+02:53:13 mem: memory.current 3.08GiB memory.high max memory.max max  anon 2.47GiB  file 0.51GiB  events.oom=0  events.oom_kill=0 
+{'phase': 'explore', 'rep': 2, 'setting': 'C', 'cap': 8, 'qps': 515.8, 'p99_ms': 275.576, 'wait_ms_mean': 109.818, 'search_ms_mean': 8.762, 'fetch_ms_mean': 6.331, 'errors': 0, 'r_iops': 0, 'milvus_cores': 6.74, 'loadavg1_end': 7.49}
+02:53:40 mem: memory.current 3.15GiB memory.high max memory.max max  anon 2.54GiB  file 0.51GiB  events.oom=0  events.oom_kill=0 
+{'phase': 'explore', 'rep': 2, 'setting': 'C', 'cap': 12, 'qps': 331.8, 'p99_ms': 409.41, 'wait_ms_mean': 159.137, 'search_ms_mean': 21.022, 'fetch_ms_mean': 14.384, 'errors': 0, 'r_iops': 0, 'milvus_cores': 6.9, 'loadavg1_end': 10.44}
+02:54:07 mem: memory.current 3.08GiB memory.high max memory.max max  anon 2.46GiB  file 0.51GiB  events.oom=0  events.oom_kill=0 
+{'phase': 'explore', 'rep': 2, 'setting': 'C', 'cap': 16, 'qps': 338.3, 'p99_ms': 378.414, 'wait_ms_mean': 145.076, 'search_ms_mean': 26.992, 'fetch_ms_mean': 18.954, 'errors': 0, 'r_iops': 0, 'milvus_cores': 7.0, 'loadavg1_end': 12.97}
+02:54:34 mem: memory.current 3.10GiB memory.high max memory.max max  anon 2.48GiB  file 0.51GiB  events.oom=0  events.oom_kill=0 
+{'phase': 'explore', 'rep': 2, 'setting': 'C', 'cap': 6, 'qps': 343.2, 'p99_ms': 361.679, 'wait_ms_mean': 171.055, 'search_ms_mean': 10.104, 'fetch_ms_mean': 7.137, 'errors': 0, 'r_iops': 0, 'milvus_cores': 6.84, 'loadavg1_end': 12.83}
+02:55:01 mem: memory.current 3.06GiB memory.high max memory.max max  anon 2.45GiB  file 0.51GiB  events.oom=0  events.oom_kill=0 
+{'phase': 'explore', 'rep': 2, 'setting': 'A', 'cap': 8, 'qps': 385.7, 'p99_ms': 340.396, 'wait_ms_mean': 146.956, 'search_ms_mean': 11.448, 'fetch_ms_mean': 8.923, 'errors': 0, 'r_iops': 0, 'milvus_cores': 6.95, 'loadavg1_end': 10.84}
+02:55:28 mem: memory.current 3.06GiB memory.high max memory.max max  anon 2.45GiB  file 0.51GiB  events.oom=0  events.oom_kill=0 
+{'phase': 'explore', 'rep': 2, 'setting': 'A', 'cap': 12, 'qps': 369.9, 'p99_ms': 371.569, 'wait_ms_mean': 142.751, 'search_ms_mean': 17.171, 'fetch_ms_mean': 14.45, 'errors': 0, 'r_iops': 0, 'milvus_cores': 7.01, 'loadavg1_end': 9.37}
+02:55:55 mem: memory.current 3.11GiB memory.high max memory.max max  anon 2.49GiB  file 0.51GiB  events.oom=0  events.oom_kill=0 
+{'phase': 'explore', 'rep': 2, 'setting': 'A', 'cap': 16, 'qps': 378.1, 'p99_ms': 363.073, 'wait_ms_mean': 129.628, 'search_ms_mean': 22.232, 'fetch_ms_mean': 19.061, 'errors': 0, 'r_iops': 0, 'milvus_cores': 7.04, 'loadavg1_end': 12.6}
+02:56:22 mem: memory.current 3.09GiB memory.high max memory.max max  anon 2.46GiB  file 0.51GiB  events.oom=0  events.oom_kill=0 
+{'phase': 'explore', 'rep': 2, 'setting': 'A', 'cap': 6, 'qps': 391.3, 'p99_ms': 330.196, 'wait_ms_mean': 150.016, 'search_ms_mean': 8.32, 'fetch_ms_mean': 6.755, 'errors': 0, 'r_iops': 0, 'milvus_cores': 6.89, 'loadavg1_end': 10.52}
+02:56:49 mem: memory.current 3.07GiB memory.high max memory.max max  anon 2.45GiB  file 0.51GiB  events.oom=0  events.oom_kill=0 
+02:56:50 ===== 기준 설정 A k=8 (anchor rep 2)
+{'phase': 'anchor', 'rep': 2, 'setting': 'A', 'cap': 8, 'qps': 376.8, 'p99_ms': 372.099, 'wait_ms_mean': 150.427, 'search_ms_mean': 11.715, 'fetch_ms_mean': 9.267, 'errors': 0, 'r_iops': 0, 'milvus_cores': 6.94, 'loadavg1_end': 11.09}
+02:57:17 mem: memory.current 3.08GiB memory.high max memory.max max  anon 2.46GiB  file 0.51GiB  events.oom=0  events.oom_kill=0 
+{'phase': 'explore', 'rep': 3, 'setting': 'C', 'cap': 12, 'qps': 336.2, 'p99_ms': 374.224, 'wait_ms_mean': 159.249, 'search_ms_mean': 21.241, 'fetch_ms_mean': 13.894, 'errors': 0, 'r_iops': 0, 'milvus_cores': 6.95, 'loadavg1_end': 6.94}
+02:57:44 mem: memory.current 3.12GiB memory.high max memory.max max  anon 2.50GiB  file 0.51GiB  events.oom=0  events.oom_kill=0 
+{'phase': 'explore', 'rep': 3, 'setting': 'C', 'cap': 16, 'qps': 311.3, 'p99_ms': 417.141, 'wait_ms_mean': 159.113, 'search_ms_mean': 29.556, 'fetch_ms_mean': 20.906, 'errors': 0, 'r_iops': 0, 'milvus_cores': 6.96, 'loadavg1_end': 6.39}
+02:58:11 mem: memory.current 3.12GiB memory.high max memory.max max  anon 2.50GiB  file 0.51GiB  events.oom=0  events.oom_kill=0 
+{'phase': 'explore', 'rep': 3, 'setting': 'C', 'cap': 6, 'qps': 495.2, 'p99_ms': 302.129, 'wait_ms_mean': 118.34, 'search_ms_mean': 6.84, 'fetch_ms_mean': 5.027, 'errors': 0, 'r_iops': 0, 'milvus_cores': 6.21, 'loadavg1_end': 7.83}
+02:58:38 mem: memory.current 3.13GiB memory.high max memory.max max  anon 2.52GiB  file 0.51GiB  events.oom=0  events.oom_kill=0 
+{'phase': 'explore', 'rep': 3, 'setting': 'C', 'cap': 8, 'qps': 570.6, 'p99_ms': 197.759, 'wait_ms_mean': 99.519, 'search_ms_mean': 7.804, 'fetch_ms_mean': 5.816, 'errors': 0, 'r_iops': 0, 'milvus_cores': 6.7, 'loadavg1_end': 6.91}
+02:59:05 mem: memory.current 3.12GiB memory.high max memory.max max  anon 2.50GiB  file 0.51GiB  events.oom=0  events.oom_kill=0 
+{'phase': 'explore', 'rep': 3, 'setting': 'A', 'cap': 12, 'qps': 386.0, 'p99_ms': 366.698, 'wait_ms_mean': 136.82, 'search_ms_mean': 16.37, 'fetch_ms_mean': 13.933, 'errors': 0, 'r_iops': 0, 'milvus_cores': 6.96, 'loadavg1_end': 4.55}
+02:59:32 mem: memory.current 3.11GiB memory.high max memory.max max  anon 2.49GiB  file 0.51GiB  events.oom=0  events.oom_kill=0 
+{'phase': 'explore', 'rep': 3, 'setting': 'A', 'cap': 16, 'qps': 404.3, 'p99_ms': 353.252, 'wait_ms_mean': 121.428, 'search_ms_mean': 20.88, 'fetch_ms_mean': 17.74, 'errors': 0, 'r_iops': 0, 'milvus_cores': 7.0, 'loadavg1_end': 3.14}
+02:59:59 mem: memory.current 3.10GiB memory.high max memory.max max  anon 2.48GiB  file 0.51GiB  events.oom=0  events.oom_kill=0 
+{'phase': 'explore', 'rep': 3, 'setting': 'A', 'cap': 6, 'qps': 583.1, 'p99_ms': 177.47, 'wait_ms_mean': 100.564, 'search_ms_mean': 5.534, 'fetch_ms_mean': 4.502, 'errors': 0, 'r_iops': 0, 'milvus_cores': 6.1, 'loadavg1_end': 4.7}
+03:00:26 mem: memory.current 3.08GiB memory.high max memory.max max  anon 2.46GiB  file 0.51GiB  events.oom=0  events.oom_kill=0 
+{'phase': 'explore', 'rep': 3, 'setting': 'A', 'cap': 8, 'qps': 613.5, 'p99_ms': 182.467, 'wait_ms_mean': 92.192, 'search_ms_mean': 6.887, 'fetch_ms_mean': 5.762, 'errors': 0, 'r_iops': 0, 'milvus_cores': 6.81, 'loadavg1_end': 6.15}
+03:00:53 mem: memory.current 3.09GiB memory.high max memory.max max  anon 2.47GiB  file 0.51GiB  events.oom=0  events.oom_kill=0 
+{'phase': 'explore', 'rep': 3, 'setting': 'B', 'cap': 12, 'qps': 384.3, 'p99_ms': 304.186, 'wait_ms_mean': 137.185, 'search_ms_mean': 16.823, 'fetch_ms_mean': 13.718, 'errors': 0, 'r_iops': 0, 'milvus_cores': 7.02, 'loadavg1_end': 8.49}
+03:01:20 mem: memory.current 3.08GiB memory.high max memory.max max  anon 2.46GiB  file 0.51GiB  events.oom=0  events.oom_kill=0 
+{'phase': 'explore', 'rep': 3, 'setting': 'B', 'cap': 16, 'qps': 374.5, 'p99_ms': 396.327, 'wait_ms_mean': 130.583, 'search_ms_mean': 23.114, 'fetch_ms_mean': 18.593, 'errors': 0, 'r_iops': 0, 'milvus_cores': 7.1, 'loadavg1_end': 16.26}
+03:01:47 mem: memory.current 3.07GiB memory.high max memory.max max  anon 2.46GiB  file 0.51GiB  events.oom=0  events.oom_kill=0 
+{'phase': 'explore', 'rep': 3, 'setting': 'B', 'cap': 6, 'qps': 596.2, 'p99_ms': 183.838, 'wait_ms_mean': 98.117, 'search_ms_mean': 5.516, 'fetch_ms_mean': 4.266, 'errors': 0, 'r_iops': 0, 'milvus_cores': 6.47, 'loadavg1_end': 11.54}
+03:02:14 mem: memory.current 3.05GiB memory.high max memory.max max  anon 2.44GiB  file 0.51GiB  events.oom=0  events.oom_kill=0 
+{'phase': 'explore', 'rep': 3, 'setting': 'B', 'cap': 8, 'qps': 458.4, 'p99_ms': 301.013, 'wait_ms_mean': 123.585, 'search_ms_mean': 9.865, 'fetch_ms_mean': 7.175, 'errors': 0, 'r_iops': 0, 'milvus_cores': 6.93, 'loadavg1_end': 10.1}
+03:02:41 mem: memory.current 3.07GiB memory.high max memory.max max  anon 2.46GiB  file 0.51GiB  events.oom=0  events.oom_kill=0 
+03:02:41 ===== 기준 설정 A k=8 (anchor rep 3)
+{'phase': 'anchor', 'rep': 3, 'setting': 'A', 'cap': 8, 'qps': 491.1, 'p99_ms': 322.662, 'wait_ms_mean': 115.056, 'search_ms_mean': 8.773, 'fetch_ms_mean': 7.134, 'errors': 0, 'r_iops': 0, 'milvus_cores': 6.89, 'loadavg1_end': 8.69}
+03:03:08 mem: memory.current 3.05GiB memory.high max memory.max max  anon 2.44GiB  file 0.51GiB  events.oom=0  events.oom_kill=0 
+# 요청 하나씩: 검색 시간 (같은 질문끼리 짝지은 차이, nq)
+
+| 비교 | 질문 수 | 검색 시간 차이 평균(ms) | 95% 구간 | 조회 시간 차이 평균(ms) |
+|---|---|---|---|---|
+| B − A | 1200 | +0.229 | ±0.126 | +0.043 |
+| C − B | 1200 | +0.755 | ±0.296 | -0.006 |
+| C − A | 1200 | +0.984 | ±0.319 | +0.036 |
+
+설정 A: 검색 평균 5.451ms, 조회 평균 4.292ms, top-10 같음 1.000
+
+설정 B: 검색 평균 5.680ms, 조회 평균 4.335ms, top-10 같음 0.995
+
+설정 C: 검색 평균 6.435ms, 조회 평균 4.328ms, top-10 같음 0.995
+# 탐색 결과 (nq, 동시 요청 64)
+
+| 설정 | k | 회차 | QPS 평균 | QPS 회차별 | p99 평균(ms) | 상한 대기 평균(ms) | 검색 평균(ms) | 조회 평균(ms) | top10 같음 |
+|---|---|---|---|---|---|---|---|---|---|
+| A | 6 | 3 | 508 | 549, 391, 583 | 251 | 119.10 | 6.57 | 5.36 | 1.000 |
+| A | 8 | 3 | 534 | 604, 386, 614 | 244 | 110.97 | 8.50 | 6.79 | 1.000 |
+| A | 12 | 3 | 392 | 421, 370, 386 | 346 | 134.95 | 16.39 | 13.52 | 1.000 |
+| A | 16 | 3 | 382 | 362, 378, 404 | 371 | 129.06 | 22.32 | 18.72 | 1.000 |
+| A | **비교용 k = 8** | | | | | | | | |
+| B | 6 | 3 | 537 | 530, 484, 596 | 235 | 109.82 | 6.21 | 4.77 | 0.996 |
+| B | 8 | 3 | 499 | 495, 542, 458 | 283 | 114.14 | 8.98 | 6.74 | 0.996 |
+| B | 12 | 3 | 374 | 378, 361, 384 | 344 | 140.98 | 17.29 | 14.06 | 0.996 |
+| B | 16 | 3 | 366 | 377, 348, 374 | 360 | 133.73 | 23.86 | 18.88 | 0.996 |
+| B | **비교용 k = 6** | | | | | | | | |
+| C | 6 | 3 | 455 | 528, 343, 495 | 289 | 133.40 | 7.80 | 5.61 | 0.996 |
+| C | 8 | 3 | 544 | 546, 516, 571 | 223 | 104.39 | 8.27 | 6.05 | 0.996 |
+| C | 12 | 3 | 349 | 380, 332, 336 | 365 | 152.48 | 20.10 | 13.69 | 0.996 |
+| C | 16 | 3 | 325 | 327, 338, 311 | 392 | 151.46 | 28.06 | 19.89 | 0.996 |
+| C | **비교용 k = 8** | | | | | | | | |
+
+오류 합계 0. 비교용 k = 평균 QPS가 가장 높은 k (사전 고정 규칙).
+
+비교용 k 고정 -> /workspace/junlim/c3a_out_real2/ref_k_nq.json: {'A': 8, 'B': 6, 'C': 8}
+target=milvus (mv-milvus)
+memory.current 3.05GiB  memory.high max  memory.max max
+  anon           2.44GiB
+  file           0.51GiB
+  shmem          0.00GiB
+  file_mapped    0.49GiB
+  inactive_file  0.00GiB
+  active_file    0.51GiB
+  events.high=0
+  events.max=0
+  events.oom=0
+  events.oom_kill=0
+03:03:09 done run_c3a_real2
+03:03:09 cleanup: reset
+03:03:09 switch: reset
+milvus reset
+released nq_seq {'state': <LoadState: NotLoad>}
+target=milvus (mv-milvus)
+memory.current 1.08GiB  memory.high max  memory.max max
+  anon           0.87GiB
+  file           0.13GiB

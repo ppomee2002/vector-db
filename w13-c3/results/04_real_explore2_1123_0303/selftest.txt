@@ -1,0 +1,7 @@
+A k=6 OK  qps=401.3 wait=25.836 search=4.525 fetch=10.612 hits=10.0
+A k=12 OK  qps=770.7 wait=5.635 search=4.601 fetch=10.819 hits=10.0
+B k=6 OK  qps=402.7 wait=25.841 search=4.54 fetch=10.609 hits=10.0
+B k=12 OK  qps=770.7 wait=5.596 search=4.611 fetch=10.781 hits=10.0
+C k=6 OK  qps=354.7 wait=29.582 search=6.672 fetch=10.698 hits=100.0
+C k=12 OK  qps=666.7 wait=6.477 search=6.876 fetch=10.991 hits=100.0
+SELFTEST PASS

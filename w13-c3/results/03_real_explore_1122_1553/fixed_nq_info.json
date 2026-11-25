@@ -1,0 +1,17 @@
+{
+ "ds": "nq",
+ "qset": "real",
+ "queries": 3452,
+ "query_vecs": 103452,
+ "expand": 1,
+ "setting": {
+  "limit": 10,
+  "ef": 64
+ },
+ "pks_mean": 24.75,
+ "pks_min": 11,
+ "pks_max": 30,
+ "seconds": 41.9,
+ "version": "pymilvus 3.0.3 / server 2.6.23",
+ "ef64_limit100": "rejected: MilvusException()"
+}
